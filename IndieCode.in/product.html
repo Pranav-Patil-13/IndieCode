@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Product Details | IndieCode</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      background: #0f1318;
+    }
+    
+    .product-showcase {
+      display: flex;
+      width: 100%;
+      height: 100%;
+      opacity: 0;
+      transition: opacity 0.4s ease;
+    }
+    
+    .product-showcase.loaded {
+      opacity: 1;
+    }
+
+    .product-details {
+      flex: 1;
+      padding: 60px 80px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      position: relative;
+    }
+
+    .back-btn {
+      position: absolute;
+      top: 40px;
+      left: 60px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: rgba(248, 249, 250, 0.6);
+      font-weight: 500;
+      font-size: 0.9rem;
+      transition: color 0.3s ease, transform 0.3s ease;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    
+    .back-btn:hover {
+      color: var(--bg-0);
+      transform: translateX(-4px);
+    }
+
+    .product-badge {
+      display: inline-block;
+      padding: 6px 12px;
+      border-radius: 999px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 24px;
+      align-self: flex-start;
+    }
+
+    .badge-custom {
+      background: rgba(66, 133, 244, 0.1);
+      color: #7baaf7;
+      border: 1px solid rgba(66, 133, 244, 0.2);
+    }
+
+    .badge-ready {
+      background: rgba(155, 81, 224, 0.1);
+      color: #b97ff0;
+      border: 1px solid rgba(155, 81, 224, 0.2);
+    }
+    
+    .badge-other {
+      background: rgba(248, 249, 250, 0.1);
+      color: #fff;
+      border: 1px solid rgba(248, 249, 250, 0.2);
+    }
+
+    .product-details h1 {
+      font-size: clamp(3rem, 5vw, 4.5rem);
+      line-height: 1;
+      margin-bottom: 24px;
+      color: var(--bg-0);
+      font-family: "IBM Plex Serif", serif;
+      letter-spacing: -0.03em;
+    }
+
+    .product-details p {
+      font-size: 1.1rem;
+      line-height: 1.6;
+      color: rgba(248, 249, 250, 0.7);
+      max-width: 500px;
+      margin-bottom: 40px;
+    }
+
+    .product-meta {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      margin-bottom: 48px;
+    }
+
+    .meta-item {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .meta-item span {
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: rgba(248, 249, 250, 0.4);
+    }
+
+    .meta-item strong {
+      font-size: 1.1rem;
+      color: var(--bg-0);
+      font-weight: 500;
+    }
+
+    .product-actions {
+      display: flex;
+      gap: 16px;
+    }
+
+    .product-visual-container {
+      flex: 1.2;
+      background: #151a21;
+      position: relative;
+      border-left: 1px solid rgba(248, 249, 250, 0.05);
+      overflow: hidden;
+      display: flex;
+      padding: 40px;
+    }
+
+    .visual-grid {
+      position: relative;
+      z-index: 2;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .visual-top {
+      flex: 1.4;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      min-height: 0;
+    }
+
+    .visual-bottom {
+      flex: 1;
+      display: flex;
+      gap: 20px;
+      min-height: 0;
+    }
+
+    .visual-bottom-left, .visual-bottom-right {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      min-height: 0;
+    }
+
+    .visual-glow {
+      position: absolute;
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(circle, rgba(255,255,255,0.05) 0%, transparent 70%);
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      filter: blur(40px);
+      transition: background 0.5s ease;
+    }
+
+    /* Base Product Mockup */
+    .product-mockup {
+      background: linear-gradient(145deg, rgba(255,255,255,0.05), rgba(255,255,255,0.01));
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      box-shadow: 0 30px 60px rgba(0,0,0,0.4);
+      z-index: 2;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      transition: all 0.5s ease;
+    }
+
+    /* Desktop version constraints */
+    .product-mockup.type-desktop {
+      width: 100%;
+      height: 100%;
+      border-radius: 20px;
+    }
+
+    /* Tablet version constraints */
+    .product-mockup.type-tablet {
+      width: auto;
+      height: 100%;
+      aspect-ratio: 4/3;
+      border-radius: 16px;
+    }
+    
+    /* Mobile version constraints */
+    .product-mockup.type-mobile {
+      width: auto;
+      aspect-ratio: 9/19;
+      height: 100%;
+      background: linear-gradient(145deg, rgba(20,20,25,0.9), rgba(10,10,15,0.95));
+      border: 4px solid #2a2e35;
+      border-radius: 32px;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.5), inset 0 0 20px rgba(255,255,255,0.05);
+    }
+
+    .mockup-header {
+      height: 40px;
+      background: rgba(255, 255, 255, 0.03);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 16px;
+    }
+
+    .mockup-dots {
+      display: flex;
+      gap: 8px;
+    }
+
+    .mockup-view-name {
+      font-size: 0.65rem;
+      color: rgba(255, 255, 255, 0.25);
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    .mockup-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.2);
+    }
+    
+    .mockup-dot:nth-child(1) { background: #d95850; }
+    .mockup-dot:nth-child(2) { background: #d9a53b; }
+    .mockup-dot:nth-child(3) { background: #3fa143; }
+    
+    .mockup-notch {
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 120px;
+      height: 25px;
+      background: #2a2e35;
+      border-bottom-left-radius: 12px;
+      border-bottom-right-radius: 12px;
+      z-index: 3;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding-bottom: 2px;
+    }
+
+    .mockup-body {
+      flex: 1;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      min-height: 0;
+      overflow: hidden;
+    }
+    
+    .type-mobile .mockup-body {
+      padding: 30px 14px 14px;
+    }
+
+    .mockup-screen {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      overflow: hidden;
+      min-height: 0;
+    }
+    
+    .mockup-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: top center;
+    }
+
+    .mockup-line {
+      height: 12px;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 6px;
+      width: 100%;
+    }
+    
+    .mockup-line.short { width: 40%; }
+    .mockup-line.medium { width: 70%; }
+    .mockup-block {
+        flex: 1;
+        background: rgba(255,255,255,0.03);
+        border-radius: 12px;
+    }
+
+    /* Error Message State */
+    .error-state {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      text-align: center;
+      color: rgba(248, 249, 250, 0.6);
+    }
+    .error-state h2 {
+      color: var(--bg-0);
+      margin-bottom: 16px;
+    }
+
+    /* Buy Modal */
+    .buy-modal {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+    
+    .buy-modal.is-active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    
+    .buy-modal-backdrop {
+      position: absolute;
+      inset: 0;
+      background: rgba(10, 12, 16, 0.85);
+      backdrop-filter: blur(12px);
+    }
+    
+    .buy-modal-content {
+      position: relative;
+      background: #151a21;
+      border: 1px solid rgba(248, 249, 250, 0.1);
+      border-radius: 24px;
+      width: 100%;
+      max-width: 480px;
+      padding: 40px;
+      box-shadow: 0 40px 80px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+      transform: translateY(20px);
+      transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    
+    .buy-modal.is-active .buy-modal-content {
+      transform: translateY(0);
+    }
+    
+    .buy-modal-close {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      background: transparent;
+      border: none;
+      color: rgba(248, 249, 250, 0.5);
+      cursor: pointer;
+      padding: 8px;
+      transition: color 0.2s ease;
+    }
+    
+    .buy-modal-close:hover {
+      color: var(--bg-0);
+    }
+    
+    .buy-modal-header h2 {
+      font-size: 1.8rem;
+      margin: 0 0 12px;
+      color: var(--bg-0);
+      font-family: "IBM Plex Serif", serif;
+      letter-spacing: -0.02em;
+    }
+    
+    .buy-modal-header p {
+      font-size: 0.95rem;
+      color: rgba(248, 249, 250, 0.7);
+      line-height: 1.6;
+      margin: 0 0 32px;
+    }
+    
+    .buy-modal-header strong {
+      color: var(--bg-0);
+    }
+    
+    .buy-modal-form .form-group {
+      margin-bottom: 20px;
+    }
+    
+    .buy-modal-form label {
+      display: block;
+      font-size: 0.85rem;
+      color: rgba(248, 249, 250, 0.6);
+      margin-bottom: 8px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      font-weight: 600;
+    }
+    
+    .buy-modal-form input {
+      width: 100%;
+      height: 50px;
+      background: rgba(248, 249, 250, 0.04);
+      border: 1px solid rgba(248, 249, 250, 0.1);
+      border-radius: 12px;
+      padding: 0 16px;
+      color: var(--bg-0);
+      font-family: inherit;
+      font-size: 1rem;
+      transition: border-color 0.2s ease, background 0.2s ease;
+      box-sizing: border-box;
+    }
+    
+    .buy-modal-form input:focus {
+      outline: none;
+      border-color: rgba(248, 249, 250, 0.3);
+      background: rgba(248, 249, 250, 0.08);
+    }
+    
+    .buy-modal-secure {
+      text-align: center;
+      font-size: 0.75rem;
+      color: rgba(248, 249, 250, 0.4);
+      margin: 24px 0 0;
+    }
+
+    @media (max-width: 980px) {
+      .product-showcase {
+        flex-direction: column;
+      }
+      .product-details {
+        padding: 40px;
+        flex: 1;
+        overflow-y: auto;
+      }
+      .product-visual-container {
+        display: none;
+      }
+      .product-details h1 {
+        font-size: 2.5rem;
+      }
+      .back-btn {
+        top: 20px;
+        left: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  
+  <div class="error-state" id="error-state">
+    <h2>Product Not Found</h2>
+    <p>We couldn't locate the product details you requested.</p>
+    <a href="index.html" class="button button-primary" style="margin-top: 24px;">Return Home</a>
+  </div>
+
+  <div class="product-showcase" id="product-showcase">
+    <div class="product-details">
+      <a href="index.html" class="back-btn">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"/><path d="M12 19l-7-7 7-7"/></svg>
+        Back to Home
+      </a>
+      
+      <div id="p-badge" class="product-badge badge-custom">...</div>
+      
+      <h1 id="p-title">Loading...</h1>
+      <p id="p-desc">...</p>
+      
+      <div class="product-meta">
+        <div class="meta-item">
+          <span id="p-meta1-label">...</span>
+          <strong id="p-meta1-value">...</strong>
+        </div>
+        <div class="meta-item">
+          <span id="p-meta2-label">...</span>
+          <strong id="p-meta2-value">...</strong>
+        </div>
+        <div class="meta-item">
+          <span id="p-meta3-label">...</span>
+          <strong id="p-meta3-value">...</strong>
+        </div>
+      </div>
+
+      <div class="product-actions">
+        <a href="index.html#contact" class="button button-secondary">Request Similar</a>
+        <button class="button button-primary" onclick="openBuyModal()">Buy Current Build</button>
+      </div>
+    </div>
+
+    <div class="product-visual-container">
+      <div id="p-glow" class="visual-glow"></div>
+      
+      <div class="visual-grid">
+        <div class="visual-top">
+          <div id="p-mockup-desktop" class="product-mockup type-desktop">
+            <div class="mockup-header">
+              <div class="mockup-dots">
+                <div class="mockup-dot"></div><div class="mockup-dot"></div><div class="mockup-dot"></div>
+              </div>
+              <span class="mockup-view-name">Desktop</span>
+            </div>
+            <div id="p-screen-desktop" class="mockup-screen"></div>
+          </div>
+        </div>
+        <div class="visual-bottom">
+          <div class="visual-bottom-left">
+            <div id="p-mockup-tablet" class="product-mockup type-tablet">
+              <div class="mockup-header" style="height: 30px;">
+                <div class="mockup-dots">
+                  <div class="mockup-dot"></div><div class="mockup-dot"></div><div class="mockup-dot"></div>
+                </div>
+                <span class="mockup-view-name">Tablet</span>
+              </div>
+              <div id="p-screen-tablet" class="mockup-screen"></div>
+            </div>
+          </div>
+          <div class="visual-bottom-right">
+            <div id="p-mockup-mobile" class="product-mockup type-mobile">
+              <div class="mockup-notch">
+                <span class="mockup-view-name" style="font-size: 0.55rem; color: rgba(255,255,255,0.4);">MOBILE</span>
+              </div>
+              <div id="p-screen-mobile" class="mockup-screen"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="buy-modal" id="buy-modal">
+    <div class="buy-modal-backdrop" onclick="closeBuyModal()"></div>
+    <div class="buy-modal-content">
+      <button class="buy-modal-close" aria-label="Close" onclick="closeBuyModal()">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
+      </button>
+      <div class="buy-modal-header">
+        <h2>Get Complete Source Code</h2>
+        <p>Purchase the production-ready code, documentation, and design assets for <strong id="buy-modal-product-name">...</strong>.</p>
+      </div>
+      <form class="buy-modal-form" id="checkout-form">
+        <div class="form-group">
+          <label>Email Address</label>
+          <input type="email" id="checkout-email" placeholder="you@company.com" required>
+        </div>
+        <button type="submit" id="checkout-btn" class="button button-primary" style="width: 100%; margin-top: 10px;">Proceed to Checkout</button>
+      </form>
+      <p class="buy-modal-secure">Secure 256-bit SSL encrypted checkout</p>
+    </div>
+  </div>
+
+  <script src="products-data.js"></script>
+  <script>
+    function openBuyModal() {
+      document.getElementById('buy-modal').classList.add('is-active');
+    }
+    
+    function closeBuyModal() {
+      document.getElementById('buy-modal').classList.remove('is-active');
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+      // Parse URL params
+      const params = new URLSearchParams(window.location.search);
+      const productId = params.get("id");
+      
+      const product = productsData[productId];
+      const showcase = document.getElementById("product-showcase");
+      const errorState = document.getElementById("error-state");
+
+      if (!product) {
+        showcase.style.display = "none";
+        errorState.style.display = "flex";
+        return;
+      }
+
+      // Populate Data
+      document.title = `${product.title} | IndieCode`;
+      
+      const badge = document.getElementById("p-badge");
+      badge.textContent = product.badgeText;
+      badge.className = `product-badge ${product.badgeClass}`;
+
+      document.getElementById("p-title").textContent = product.title;
+      document.getElementById("p-desc").textContent = product.description;
+      document.getElementById("buy-modal-product-name").textContent = product.title;
+
+      document.getElementById("p-meta1-label").textContent = product.meta1Label;
+      document.getElementById("p-meta1-value").textContent = product.meta1Value;
+      
+      document.getElementById("p-meta2-label").textContent = product.meta2Label;
+      document.getElementById("p-meta2-value").textContent = product.meta2Value;
+      
+      document.getElementById("p-meta3-label").textContent = product.meta3Label;
+      document.getElementById("p-meta3-value").textContent = product.meta3Value;
+
+      // Checkout form logic
+      document.getElementById("checkout-form").addEventListener("submit", (e) => {
+        e.preventDefault();
+        const btn = document.getElementById("checkout-btn");
+        const originalText = btn.textContent;
+        
+        btn.textContent = "Redirecting...";
+        btn.style.opacity = "0.7";
+        btn.style.pointerEvents = "none";
+        
+        setTimeout(() => {
+          if (product.checkoutLink && product.checkoutLink !== "#") {
+              // Pre-fill email parameter if passing to Stripe, LemonSqueezy, etc.
+              const email = encodeURIComponent(document.getElementById("checkout-email").value);
+              window.location.href = `${product.checkoutLink}?prefilled_email=${email}`;
+          } else {
+              alert("Payment integration not yet configured. Please add a valid 'checkoutLink' (e.g., Stripe Payment Link) for this item in products-data.js.");
+              btn.textContent = originalText;
+              btn.style.opacity = "1";
+              btn.style.pointerEvents = "auto";
+          }
+        }, 800);
+      });
+
+      // Visuals
+      document.getElementById("p-glow").style.background = `radial-gradient(circle, ${product.glowColor} 0%, transparent 70%)`;
+      
+      const setScreenContext = (screenId, imageSrc, fallbackHtml) => {
+        const screen = document.getElementById(screenId);
+        if (imageSrc) {
+          screen.innerHTML = `<img src="${imageSrc}" class="mockup-img" alt="Product Framework View">`;
+        } else {
+          screen.innerHTML = fallbackHtml || '';
+        }
+      };
+
+      setScreenContext("p-screen-desktop", product.desktopImage, product.desktopSkeleton);
+      setScreenContext("p-screen-tablet", product.tabletImage, product.tabletSkeleton);
+      setScreenContext("p-screen-mobile", product.mobileImage, product.mobileSkeleton);
+
+
+      // Fade in showcase
+      requestAnimationFrame(() => {
+        showcase.classList.add("loaded");
+      });
+    });
+  </script>
+</body>
+</html>
