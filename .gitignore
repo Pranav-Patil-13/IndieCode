@@ -1,0 +1,40 @@
+# Dependencies
+node_modules/
+IndieCode.in/node_modules/
+
+# Build artifacts
+dist/
+build/
+.next/
+.turbo/
+out/
+
+# Cache directories
+.cache/
+.parcel-cache/
+.vercel/
+
+# TypeScript
+*.tsbuildinfo
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Environment variables
+.env
+.env.local
+.env.*.local

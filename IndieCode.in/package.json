@@ -1,0 +1,15 @@
+{
+  "name": "indiecode.in",
+  "version": "1.0.0",
+  "description": "",
+  "main": "products-data.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@vercel/speed-insights": "^2.0.0"
+  }
+}
