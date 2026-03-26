@@ -1,0 +1,369 @@
+const header = document.querySelector(".site-header");
+const hero = document.querySelector(".hero");
+const heroMedia = document.querySelector(".hero-media");
+const heroVisual = document.querySelector(".hero-visual");
+const anchorLinks = document.querySelectorAll('a[href^="#"]');
+
+let lenis = null;
+let heroHeight = 0;
+
+// 1. Performance: Cache Hero dimensions
+const cacheHero = () => {
+  if (hero) heroHeight = hero.offsetHeight;
+};
+
+// 2. Initial Setup
+window.requestAnimationFrame(() => {
+  document.body.classList.add("is-ready");
+  cacheHero();
+});
+
+// 3. Optimized Parallax (Off-screen check)
+let headerIsScrolled = false;
+let isHeroInView = true;
+
+const heroObserver = new IntersectionObserver((entries) => {
+  isHeroInView = entries[0].isIntersecting;
+}, { threshold: 0 });
+
+if (hero) heroObserver.observe(hero);
+
+const updateHeroParallax = (scrollY = window.scrollY) => {
+  if (!hero || !isHeroInView || heroHeight === 0) return;
+  
+  const progress = Math.min(scrollY / heroHeight, 1);
+  const translateY = scrollY * 0.22;
+  const scale = 1.08 + progress * 0.04;
+  const visualOffset = scrollY * 0.12;
+
+  heroMedia.style.transform = `translate3d(0, ${translateY}px, 0) scale(${scale})`;
+  heroVisual.style.transform = `translate3d(0, ${visualOffset}px, 0)`;
+
+  const shouldBeScrolled = scrollY > 18;
+  if (headerIsScrolled !== shouldBeScrolled) {
+    header.classList.toggle("is-scrolled", shouldBeScrolled);
+    headerIsScrolled = shouldBeScrolled;
+  }
+};
+
+let ticking = false;
+const onScroll = () => {
+  if (lenis || ticking) return;
+  window.requestAnimationFrame(() => {
+    const scrollY = window.scrollY;
+    updateHeroParallax(scrollY);
+    ticking = false;
+  });
+  ticking = true;
+};
+
+window.addEventListener("scroll", onScroll, { passive: true });
+
+// 4. Smooth Scroll (Lenis Optimized)
+if (window.Lenis) {
+  lenis = new window.Lenis({
+    duration: 0.9, // Snappier duration
+    smoothWheel: true,
+    smoothTouch: false,
+    wheelMultiplier: 1,
+    touchMultiplier: 1.5,
+  });
+
+  lenis.on("scroll", ({ animatedScroll }) => {
+    updateHeroParallax(animatedScroll);
+  });
+
+  const raf = (time) => {
+    lenis.raf(time);
+    window.requestAnimationFrame(raf);
+  };
+  window.requestAnimationFrame(raf);
+
+  anchorLinks.forEach((link) => {
+    link.addEventListener("click", (event) => {
+      const targetId = link.getAttribute("href");
+      if (!targetId || targetId === "#") return;
+      const targetElement = document.querySelector(targetId);
+      if (!targetElement) return;
+      event.preventDefault();
+      lenis.scrollTo(targetElement, { offset: -88, duration: 1.05 });
+    });
+  });
+}
+
+// 5. Global Reveal Observer
+if ("IntersectionObserver" in window) {
+  const revealObserver = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add("reveal-visible");
+        revealObserver.unobserve(entry.target);
+      }
+    });
+  }, { 
+    threshold: 0.12,
+    rootMargin: "0px 0px -40px 0px"
+  });
+
+  document.querySelectorAll(".reveal-on-scroll").forEach((el) => {
+    revealObserver.observe(el);
+  });
+}
+
+// 6. Dynamic Footer Reveal Calculation
+const updateFooterReveal = () => {
+  const footer = document.querySelector(".site-footer");
+  const main = document.querySelector("main");
+  if (footer && main) {
+    const height = footer.offsetHeight;
+    main.style.marginBottom = `${height}px`;
+  }
+};
+
+window.addEventListener("resize", () => {
+  cacheHero();
+  updateHeroParallax();
+  updateFooterReveal();
+});
+
+// Initial runs
+window.addEventListener("load", () => {
+  updateFooterReveal();
+});
+
+updateFooterReveal();
+
+// 7. Navigation Active State Observer
+const navLinksElements = document.querySelectorAll('.site-nav a[href^="#"]');
+const navObserverOptions = {
+  root: null,
+  rootMargin: '-20% 0px -40% 0px',
+  threshold: 0
+};
+
+const navObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      const id = entry.target.getAttribute('id');
+      navLinksElements.forEach(link => {
+        if (link.getAttribute('href') === `#${id}`) {
+          link.classList.add('is-active');
+        } else {
+          link.classList.remove('is-active');
+        }
+      });
+    }
+  });
+}, navObserverOptions);
+
+navLinksElements.forEach(link => {
+  const targetId = link.getAttribute('href');
+  if (targetId && targetId !== '#') {
+    const targetElement = document.querySelector(targetId);
+    if (targetElement) {
+      navObserver.observe(targetElement);
+    }
+  }
+});
+
+if (hero) {
+  const homeObserver = new IntersectionObserver((entries) => {
+    if (entries[0].isIntersecting) {
+      navLinksElements.forEach(link => link.classList.remove('is-active'));
+    }
+  }, { rootMargin: '-20% 0px -40% 0px', threshold: 0 });
+  homeObserver.observe(hero);
+}
+
+// ==========================================================================
+// 3D CUBE METHODOLOGY LOGIC (EXPERIMENTAL)
+// ==========================================================================
+
+const initCubeSection = () => {
+    const wrapper = document.getElementById('cube-methodology');
+    const cube = document.getElementById('cube');
+    const hudPct = document.getElementById('cube-hud-pct');
+    const progFill = document.getElementById('cube-prog-fill');
+    const sceneName = document.getElementById('cube-scene-name');
+    const slides = document.querySelectorAll('.cube-slide');
+    const textCards = document.querySelectorAll('.cube-text-card');
+
+    if (!wrapper || !cube) return;
+
+    const FACE_NAMES = [
+        "STRATEGY",
+        "DESIGN",
+        "BUILD",
+        "LAUNCH",
+        "SCALE",
+        "GENESIS"
+    ];
+
+    const STOPS = [
+        { rx: 90, ry: 0 },
+        { rx: 0, ry: 0 },
+        { rx: 0, ry: -90 },
+        { rx: 0, ry: -180 },
+        { rx: 0, ry: -270 },
+        { rx: -90, ry: -360 }
+    ];
+
+    const N = STOPS.length;
+    const easeIO = (t) => (t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t);
+
+    let lastIdx = -1;
+
+    const animate = () => {
+        const rect = wrapper.getBoundingClientRect();
+        const winH = window.innerHeight;
+        
+        // Calculate progress through the whole section
+        let progress = -rect.top / (rect.height - winH);
+        
+        // GENTLE ENTRANCE: If the section is entering from bottom, 
+        // force progress 0 and shift it side-by-side immediately.
+        const isEnteringFromBottom = rect.top > 0 && rect.top < winH;
+        if (isEnteringFromBottom) {
+            progress = 0;
+        }
+
+        progress = Math.max(0, Math.min(1, progress));
+
+        const isActive = rect.top <= 0 && rect.bottom >= winH;
+        wrapper.classList.toggle('is-active', isActive);
+
+        // Update Cube Rotation
+        const t = progress * (N - 1);
+        const i = Math.min(Math.floor(t), N - 2);
+        const f = easeIO(t - i);
+        
+        const a = STOPS[i];
+        const b = STOPS[i+1];
+        
+        const rx = a.rx + (b.rx - a.rx) * f;
+        const ry = a.ry + (b.ry - a.ry) * f;
+
+        cube.style.transform = `rotateX(${rx}deg) rotateY(${ry}deg)`;
+
+        // 1. Dynamic Cube Positioning (Side-by-side)
+        const si = Math.min(N - 1, Math.floor(progress * N));
+        // Force shift to right (Phase 1) if progress is near 0
+        const shiftX = (si % 2 === 0) ? '18vw' : '-18vw';
+        
+        // Stabilize for desktop, center for mobile
+        const scene = document.getElementById('cube-scene');
+        if (scene && window.innerWidth > 900) {
+            scene.style.transform = `translateX(${shiftX})`;
+            scene.style.opacity = '1';
+        } else if (scene) {
+            scene.style.transform = `none`;
+        }
+
+        // 2. Update HUD & Text Cards
+        const p = Math.round(progress * 100);
+
+        if (hudPct) hudPct.textContent = String(p).padStart(3, '0') + "%";
+        if (progFill) progFill.style.width = `${p}%`;
+
+        if (si !== lastIdx) {
+            lastIdx = si;
+            if (sceneName) sceneName.textContent = FACE_NAMES[si];
+        }
+
+        // 3. Handle text card visibility manually
+        textCards.forEach((card, idx) => {
+            const cardRect = card.getBoundingClientRect();
+            
+            // SPECIAL: Phase 1 (Intro) card is explicitly ON as long as section is even partially visible
+            // AND we haven't scrolled deep into phase 2 yet.
+            let isVisible = false;
+            if (idx === 0 && rect.top < winH * 0.95 && rect.top > -winH * 0.4) {
+                isVisible = true;
+            } else {
+                isVisible = cardRect.top < winH * 0.75 && cardRect.bottom > winH * 0.15;
+            }
+            if (isVisible) {
+                card.classList.add('visible');
+            } else {
+                card.classList.remove('visible');
+            }
+        });
+
+        requestAnimationFrame(animate);
+    };
+
+    requestAnimationFrame(animate);
+};
+
+// Initial run
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initCubeSection);
+} else {
+    initCubeSection();
+}
+// 8. Form Handling (Web3Forms AJAX)
+const contactForm = document.getElementById('contact-form');
+const formResult = document.getElementById('form-result');
+const submitBtn = document.getElementById('submit-btn');
+const submitBtnText = submitBtn ? submitBtn.querySelector('span') : null;
+
+if (contactForm) {
+    contactForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        // Disable button & show loading state
+        submitBtn.disabled = true;
+        submitBtn.classList.add('is-loading');
+        if (submitBtnText) submitBtnText.textContent = 'Sending...';
+        formResult.textContent = "";
+        formResult.classList.remove('success', 'error');
+
+        const formData = new FormData(contactForm);
+        const object = {};
+        formData.forEach((value, key) => {
+            object[key] = value;
+        });
+        const json = JSON.stringify(object);
+
+        fetch('https://api.web3forms.com/submit', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            },
+            body: json
+        })
+        .then(async (response) => {
+            let res = await response.json();
+            if (response.status == 200) {
+                formResult.textContent = "Message sent successfully!";
+                formResult.classList.add('success');
+                contactForm.reset();
+            } else {
+                console.log(response);
+                formResult.textContent = res.message || "Something went wrong!";
+                formResult.classList.add('error');
+            }
+        })
+        .catch(error => {
+            console.log(error);
+            formResult.textContent = "Something went wrong!";
+            formResult.classList.add('error');
+        })
+        .then(function() {
+            submitBtn.disabled = false;
+            submitBtn.classList.remove('is-loading');
+            if (submitBtnText) submitBtnText.textContent = 'Send Message';
+            
+            // Clear status after 5 seconds
+            setTimeout(() => {
+                formResult.style.opacity = '0';
+                setTimeout(() => {
+                    formResult.textContent = "";
+                    formResult.style.opacity = '1';
+                    formResult.classList.remove('success', 'error');
+                }, 400);
+            }, 5000);
+        });
+    });
+}
