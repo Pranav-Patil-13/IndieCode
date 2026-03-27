@@ -4,6 +4,40 @@ const heroMedia = document.querySelector(".hero-media");
 const heroVisual = document.querySelector(".hero-visual");
 const anchorLinks = document.querySelectorAll('a[href^="#"]');
 
+// ==========================================================================
+// GLOBAL AUTH & SESSION HANDLER (ZERO-REDIRECT)
+// ==========================================================================
+
+const handleInitialAuth = async () => {
+    // 1. Check if we just landed here from a Magic Link (#access_token=...)
+    if (window.location.hash.includes('access_token=') && window.supabaseClient) {
+        console.log("Magic Link detected. Finalizing login...");
+        // Redirect to portal.html so the session can be fully established there
+        window.location.href = 'portal.html' + window.location.hash;
+        return;
+    }
+
+    // 2. Check if user is ALREADY logged in (for nav UI updates)
+    if (window.supabaseClient) {
+        const { data: { session } } = await window.supabaseClient.auth.getSession();
+        if (session) {
+            // Update "Client Portal" nav links to say "Dashboard"
+            const portalLinks = document.querySelectorAll('a[href="login.html"], .nav-portal-link');
+            portalLinks.forEach(link => {
+                link.innerText = "Dashboard";
+                link.href = "portal.html";
+                // If it's an admin, we could even send them to admin.html here
+                if (session.user.email === 'admin@indiecode.in' || session.user.email === 'hello@indiecode.in') {
+                    link.href = "admin.html";
+                }
+            });
+        }
+    }
+};
+
+// Run auth check immediately
+handleInitialAuth();
+
 let lenis = null;
 let heroHeight = 0;
 
