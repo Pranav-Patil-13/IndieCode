@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard | IndieCode Portal</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="portal-layout">
+
+  <!-- Sidebar -->
+  <aside class="portal-sidebar">
+    <a class="brand" href="index.html" style="font-size: 1.3rem;">IndieC&lt;&gt;de</a>
+    <nav class="portal-nav">
+      <a href="#" class="active">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="3" y1="9" x2="21" y2="9"></line><line x1="9" y1="21" x2="9" y2="9"></line></svg>
+        Overview
+      </a>
+      <a href="#">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+        Documents
+      </a>
+      <a href="#">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+        Support
+      </a>
+    </nav>
+    <div class="portal-user">
+      <div class="portal-user-avatar">JD</div>
+      <div class="portal-user-info">
+        <strong>John Doe</strong>
+        <span>john@acme.com</span>
+      </div>
+      <button onclick="signOutUser()" style="margin-left: auto; background: none; border: none; color: rgba(248,249,250,0.4); cursor: pointer; padding: 4px;" aria-label="Sign out" title="Sign out">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+      </button>
+    </div>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="portal-main">
+    <div class="portal-header">
+      <div>
+        <h1>Welcome back, John</h1>
+        <p>Acme Corp Custom SaaS Build</p>
+      </div>
+    </div>
+
+    <!-- Active Project Tracker -->
+    <section class="portal-card" style="margin-bottom: 40px;">
+      <div class="portal-card-header">
+        <h3>Project Status</h3>
+        <span class="badge badge-paid">On Schedule</span>
+      </div>
+      
+      <div class="status-tracker">
+        <!-- Step 1 -->
+        <div class="status-step completed">
+          <div class="status-dot"></div>
+          <span class="status-label">Strategy</span>
+        </div>
+        <!-- Step 2 -->
+        <div class="status-step active">
+          <div class="status-dot"></div>
+          <span class="status-label">Design</span>
+        </div>
+        <!-- Step 3 -->
+        <div class="status-step">
+          <div class="status-dot"></div>
+          <span class="status-label">Build</span>
+        </div>
+        <!-- Step 4 -->
+        <div class="status-step">
+          <div class="status-dot"></div>
+          <span class="status-label">Launch</span>
+        </div>
+      </div>
+    </section>
+
+    <div class="portal-grid">
+      <!-- Recent Updates -->
+      <section class="portal-card">
+        <div class="portal-card-header">
+          <h3>Latest Updates</h3>
+        </div>
+        <p style="color: rgba(248,249,250,0.6); margin-bottom: 24px; line-height: 1.5;">
+          Wireframes and initial UI concepts have been uploaded for review. 
+          Please check the Documents tab and leave your feedback by Friday to keep development on schedule.
+        </p>
+        <a href="#" class="button button-primary" style="padding: 12px 24px; font-size: 0.9rem;">Review Designs</a>
+      </section>
+
+      <!-- Invoices / Payments -->
+      <section class="portal-card">
+        <div class="portal-card-header">
+          <h3>Payments</h3>
+        </div>
+        <div class="payment-list">
+          
+          <div class="payment-row">
+            <div class="payment-info">
+              <strong>Phase 2: Design</strong>
+              <span>INV-0042 • Due In 3 days</span>
+            </div>
+            <div class="payment-detail">
+              <span class="payment-amount">₹40,000</span>
+              <a href="#" class="badge badge-action">Pay Now</a>
+            </div>
+          </div>
+
+          <div class="payment-row">
+            <div class="payment-info">
+              <strong>Phase 1: Deposit</strong>
+              <span>INV-0041 • Paid</span>
+            </div>
+            <div class="payment-detail">
+              <span class="payment-amount">₹20,000</span>
+              <span class="badge badge-paid">Paid</span>
+            </div>
+          </div>
+
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="supabase-config.js"></script>
+  <script src="auth.js"></script>
+</body>
+</html>

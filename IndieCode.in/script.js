@@ -301,69 +301,81 @@ if (document.readyState === 'loading') {
 } else {
     initCubeSection();
 }
-// 8. Form Handling (Web3Forms AJAX)
+
+// ==========================================================================
+// ZERO-REDIRECT PORTAL LOGIC
+// ==========================================================================
+
 const contactForm = document.getElementById('contact-form');
-const formResult = document.getElementById('form-result');
-const submitBtn = document.getElementById('submit-btn');
-const submitBtnText = submitBtn ? submitBtn.querySelector('span') : null;
+const successModal = document.getElementById('success-modal');
+const modalEmailDisplay = document.getElementById('modal-email-display');
+
+window.closeModal = () => {
+    if (successModal) successModal.classList.remove('is-active');
+};
 
 if (contactForm) {
-    contactForm.addEventListener('submit', function(e) {
+    // ALWAYS attach the listener immediately so we can block the page reload (?) refresh behavior.
+    // Even if Supabase is still loading, we MUST preventDefault.
+    contactForm.onsubmit = async (e) => {
         e.preventDefault();
         
-        // Disable button & show loading state
+        // Log to console so you can see if something is blocking initialization
+        console.log("Inquiry Form Submitted. Zero-Redirect Active.");
+
+        const submitBtn = document.getElementById('submit-btn');
+        const submitBtnText = submitBtn ? submitBtn.querySelector('span') : null;
+
+        // Check if initialization was successful
+        if (!window.supabaseClient) {
+            console.error("Supabase Client missing at submission time.");
+            alert("Database Connection Error. Please refresh the page and try again.");
+            return;
+        }
+
+        // UI Loading
         submitBtn.disabled = true;
         submitBtn.classList.add('is-loading');
-        if (submitBtnText) submitBtnText.textContent = 'Sending...';
-        formResult.textContent = "";
-        formResult.classList.remove('success', 'error');
+        if (submitBtnText) submitBtnText.textContent = 'Syncing...';
 
         const formData = new FormData(contactForm);
-        const object = {};
-        formData.forEach((value, key) => {
-            object[key] = value;
-        });
-        const json = JSON.stringify(object);
+        const email = formData.get('email');
+        const name = formData.get('name');
+        const interest = formData.get('interest');
+        const message = formData.get('message');
 
-        fetch('https://api.web3forms.com/submit', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json'
-            },
-            body: json
-        })
-        .then(async (response) => {
-            let res = await response.json();
-            if (response.status == 200) {
-                formResult.textContent = "Message sent successfully!";
-                formResult.classList.add('success');
-                contactForm.reset();
-            } else {
-                console.log(response);
-                formResult.textContent = res.message || "Something went wrong!";
-                formResult.classList.add('error');
-            }
-        })
-        .catch(error => {
-            console.log(error);
-            formResult.textContent = "Something went wrong!";
-            formResult.classList.add('error');
-        })
-        .then(function() {
+        try {
+            // 1. Create Account via Magic Link (SignIn with OTP)
+            const { error: authError } = await window.supabaseClient.auth.signInWithOtp({
+                email: email,
+                options: {
+                    data: { full_name: name }
+                }
+            });
+
+            if (authError) throw authError;
+
+            // 2. Save Inquiry to Database
+            const { error: dbError } = await window.supabaseClient
+                .from('inquiries')
+                .insert([
+                    { name, email, interest, message }
+                ]);
+
+            if (dbError) console.warn("DB Insert failed: Table 'inquiries' probably not created yet. See SQL instructions.");
+
+            // 3. Show Success Modal
+            if (modalEmailDisplay) modalEmailDisplay.innerText = email;
+            if (successModal) successModal.classList.add('is-active');
+            contactForm.reset();
+
+        } catch (err) {
+            console.error(err);
+            alert("Inquiry Error: " + err.message);
+        } finally {
             submitBtn.disabled = false;
             submitBtn.classList.remove('is-loading');
             if (submitBtnText) submitBtnText.textContent = 'Send Message';
-            
-            // Clear status after 5 seconds
-            setTimeout(() => {
-                formResult.style.opacity = '0';
-                setTimeout(() => {
-                    formResult.textContent = "";
-                    formResult.style.opacity = '1';
-                    formResult.classList.remove('success', 'error');
-                }, 400);
-            }, 5000);
-        });
-    });
+        }
+    };
 }

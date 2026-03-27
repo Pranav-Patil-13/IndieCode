@@ -19,6 +19,7 @@
         <a href="#projects">Projects</a>
         <a href="#cube-methodology">Methodology</a>
         <a href="#contact">Contact</a>
+        <a href="login.html" class="nav-portal-link">Client Portal</a>
       </nav>
       <a class="header-cta" href="#contact">Start Your Project</a>
     </div>
@@ -46,7 +47,7 @@
           </p>
 
           <div class="hero-actions hero-reveal hero-delay-3">
-            <a class="button button-primary" href="#contact">Get Your SaaS Built</a>
+            <a class="button button-primary" href="#contact">Book Free Consultation</a>
             <a class="button button-secondary" href="#projects">Explore Products</a>
           </div>
         </div>
@@ -164,7 +165,7 @@
             <p>
               Software that fits your workflow — not the other way around.
             </p>
-            <a class="path-card-cta path-card-cta-solid" href="#contact">Get Your SaaS Built</a>
+            <a class="path-card-cta path-card-cta-solid" href="#contact">Book Free Consultation</a>
           </article>
 
           <article class="path-card reveal-on-scroll reveal-delay-2">
@@ -586,7 +587,7 @@
         <div class="contact-grid">
           <div class="contact-left">
             <div class="contact-header reveal-on-scroll">
-              <span class="contact-tagline">Get in Touch</span>
+              <span class="contact-tagline">Project Consultation</span>
               <h2 id="contact-title">Let's build<br>together.</h2>
               <p>Whether you need a custom SaaS or a ready-to-launch product, we're ready to make it happen.</p>
             </div>
@@ -636,8 +637,7 @@
             </div>
           </div>
 
-          <form class="contact-form reveal-on-scroll reveal-delay-2" action="https://api.web3forms.com/submit"
-            method="POST" id="contact-form">
+          <form class="contact-form reveal-on-scroll reveal-delay-2" id="contact-form">
             <!-- Web3Forms Configuration -->
             <input type="hidden" name="access_key" value="3f5b29f2-794a-429c-8dd2-46f2d1c21ea4">
             <input type="hidden" name="subject" value="New Inquiry from IndieCode.in">
@@ -680,6 +680,8 @@
             </button>
 
             <div id="form-result" class="form-status"></div>
+            
+            <p class="form-trust-message"><strong>Wait, no payment?</strong><br>No upfront payment is ever required for custom projects. Following your consultation, we’ll provide a fixed-price scope. You can then secure your development slot with a simple deposit fee.</p>
           </form>
 
         </div>
@@ -725,6 +727,7 @@
                 <h4>Company</h4>
                 <a href="#about">About Us</a>
                 <a href="#contact">Contact</a>
+                <a href="login.html">Client Portal</a>
               </div>
               <div class="footer-nav-col">
                 <h4>Resources</h4>
@@ -748,7 +751,33 @@
     </div>
   </main>
 
+  <!-- Success / Account Created Modal -->
+  <div id="success-modal" class="modal-overlay">
+    <div class="modal-container">
+      <div class="modal-inner">
+        <div class="modal-badge">Project Secured</div>
+        <h2>Connection Established</h2>
+        <p>Your project inquiry has been received! We've also created your private **Client Portal** account.</p>
+        
+        <div class="modal-check-step">
+          <div class="step-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+          </div>
+          <span>Account created for <strong id="modal-email-display">user@email.com</strong></span>
+        </div>
+
+        <div class="modal-action-box">
+          <p>Check your email for a <strong>magic login link</strong>. It’s the only thing you need to access your project dashboard.</p>
+        </div>
+
+        <button onclick="closeModal()" class="button button-secondary modal-close-btn">Return to Site</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="https://unpkg.com/lenis@1.3.11/dist/lenis.min.js"></script>
+  <script src="supabase-config.js"></script>
   <script src="script.js"></script>
 </body>
 
