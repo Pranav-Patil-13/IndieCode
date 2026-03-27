@@ -714,77 +714,142 @@
     <div id="dashboard-view" style="display: none;">
       <section class="portal-hero">
           <div class="portal-header-content">
-              <h1>Welcome Back, <span id="dash-user-name">Client</span></h1>
-              <p>Manage your projects, payments, and timeline in one place.</p>
+              <div class="portal-badge">Client Dashboard</div>
+              <h1>Welcome back, <span id="dash-user-name">Client</span></h1>
+              <p>Your strategic overview and project progress.</p>
           </div>
       </section>
 
       <section class="portal-grid">
-          <!-- Active Project Tracker -->
-          <article class="portal-card active-project reveal-on-scroll">
-              <div class="card-header">
-                  <h3>Active Project</h3>
-                  <span class="status-badge status-progress">In Development</span>
-              </div>
-              <div class="project-info">
-                  <h2>SaaS Enterprise Dashboard</h2>
-                  <p>Custom build for data visualization and team management.</p>
-              </div>
-              <div class="progress-container">
-                  <div class="progress-bar">
-                      <div class="progress-fill" style="width: 45%;"></div>
+
+          <!-- Active Project Overview -->
+          <article class="portal-card active-project">
+              <div class="card-inner">
+                  <div class="card-header">
+                      <div class="project-title-group">
+                          <div class="project-icon">
+                              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                  <path d="M3 3h7v7H3zM14 3h7v7h-7zM14 14h7v7h-7zM3 14h7v7H3z"/>
+                              </svg>
+                          </div>
+                          <div>
+                              <h3>Active Project</h3>
+                              <h2 id="dash-project-name">SaaS Enterprise Dashboard</h2>
+                          </div>
+                      </div>
+                      <span class="status-badge status-progress">Building v1.0</span>
                   </div>
-                  <div class="progress-marks">
-                      <span>Strategy</span>
-                      <span>Design</span>
-                      <span class="active">Build</span>
-                      <span>Launch</span>
+
+                  <div class="tracker-v2">
+                      <div class="tracker-steps">
+                          <div class="step completed" data-label="Strategy">
+                              <div class="step-dot"></div>
+                              <span>Strategy</span>
+                          </div>
+                          <div class="step completed" data-label="Design">
+                              <div class="step-dot"></div>
+                              <span>Design</span>
+                          </div>
+                          <div class="step active" data-label="Build">
+                              <div class="step-dot"></div>
+                              <span>Development</span>
+                          </div>
+                          <div class="step" data-label="Launch">
+                              <div class="step-dot"></div>
+                              <span>Launch</span>
+                          </div>
+                      </div>
+                      <div class="tracker-line-v2">
+                          <div class="line-fill" style="width: 65%;"></div>
+                      </div>
+                  </div>
+
+                  <div class="project-meta-grid">
+                      <div class="meta-item">
+                          <span>Next Milestone</span>
+                          <strong>API Integration</strong>
+                      </div>
+                      <div class="meta-item">
+                          <span>Target Launch</span>
+                          <strong>April 20, 2024</strong>
+                      </div>
+                      <div class="meta-item">
+                          <span>Architecture</span>
+                          <strong>Next.js + Supabase</strong>
+                      </div>
                   </div>
               </div>
           </article>
 
-          <!-- Payments & Deposits -->
-          <article class="portal-card payments-card reveal-on-scroll">
+          <!-- Payments & Finance -->
+          <article class="portal-card payments-card">
               <div class="card-header">
-                  <h3>Financial Status</h3>
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="5" width="20" height="14" rx="2" ry="2"></rect><line x1="2" y1="10" x2="22" y2="10"></line></svg>
-              </div>
-              <div class="financial-summary">
-                  <div class="stat">
-                      <strong>Deposit</strong>
-                      <span class="paid">Paid</span>
-                  </div>
-                  <div class="stat">
-                      <strong>Development Slot</strong>
-                      <span class="confirmed">Confirmed</span>
-                  </div>
-                  <div class="stat">
-                      <strong>Remaining Balance</strong>
-                      <span>$2,500</span>
+                  <div class="header-icon-group">
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="5" width="20" height="14" rx="2" ry="2"></rect><line x1="2" y1="10" x2="22" y2="10"></line></svg>
+                      <h3>Financial Status</h3>
                   </div>
               </div>
-              <button class="button button-primary pay-btn">Make Milestone Payment</button>
+              
+              <div class="financial-flow">
+                  <div class="flow-item">
+                      <div class="flow-label">
+                          <span>Initial Deposit</span>
+                          <span class="badge-tag paid">Settled</span>
+                      </div>
+                      <div class="flow-amount">$1,500.00</div>
+                  </div>
+                  <div class="flow-item">
+                      <div class="flow-label">
+                          <span>Development Slot</span>
+                          <span class="badge-tag confirmed">Reserved</span>
+                      </div>
+                      <div class="flow-amount">Confirmed</div>
+                  </div>
+                  <div class="flow-item total">
+                      <div class="flow-label">
+                          <span>Total Balance Due</span>
+                      </div>
+                      <div class="flow-amount">$2,500.00</div>
+                  </div>
+              </div>
+              
+              <button class="button button-primary pay-btn-v2">
+                  <span>Settle Balance</span>
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <path d="M5 12h14M12 5l7 7-7 7"/>
+                  </svg>
+              </button>
           </article>
 
-          <!-- Consultation Logs -->
-          <article class="portal-card logs-card reveal-on-scroll">
+          <!-- Interaction Logs -->
+          <article class="portal-card timeline-card">
               <div class="card-header">
-                  <h3>Timeline & Logs</h3>
+                  <h3>Project Activity</h3>
               </div>
-              <ul class="log-list">
-                  <li>
-                      <span class="log-date">Mar 27</span>
-                      <p>Backend architecture finalized.</p>
-                  </li>
-                  <li>
-                      <span class="log-date">Mar 24</span>
-                      <p>Initial deposit received. Development started.</p>
-                  </li>
-                  <li>
-                      <span class="log-date">Mar 20</span>
-                      <p>Consultation complete. Solution scope agreed.</p>
-                  </li>
-              </ul>
+              <div class="activity-timeline">
+                  <div class="activity-item">
+                      <div class="activity-marker"></div>
+                      <div class="activity-content">
+                          <span class="activity-date">Today, 2:40 PM</span>
+                          <p>Database schema optimized for multi-tenancy.</p>
+                      </div>
+                  </div>
+                  <div class="activity-item">
+                      <div class="activity-marker"></div>
+                      <div class="activity-content">
+                          <span class="activity-date">Mar 27</span>
+                          <p>UI review completed. Design phase signed off.</p>
+                      </div>
+                  </div>
+                  <div class="activity-item">
+                      <div class="activity-marker ripple"></div>
+                      <div class="activity-content">
+                          <span class="activity-date">Mar 24</span>
+                          <p>Project initialized. Strategy documentation shared.</p>
+                      </div>
+                  </div>
+              </div>
+          </article>
       </section>
     </div>
   </main>

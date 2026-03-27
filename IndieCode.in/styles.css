@@ -3635,83 +3635,246 @@ main {
   color: rgba(255,255,255,0.4);
 }
 
-.status-badge {
-  padding: 6px 12px;
-  border-radius: 99px;
-  font-size: 0.75rem;
-  font-weight: 600;
+/* Dashboard V2 Premium Styles */
+.portal-badge {
+    display: inline-block;
+    padding: 6px 12px;
+    background: rgba(0, 112, 243, 0.1);
+    color: #0070f3;
+    border-radius: 99px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 20px;
 }
 
-.status-progress {
-  background: rgba(0, 112, 243, 0.1);
-  color: #0070f3;
+.project-title-group {
+    display: flex;
+    align-items: center;
+    gap: 16px;
 }
 
-.progress-container {
-  margin-top: 40px;
+.project-icon {
+    width: 48px;
+    height: 48px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--bg-0);
 }
 
-.progress-bar {
-  height: 8px;
-  background: rgba(255, 255, 255, 0.05);
-  border-radius: 4px;
-  margin-bottom: 16px;
-  overflow: hidden;
+.project-title-group h2 {
+    font-size: 1.5rem;
+    margin-top: 4px;
 }
 
-.progress-fill {
-  height: 100%;
-  background: var(--accent-gradient);
-  border-radius: 4px;
+/* Tracker V2 */
+.tracker-v2 {
+    margin: 48px 0;
+    position: relative;
 }
 
-.progress-marks {
-  display: flex;
-  justify-content: space-between;
+.tracker-steps {
+    display: flex;
+    justify-content: space-between;
+    position: relative;
+    z-index: 2;
 }
 
-.progress-marks span {
-  font-size: 0.75rem;
-  color: rgba(255, 255, 255, 0.3);
+.step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    flex: 1;
 }
 
-.progress-marks span.active {
-  color: var(--bg-0);
-  font-weight: 600;
+.step-dot {
+    width: 12px;
+    height: 12px;
+    background: #1a1f2e;
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+    transition: all 0.4s ease;
 }
 
-.stat {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 16px;
-  padding-bottom: 16px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+.step span {
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.3);
 }
 
-.stat span.paid { color: #10b981; }
-.stat span.confirmed { color: #8b5cf6; }
-
-.log-list {
-  list-style: none;
-  padding: 0;
+.step.completed .step-dot {
+    background: #10b981;
+    border-color: #10b981;
+    box-shadow: 0 0 15px rgba(16, 185, 129, 0.3);
 }
 
-.log-list li {
-  padding: 16px 0;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+.step.active .step-dot {
+    background: #0070f3;
+    border-color: #0070f3;
+    box-shadow: 0 0 15px rgba(0, 112, 243, 0.3);
+    transform: scale(1.2);
 }
 
-.log-date {
-  font-size: 0.75rem;
-  color: rgba(255, 255, 255, 0.3);
-  display: block;
-  margin-bottom: 4px;
+.step.active span {
+    color: white;
 }
 
-.pay-btn {
-  width: 100%;
-  margin-top: 24px;
+.tracker-line-v2 {
+    position: absolute;
+    top: 5px;
+    left: 12%;
+    right: 12%;
+    height: 2px;
+    background: rgba(255, 255, 255, 0.05);
+    z-index: 1;
 }
+
+.line-fill {
+    height: 100%;
+    background: #10b981;
+    transition: width 1s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Metadata Grid */
+.project-meta-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    padding-top: 40px;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.meta-item span {
+    display: block;
+    font-size: 0.7rem;
+    color: rgba(255, 255, 255, 0.4);
+    text-transform: uppercase;
+    margin-bottom: 4px;
+}
+
+.meta-item strong {
+    font-size: 0.95rem;
+    color: white;
+}
+
+/* Financial Flow */
+.financial-flow {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.flow-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.flow-label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.flow-label span:first-child {
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.badge-tag {
+    font-size: 0.65rem;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-weight: 600;
+}
+
+.badge-tag.paid { background: rgba(16, 185, 129, 0.1); color: #10b981; }
+.badge-tag.confirmed { background: rgba(139, 92, 246, 0.1); color: #8b5cf6; }
+
+.flow-amount {
+    font-family: "IBM Plex Serif", serif;
+    font-weight: 500;
+    color: white;
+}
+
+.flow-item.total {
+    margin-top: 16px;
+    padding-top: 16px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.flow-item.total .flow-amount {
+    font-size: 1.25rem;
+    color: #0070f3;
+}
+
+/* Activity Timeline */
+.activity-timeline {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+    margin-top: 24px;
+}
+
+.activity-item {
+    display: flex;
+    gap: 20px;
+    position: relative;
+}
+
+.activity-item:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    top: 24px;
+    left: 4px;
+    width: 2px;
+    height: 40px;
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.activity-marker {
+    width: 10px;
+    height: 10px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    margin-top: 6px;
+    flex-shrink: 0;
+}
+
+.activity-marker.ripple {
+    background: #0070f3;
+    box-shadow: 0 0 0 4px rgba(0, 112, 243, 0.1);
+}
+
+.activity-date {
+    display: block;
+    font-size: 0.75rem;
+    color: rgba(255, 255, 255, 0.4);
+    margin-bottom: 4px;
+}
+
+.activity-content p {
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.8);
+    line-height: 1.5;
+}
+
+.pay-btn-v2 {
+    width: 100%;
+    margin-top: 32px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    padding: 16px;
+}
+
 
 @media (max-width: 900px) {
   .portal-grid {
