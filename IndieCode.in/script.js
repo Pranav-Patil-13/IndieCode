@@ -163,14 +163,44 @@ if (window.Lenis) {
 
   anchorLinks.forEach((link) => {
     link.addEventListener("click", (event) => {
-      const targetId = link.getAttribute("href");
-      if (!targetId || targetId === "#") return;
-      const targetElement = document.querySelector(targetId);
+      const href = link.getAttribute("href");
+      if (!href || href === "#") return;
+      
+      const targetElement = document.querySelector(href);
+      
+      // SPA VIEW AWARENESS
+      const isShowingDashboard = dashboardView && dashboardView.style.display !== 'none';
+      if (isShowingDashboard) {
+        event.preventDefault();
+        window.toggleDashboard(); // Exit dashboard mode
+        
+        // Wait for Home View to render so ID exists
+        setTimeout(() => {
+          const freshTarget = document.querySelector(href);
+          if (freshTarget && lenis) {
+            lenis.scrollTo(freshTarget, { offset: -88, duration: 1.05 });
+          }
+        }, 50);
+        return;
+      }
+
       if (!targetElement) return;
       event.preventDefault();
       lenis.scrollTo(targetElement, { offset: -88, duration: 1.05 });
     });
   });
+
+  // Logo Home Toggler
+  const logo = document.querySelector('.brand');
+  if (logo) {
+    logo.addEventListener('click', (e) => {
+        const isShowingDashboard = dashboardView && dashboardView.style.display !== 'none';
+        if (isShowingDashboard) {
+            e.preventDefault();
+            window.toggleDashboard();
+        }
+    });
+  }
 }
 
 // 5. Global Reveal Observer
