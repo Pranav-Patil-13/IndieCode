@@ -21,12 +21,34 @@
         <a href="#contact">Contact</a>
         <a href="login.html" class="nav-portal-link">Client Portal</a>
       </nav>
-      <a class="header-cta" href="#contact">Start Your Project</a>
+      <a class="header-cta" href="#contact" id="header-cta">Start Your Project</a>
+      
+      <!-- User Profile (Hidden by default) -->
+      <div id="user-profile-nav" class="user-profile-nav" style="display: none;">
+        <button class="user-trigger" onclick="toggleDashboard()">
+          <span id="user-initials">U</span>
+        </button>
+        <div class="user-dropdown">
+          <div class="dropdown-header">
+            <strong id="user-name-display">Client</strong>
+            <span id="user-email-display">client@email.com</span>
+          </div>
+          <div class="dropdown-links">
+            <a href="#" onclick="toggleDashboard('projects')">My Projects</a>
+            <a href="#" onclick="toggleDashboard('payments')">Payments</a>
+            <button onclick="handleLogout()" class="logout-btn">Log Out</button>
+          </div>
+        </div>
+      </div>
     </div>
   </header>
 
-  <main>
-    <section class="hero" id="home">
+  <main id="main-content">
+    <!-- VIEW: Home / Landing Page -->
+    <div id="home-view">
+      <section class="hero" id="home">
+        <!-- ... keeping all existing hero content ... -->
+
       <div class="hero-media" aria-hidden="true">
         <div class="orb orb-one hero-fade"></div>
         <div class="orb orb-two hero-fade hero-delay-1"></div>
@@ -686,7 +708,87 @@
 
         </div>
       </div>
+      </div>
     </section>
+
+    <!-- VIEW: Client Dashboard (Hidden by default) -->
+    <div id="dashboard-view" style="display: none;">
+      <section class="portal-hero">
+          <div class="portal-header-content">
+              <h1>Welcome Back, <span id="dash-user-name">Client</span></h1>
+              <p>Manage your projects, payments, and timeline in one place.</p>
+          </div>
+      </section>
+
+      <section class="portal-grid">
+          <!-- Active Project Tracker -->
+          <article class="portal-card active-project reveal-on-scroll">
+              <div class="card-header">
+                  <h3>Active Project</h3>
+                  <span class="status-badge status-progress">In Development</span>
+              </div>
+              <div class="project-info">
+                  <h2>SaaS Enterprise Dashboard</h2>
+                  <p>Custom build for data visualization and team management.</p>
+              </div>
+              <div class="progress-container">
+                  <div class="progress-bar">
+                      <div class="progress-fill" style="width: 45%;"></div>
+                  </div>
+                  <div class="progress-marks">
+                      <span>Strategy</span>
+                      <span>Design</span>
+                      <span class="active">Build</span>
+                      <span>Launch</span>
+                  </div>
+              </div>
+          </article>
+
+          <!-- Payments & Deposits -->
+          <article class="portal-card payments-card reveal-on-scroll">
+              <div class="card-header">
+                  <h3>Financial Status</h3>
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="5" width="20" height="14" rx="2" ry="2"></rect><line x1="2" y1="10" x2="22" y2="10"></line></svg>
+              </div>
+              <div class="financial-summary">
+                  <div class="stat">
+                      <strong>Deposit</strong>
+                      <span class="paid">Paid</span>
+                  </div>
+                  <div class="stat">
+                      <strong>Development Slot</strong>
+                      <span class="confirmed">Confirmed</span>
+                  </div>
+                  <div class="stat">
+                      <strong>Remaining Balance</strong>
+                      <span>$2,500</span>
+                  </div>
+              </div>
+              <button class="button button-primary pay-btn">Make Milestone Payment</button>
+          </article>
+
+          <!-- Consultation Logs -->
+          <article class="portal-card logs-card reveal-on-scroll">
+              <div class="card-header">
+                  <h3>Timeline & Logs</h3>
+              </div>
+              <ul class="log-list">
+                  <li>
+                      <span class="log-date">Mar 27</span>
+                      <p>Backend architecture finalized.</p>
+                  </li>
+                  <li>
+                      <span class="log-date">Mar 24</span>
+                      <p>Initial deposit received. Development started.</p>
+                  </li>
+                  <li>
+                      <span class="log-date">Mar 20</span>
+                      <p>Consultation complete. Solution scope agreed.</p>
+                  </li>
+              </ul>
+          </article>
+      </section>
+    </div>
 
     <div class="bottom-reveal-block">
       <footer class="site-footer">

@@ -5,32 +5,82 @@ const heroVisual = document.querySelector(".hero-visual");
 const anchorLinks = document.querySelectorAll('a[href^="#"]');
 
 // ==========================================================================
-// GLOBAL AUTH & SESSION HANDLER (ZERO-REDIRECT)
+// SPA: VIEW TOGGLING & SESSION MANAGEMENT
 // ==========================================================================
+
+const homeView = document.getElementById('home-view');
+const dashboardView = document.getElementById('dashboard-view');
+const headerCta = document.getElementById('header-cta');
+const userProfileNav = document.getElementById('user-profile-nav');
+
+window.toggleDashboard = (subview = null) => {
+    // If we are currently on home, switch to dashboard
+    const isShowingDashboard = dashboardView.style.display !== 'none';
+    
+    if (isShowingDashboard && !subview) {
+        // Switch back to home
+        dashboardView.style.display = 'none';
+        homeView.style.display = 'block';
+        window.scrollTo(0,0);
+    } else {
+        // Switch to dashboard
+        homeView.style.display = 'none';
+        dashboardView.style.display = 'block';
+        window.scrollTo(0,0);
+    }
+    
+    // Refresh Scroll Trigger for smooth performance
+    if (window.lenis) window.lenis.scrollTo(0, { immediate: true });
+};
+
+window.handleLogout = async () => {
+    if (window.supabaseClient) {
+        await window.supabaseClient.auth.signOut();
+        window.location.reload(); // Refresh to clean state
+    }
+};
 
 const handleInitialAuth = async () => {
     // 1. Check if we just landed here from a Magic Link (#access_token=...)
     if (window.location.hash.includes('access_token=') && window.supabaseClient) {
         console.log("Magic Link detected. Finalizing login...");
-        // Redirect to portal.html so the session can be fully established there
-        window.location.href = 'portal.html' + window.location.hash;
-        return;
+        // Stay on page, but we'll let Supabase process the hash automatically
     }
 
-    // 2. Check if user is ALREADY logged in (for nav UI updates)
+    // 2. Check session
     if (window.supabaseClient) {
         const { data: { session } } = await window.supabaseClient.auth.getSession();
+        
         if (session) {
-            // Update "Client Portal" nav links to say "Dashboard"
-            const portalLinks = document.querySelectorAll('a[href="login.html"], .nav-portal-link');
-            portalLinks.forEach(link => {
+            const user = session.user;
+            const initials = user.email.substring(0, 1).toUpperCase();
+            
+            // UI Updates
+            if (headerCta) headerCta.style.display = 'none';
+            if (userProfileNav) userProfileNav.style.display = 'flex';
+            
+            // Map text links in nav (like the one in your screenshot) to the SPA toggle
+            const textDashboardLinks = document.querySelectorAll('a[href="login.html"], .nav-portal-link');
+            textDashboardLinks.forEach(link => {
                 link.innerText = "Dashboard";
-                link.href = "portal.html";
-                // If it's an admin, we could even send them to admin.html here
-                if (session.user.email === 'admin@indiecode.in' || session.user.email === 'hello@indiecode.in') {
-                    link.href = "admin.html";
-                }
+                link.href = "javascript:void(0)";
+                link.onclick = (e) => {
+                    e.preventDefault();
+                    window.toggleDashboard();
+                };
             });
+
+            if (document.getElementById('user-initials')) document.getElementById('user-initials').innerText = initials;
+            if (document.getElementById('user-email-display')) document.getElementById('user-email-display').innerText = user.email;
+            if (document.getElementById('dash-user-name')) document.getElementById('dash-user-name').innerText = user.email.split('@')[0];
+
+            // 3. Clear the URL hash if logged in via Magic Link
+            if (window.location.hash.includes('access_token')) {
+                window.toggleDashboard();
+                setTimeout(() => {
+                    history.replaceState(null, null, ' ');
+                }, 100);
+            }
         }
     }
 };
