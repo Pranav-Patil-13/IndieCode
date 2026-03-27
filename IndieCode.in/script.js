@@ -59,15 +59,10 @@ const handleInitialAuth = async () => {
             if (headerCta) headerCta.style.display = 'none';
             if (userProfileNav) userProfileNav.style.display = 'flex';
             
-            // Map text links in nav (like the one in your screenshot) to the SPA toggle
-            const textDashboardLinks = document.querySelectorAll('a[href="login.html"], .nav-portal-link');
-            textDashboardLinks.forEach(link => {
-                link.innerText = "Dashboard";
-                link.href = "javascript:void(0)";
-                link.onclick = (e) => {
-                    e.preventDefault();
-                    window.toggleDashboard();
-                };
+            // Hide all redundant text Dashboard / Portal links (header/footer)
+            const redundantLinks = document.querySelectorAll('a[href="login.html"], .nav-portal-link');
+            redundantLinks.forEach(link => {
+                link.style.display = 'none'; // Cleaner look: hide them entirely
             });
 
             if (document.getElementById('user-initials')) document.getElementById('user-initials').innerText = initials;
