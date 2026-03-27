@@ -67,7 +67,10 @@ const handleInitialAuth = async () => {
 
             if (document.getElementById('user-initials')) document.getElementById('user-initials').innerText = initials;
             if (document.getElementById('user-email-display')) document.getElementById('user-email-display').innerText = user.email;
-            if (document.getElementById('dash-user-name')) document.getElementById('dash-user-name').innerText = user.email.split('@')[0];
+            
+            const rawName = user.email.split('@')[0];
+            const cleanName = rawName.charAt(0).toUpperCase() + rawName.slice(1);
+            if (document.getElementById('dash-user-name')) document.getElementById('dash-user-name').innerText = cleanName;
 
             // 3. Clear the URL hash if logged in via Magic Link
             if (window.location.hash.includes('access_token')) {
