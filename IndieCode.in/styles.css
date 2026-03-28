@@ -132,9 +132,10 @@ a {
 }
 
 .brand img {
-  height: 32px; /* Standard logo height */
+  height: 34px; /* Slightly larger for better balance with text */
   width: auto;
   display: block;
+  margin-right: 14px;
 }
 
 .site-nav {
