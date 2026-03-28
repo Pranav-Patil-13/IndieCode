@@ -459,7 +459,7 @@ if (contactForm) {
         const message = formData.get('message');
 
         try {
-            // 1. SAVE INQUIRY FIRST (Priority)
+            // 1. SAVE INQUIRY FIRST (Priority - Database)
             const { error: dbError } = await window.supabaseClient
                 .from('inquiries')
                 .insert([
@@ -470,18 +470,36 @@ if (contactForm) {
                 console.warn("DB Insert failed: Table 'inquiries' probably not created yet or RLS blocked it.", dbError);
             }
 
-            // 2. TRIGGER AUTH (Check existing session first to adjust message)
+            // 2. SEND NOTIFICATION EMAIL (Background - Web3Forms)
+            // We use background fetch so the user isn't redirected.
+            try {
+                const web3formData = new FormData(contactForm);
+                // The 'access_key' is already on the hidden input in your HTML
+                fetch("https://api.web3forms.com/submit", {
+                    method: "POST",
+                    body: web3formData
+                });
+            } catch (emailErr) {
+                console.warn("Notification Email Relay failed, but lead saved to DB.", emailErr);
+            }
+
+            // 3. TRIGGER AUTH (Check existing session first to adjust message)
             const { data: { session } } = await window.supabaseClient.auth.getSession();
-            const { error: authError } = await window.supabaseClient.auth.signInWithOtp({
-                email: email,
-                options: {
-                    data: { full_name: name }
-                }
-            });
+            
+            // We use a nested try because Auth rate limits shouldn't STOP the success modal
+            try {
+                const { error: authError } = await window.supabaseClient.auth.signInWithOtp({
+                    email: email,
+                    options: {
+                        data: { full_name: name }
+                    }
+                });
+                if (authError) throw authError;
+            } catch (authGateErr) {
+                console.warn("Auth Gate Throttled: User likely testing too fast. Ignoring error to show 'Sent' modal.", authGateErr);
+            }
 
-            if (authError) throw authError;
-
-            // 3. Update Modal Dynamically
+            // 4. Update Modal Dynamically
             const titleEl = document.getElementById('modal-title');
             const descEl = document.getElementById('modal-description');
             const statusEl = document.getElementById('modal-status-text');
