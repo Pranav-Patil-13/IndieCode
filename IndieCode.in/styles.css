@@ -3911,47 +3911,55 @@ main {
     min-width: 0;
 }
 
-/* Credentials Box */
-.credentials-box {
+
+/* Security Notice Box */
+.security-notice-box {
     background: rgba(255, 255, 255, 0.02);
     border: 1px solid rgba(255, 255, 255, 0.05);
     border-radius: 12px;
     padding: 24px;
     margin-top: 24px;
     text-align: left;
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
 }
 
-.credential-item {
+.security-card {
     display: flex;
-    justify-content: space-between;
+    gap: 20px;
+    align-items: flex-start;
+    padding-bottom: 20px;
+}
+
+.security-icon {
+    width: 48px;
+    height: 48px;
+    background: rgba(0, 112, 243, 0.1);
+    border: 1px solid rgba(0, 112, 243, 0.2);
+    border-radius: 12px;
+    display: flex;
     align-items: center;
-    padding-bottom: 12px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.03);
-}
-
-.credential-item span {
-    font-size: 0.8rem;
-    color: rgba(255, 255, 255, 0.4);
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-}
-
-.credential-item strong {
-    font-family: var(--font-serif);
+    justify-content: center;
     color: #0070f3;
-    font-size: 1.1rem;
+    flex-shrink: 0;
 }
 
-.credential-note {
-    font-size: 0.75rem;
-    color: rgba(16, 185, 129, 0.6);
-    text-align: center;
-    margin-top: 8px;
-    font-weight: 500;
+.security-text h4 {
+    margin: 0 0 8px;
+    font-family: var(--font-serif);
+    font-size: 1.1rem;
+    color: white;
 }
+
+.security-text p {
+    margin: 0;
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.6);
+    line-height: 1.5;
+}
+
+#sent-email-label {
+    color: #0070f3;
+}
+
 
 select#country_code {
     width: fit-content;

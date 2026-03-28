@@ -971,16 +971,20 @@
           <span id="modal-status-text">Account active for <strong id="modal-email-display">user@email.com</strong></span>
         </div>
 
-        <div class="modal-action-box credentials-box">
-          <div class="credential-item">
-            <span>Login ID:</span>
-            <strong id="display-login-id">...</strong>
+        <div class="modal-action-box security-notice-box">
+          <div class="security-card">
+            <div class="security-icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                <polyline points="22,6 12,13 2,6"></polyline>
+              </svg>
+            </div>
+            <div class="security-text">
+              <h4>Check Your Inbox</h4>
+              <p>Your private login credentials and access link have been dispatched to <strong id="sent-email-label">...</strong></p>
+            </div>
           </div>
-          <div class="credential-item">
-            <span>Password:</span>
-            <strong id="display-password">...</strong>
-          </div>
-          <p class="credential-note">Use these details to log in to your portal anytime.</p>
+          <p class="credential-note">For security, credentials are only shared via email.</p>
         </div>
 
         <button onclick="closeModal()" class="button button-secondary modal-close-btn">Return to Site</button>

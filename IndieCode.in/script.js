@@ -524,27 +524,20 @@ if (contactForm) {
             const descEl = document.getElementById('modal-description');
             const statusEl = document.getElementById('modal-status-text');
             const badgeEl = document.getElementById('modal-badge-status');
-            const loginIdEl = document.getElementById('display-login-id');
-            const passEl = document.getElementById('display-password');
-
-            if (loginIdEl) loginIdEl.innerText = email;
-            if (passEl) passEl.innerText = generatedPassword;
+            const emailLabel = document.getElementById('sent-email-label');
+            if (emailLabel) emailLabel.innerText = email;
 
             if (isNewAccount) {
-                if (titleEl) titleEl.innerText = "Account Ready";
-                if (descEl) descEl.innerHTML = "Your session is and inquiry is received! We've generated your **private portal credentials** below.";
-                if (statusEl) statusEl.innerHTML = "Account created for <strong>" + email + "</strong>";
-                if (badgeEl) badgeEl.innerText = "New Client Profile";
-                if (passEl) passEl.innerText = generatedPassword;
-                if (passEl) passEl.style.color = "#0070f3"; // Highlight new password
+                if (titleEl) titleEl.innerText = "Access Secured";
+                if (descEl) descEl.innerHTML = "Your inquiry is received and private account initialized! Check your **email inbox** for your login credentials and portal access.";
+                if (statusEl) statusEl.innerHTML = "Profile established for <strong>" + email + "</strong>";
+                if (badgeEl) badgeEl.innerText = "Secure Onboarding";
             } else {
                 // Return User
                 if (titleEl) titleEl.innerText = "Welcome Back";
-                if (descEl) descEl.innerHTML = "Your new project inquiry has been **linked** to your active profile.";
+                if (descEl) descEl.innerHTML = "Your inquiry has been **linked** to your active profile. Check your email for confirmation.";
                 if (statusEl) statusEl.innerHTML = "Lead synced to <strong>" + email + "</strong>";
                 if (badgeEl) badgeEl.innerText = "Lead Synced";
-                if (passEl) passEl.innerText = "User Existing Password"; // Standard text for security
-                if (passEl) passEl.style.color = "rgba(255,255,255,0.4)";
             }
 
             if (modalEmailDisplay) modalEmailDisplay.innerText = email;
