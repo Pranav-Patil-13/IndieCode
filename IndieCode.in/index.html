@@ -960,23 +960,13 @@
     </footer>
   </div>
 
-  <!-- Success / Account Created Modal -->
+  <!-- Success / Inquiry Received Modal -->
   <div id="success-modal" class="modal-overlay">
     <div class="modal-container">
       <div class="modal-inner">
         <div class="modal-badge" id="modal-badge-status">Inquiry Sent</div>
-        <h2 id="modal-title">Project Secured</h2>
-        <p id="modal-description">Your project inquiry has been received! We've also updated your private **Client Portal**.</p>
-
-        <div class="modal-check-step">
-          <div class="step-icon">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"
-              stroke-linecap="round" stroke-linejoin="round">
-              <polyline points="20 6 9 17 4 12"></polyline>
-            </svg>
-          </div>
-          <span id="modal-status-text">Account active for <strong id="modal-email-display">user@email.com</strong></span>
-        </div>
+        <h2 id="modal-title">Inquiry Received</h2>
+        <p id="modal-description">We've received your project details! Our team will review your inquiry and get back to you within 24 hours.</p>
 
         <div class="modal-action-box security-notice-box">
           <div class="security-card">
@@ -987,12 +977,10 @@
               </svg>
             </div>
             <div class="security-text">
-              <h4>Check Your Inbox</h4>
-              <p>Your private login credentials and access link have been dispatched to <strong id="sent-email-label">...</strong></p>
-              <span class="spam-hint">(Check your <strong>Spam</strong> folder if you don't see it!)</span>
+              <h4>Confirmation Sent</h4>
+              <p>A copy of your inquiry has been sent to <strong id="sent-email-label">...</strong></p>
             </div>
           </div>
-          <p class="credential-note">For security, credentials are only shared via email.</p>
         </div>
 
         <button onclick="closeModal()" class="button button-secondary modal-close-btn">Return to Site</button>

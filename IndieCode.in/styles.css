@@ -92,7 +92,7 @@ a {
   right: 0;
   z-index: 20;
   padding: 0;
-  border-bottom: 1px solid transparent; /* Prevent flicker on transition */
+  border-bottom: 1px solid transparent;
   transition:
     padding 180ms ease,
     background-color 180ms ease,

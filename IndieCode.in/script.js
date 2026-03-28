@@ -460,16 +460,8 @@ if (contactForm) {
         const interest = formData.get('interest');
         const message = formData.get('message');
 
-        // Generate Password (e.g., "pranav@123")
-        const firstName = name.trim().split(' ')[0].toLowerCase().replace(/[^a-z]/g, '');
-        let generatedPassword = firstName + "@123";
-        // Ensure min length (Supabase requires 6+)
-        if (generatedPassword.length < 6) {
-            generatedPassword = (firstName + "code").slice(0, 5) + "@123"; 
-        }
-
         try {
-            // 1. SAVE INQUIRY FIRST (Priority - Database)
+            // 1. SAVE INQUIRY (Database)
             const { error: dbError } = await window.supabaseClient
                 .from('inquiries')
                 .insert([
@@ -486,12 +478,9 @@ if (contactForm) {
                 console.warn("DB Insert failed: Table 'inquiries' probably not created yet or RLS blocked it.", dbError);
             }
 
-            // 2. SEND NOTIFICATION EMAIL (Background - Web3Forms)
+            // 2. SEND NOTIFICATION EMAIL (Web3Forms)
             try {
                 const web3formData = new FormData(contactForm);
-                // Combine credentials for YOU in the notification
-                web3formData.append('Assigned Login ID', email);
-                web3formData.append('Auto Password', generatedPassword);
                 web3formData.append('Full Phone', `${countryCode} ${phone}`);
                 
                 fetch("https://api.web3forms.com/submit", {
@@ -504,54 +493,17 @@ if (contactForm) {
                 console.warn("Notification Email Relay failed, but lead saved to DB.", emailErr);
             }
 
-            // 3. TRIGGER ACCOUNT CREATION (Password based)
-            // 3. TRIGGER ACCOUNT CREATION & SEND LOGIN EMAIL
-            let isNewAccount = false;
-            const { data: { session: currentSession } } = await window.supabaseClient.auth.getSession();
-            
-            if (!currentSession || currentSession.user.email !== email) {
-                // Step A: Create the permanent password account
-                const { data: signUpData, error: signUpError } = await window.supabaseClient.auth.signUp({
-                    email: email,
-                    password: generatedPassword,
-                    options: { data: { full_name: name } }
-                });
-                
-                if (!signUpError) isNewAccount = true;
-
-                // Step B: Send the Magic Link Email (This ensures they get a mail INSTANTLY)
-                try {
-                    await window.supabaseClient.auth.signInWithOtp({
-                        email: email,
-                        options: { data: { full_name: name } }
-                    });
-                } catch (otpErr) {
-                    console.warn("Magic Link relay throttled or disabled in Supabase.", otpErr);
-                }
-            }
-
-            // 4. Update Modal Dynamically
+            // 3. Update Modal Dynamically
             const titleEl = document.getElementById('modal-title');
             const descEl = document.getElementById('modal-description');
-            const statusEl = document.getElementById('modal-status-text');
             const badgeEl = document.getElementById('modal-badge-status');
             const emailLabel = document.getElementById('sent-email-label');
+            
             if (emailLabel) emailLabel.innerText = email;
+            if (titleEl) titleEl.innerText = "Inquiry Received";
+            if (descEl) descEl.innerHTML = "Thanks for reaching out! We've received your project details and will be in touch within **24 hours** to discuss the next steps.";
+            if (badgeEl) badgeEl.innerText = "Success";
 
-            if (isNewAccount) {
-                if (titleEl) titleEl.innerText = "Access Secured";
-                if (descEl) descEl.innerHTML = "Your session is received and account initialized! We've sent an **instant login link** to your email address.";
-                if (statusEl) statusEl.innerHTML = "Profile established for <strong>" + email + "</strong>";
-                if (badgeEl) badgeEl.innerText = "Login Sent";
-            } else {
-                // Return User
-                if (titleEl) titleEl.innerText = "Welcome Back";
-                if (descEl) descEl.innerHTML = "Your inquiry has been **linked** to your active profile. Check your email for confirmation.";
-                if (statusEl) statusEl.innerHTML = "Lead synced to <strong>" + email + "</strong>";
-                if (badgeEl) badgeEl.innerText = "Lead Synced";
-            }
-
-            if (modalEmailDisplay) modalEmailDisplay.innerText = email;
             if (successModal) successModal.classList.add('is-active');
             contactForm.reset();
 
