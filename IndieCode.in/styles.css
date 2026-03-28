@@ -3952,3 +3952,7 @@ main {
     margin-top: 8px;
     font-weight: 500;
 }
+
+select#country_code{
+  width: fit-content;
+}
