@@ -3955,10 +3955,13 @@ main {
 
 select#country_code {
     width: fit-content;
-    appearance: none;
-    -webkit-appearance: none; /* For Chrome/Safari */
-    -moz-appearance: none;    /* For Firefox */
+    min-width: 85px;
+    appearance: none !important;
+    -webkit-appearance: none !important;
+    -moz-appearance: none !important;
     padding-left: 14px;
-    padding-right: 14px;
-    text-align: center;
+    padding-right: 28px; /* Buffer for hidden icon space */
+    background-image: none !important; /* Forces arrow removal */
+    background-color: rgba(255, 255, 255, 0.03);
+    text-align: left;
 }
