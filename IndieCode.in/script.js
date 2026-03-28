@@ -461,10 +461,12 @@ if (contactForm) {
         const message = formData.get('message');
 
         // Generate Password (e.g., "pranav@123")
-        const firstName = name.trim().split(' ')[0].toLowerCase();
+        const firstName = name.trim().split(' ')[0].toLowerCase().replace(/[^a-z]/g, '');
         let generatedPassword = firstName + "@123";
         // Ensure min length (Supabase requires 6+)
-        if (generatedPassword.length < 6) generatedPassword = firstName + "123456";
+        if (generatedPassword.length < 6) {
+            generatedPassword = (firstName + "code").slice(0, 5) + "@123"; 
+        }
 
         try {
             // 1. SAVE INQUIRY FIRST (Priority - Database)
@@ -529,17 +531,20 @@ if (contactForm) {
             if (passEl) passEl.innerText = generatedPassword;
 
             if (isNewAccount) {
-                if (titleEl) titleEl.innerText = "Account Created";
-                if (descEl) descEl.innerHTML = "Your inquiry is received! We've generated your **private portal credentials** below.";
+                if (titleEl) titleEl.innerText = "Account Ready";
+                if (descEl) descEl.innerHTML = "Your session is and inquiry is received! We've generated your **private portal credentials** below.";
                 if (statusEl) statusEl.innerHTML = "Account created for <strong>" + email + "</strong>";
-                if (badgeEl) badgeEl.innerText = "Account Ready";
+                if (badgeEl) badgeEl.innerText = "New Client Profile";
+                if (passEl) passEl.innerText = generatedPassword;
+                if (passEl) passEl.style.color = "#0070f3"; // Highlight new password
             } else {
                 // Return User
-                if (titleEl) titleEl.innerText = "Inquiry Synced";
-                if (descEl) descEl.innerHTML = "Welcome back! Your new project details have been **linked** to your existing account.";
-                if (statusEl) statusEl.innerHTML = "Inquiry added to <strong>" + email + "</strong>";
+                if (titleEl) titleEl.innerText = "Welcome Back";
+                if (descEl) descEl.innerHTML = "Your new project inquiry has been **linked** to your active profile.";
+                if (statusEl) statusEl.innerHTML = "Lead synced to <strong>" + email + "</strong>";
                 if (badgeEl) badgeEl.innerText = "Lead Synced";
-                if (passEl) passEl.innerText = "Your existing password";
+                if (passEl) passEl.innerText = "User Existing Password"; // Standard text for security
+                if (passEl) passEl.style.color = "rgba(255,255,255,0.4)";
             }
 
             if (modalEmailDisplay) modalEmailDisplay.innerText = email;
