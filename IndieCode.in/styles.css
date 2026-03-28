@@ -3880,49 +3880,35 @@ main {
   }
 }
 
-/* Unified Phone Input Group */
+/* Side-by-Side Phone Input */
 .phone-input-group {
     display: flex;
-    align-items: stretch;
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    border-radius: 12px;
-    overflow: hidden;
-    transition: all 0.2s ease;
-}
-
-.phone-input-group:focus-within {
-    border-color: rgba(255, 255, 255, 0.2);
-    background: rgba(255, 255, 255, 0.05);
-    box-shadow: 0 0 20px rgba(0, 112, 243, 0.15);
+    align-items: center;
+    gap: 10px;
 }
 
 .country-select {
-    background: rgba(255, 255, 255, 0.05); /* Slightly darker left side */
-    border: none;
-    border-right: 1px solid rgba(255, 255, 255, 0.08);
-    border-radius: 0;
-    width: auto;
-    min-width: 90px;
-    padding: 0 8px 0 16px;
+    width: 80px;
+    height: 54px; /* Matches standard input height */
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(248, 249, 250, 0.1);
+    border-radius: 12px;
+    padding: 0 8px;
     color: white;
     cursor: pointer;
-    font-size: 0.9rem;
+    font-size: 1rem;
     font-weight: 600;
     outline: none;
+    transition: all 0.2s ease;
+}
+
+.country-select:focus {
+    border-color: rgba(255, 255, 255, 0.2);
 }
 
 .phone-input-group input {
     flex: 1;
-    background: transparent !important;
-    border: none !important;
-    padding: 16px !important;
-    box-shadow: none !important;
     min-width: 0;
-}
-
-.phone-input-group input:focus {
-    outline: none !important;
 }
 
 /* Credentials Box */
