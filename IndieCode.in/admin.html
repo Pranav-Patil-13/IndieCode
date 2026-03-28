@@ -7,7 +7,7 @@
   <link rel="stylesheet" href="styles.css">
   <link rel="icon" href="assets/logo-favicon.jpg" type="image/jpeg">
 </head>
-<body class="portal-layout">
+<body class="portal-layout" style="opacity: 0; transition: opacity 0.3s ease;">
 
   <!-- Sidebar -->
   <aside class="portal-sidebar">
@@ -53,41 +53,16 @@
       </div>
     </div>
 
-    <!-- Active Projects List -->
+    <!-- New Inquiries List -->
     <section class="portal-card" style="margin-bottom: 40px; padding: 0; overflow: hidden;">
       <div class="portal-card-header" style="padding: 32px 32px 16px;">
-        <h3>Active Projects</h3>
+        <h3>Inbound Inquiries</h3>
+        <p style="font-size: 0.85rem; color: rgba(248,249,250,0.4); margin-top: 4px;">Convert these leads into clients by activating their portal.</p>
       </div>
       
-      <div style="padding: 0 32px 32px;">
-        <div class="payment-row">
-          <div class="payment-info">
-            <strong>Acme Corp Custom SaaS</strong>
-            <span>Client: John Doe • Start: Oct 12</span>
-          </div>
-          <div class="payment-detail" style="flex-direction: row; align-items: center; gap: 24px;">
-            <span class="badge badge-pending">Design Phase</span>
-            <select style="background: rgba(248,249,250,0.05); border: 1px solid rgba(248,249,250,0.1); color: #fff; padding: 6px 12px; border-radius: 8px;">
-              <option>Update Status...</option>
-              <option>Move to Build</option>
-              <option>Move to Launch</option>
-            </select>
-          </div>
-        </div>
-
-        <div class="payment-row">
-          <div class="payment-info">
-            <strong>Modern LMS Setup</strong>
-            <span>Client: Jane Smith • Start: Nov 01</span>
-          </div>
-          <div class="payment-detail" style="flex-direction: row; align-items: center; gap: 24px;">
-            <span class="badge badge-paid">Launch Phase</span>
-            <select style="background: rgba(248,249,250,0.05); border: 1px solid rgba(248,249,250,0.1); color: #fff; padding: 6px 12px; border-radius: 8px;">
-              <option>Update Status...</option>
-              <option>Mark Complete</option>
-            </select>
-          </div>
-        </div>
+      <div id="leads-list" style="padding: 0 32px 32px;">
+        <!-- Leads will be injected here by admin.js -->
+        <div class="loading-state">Syncing with database...</div>
       </div>
     </section>
 
@@ -122,5 +97,6 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="supabase-config.js"></script>
   <script src="auth.js"></script>
+  <script src="admin.js"></script>
 </body>
 </html>
