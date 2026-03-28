@@ -505,22 +505,28 @@ if (contactForm) {
             }
 
             // 3. TRIGGER ACCOUNT CREATION (Password based)
+            // 3. TRIGGER ACCOUNT CREATION & SEND LOGIN EMAIL
             let isNewAccount = false;
             const { data: { session: currentSession } } = await window.supabaseClient.auth.getSession();
             
             if (!currentSession || currentSession.user.email !== email) {
-                // Try to Sign Up (Create Account)
+                // Step A: Create the permanent password account
                 const { data: signUpData, error: signUpError } = await window.supabaseClient.auth.signUp({
                     email: email,
                     password: generatedPassword,
-                    options: {
-                        data: { full_name: name }
-                    }
+                    options: { data: { full_name: name } }
                 });
                 
-                // If it fails because user already exists, we just move on (they can just login)
-                if (!signUpError) {
-                    isNewAccount = true;
+                if (!signUpError) isNewAccount = true;
+
+                // Step B: Send the Magic Link Email (This ensures they get a mail INSTANTLY)
+                try {
+                    await window.supabaseClient.auth.signInWithOtp({
+                        email: email,
+                        options: { data: { full_name: name } }
+                    });
+                } catch (otpErr) {
+                    console.warn("Magic Link relay throttled or disabled in Supabase.", otpErr);
                 }
             }
 
@@ -534,9 +540,9 @@ if (contactForm) {
 
             if (isNewAccount) {
                 if (titleEl) titleEl.innerText = "Access Secured";
-                if (descEl) descEl.innerHTML = "Your inquiry is received and private account initialized! Check your **email inbox** for your login credentials and portal access.";
+                if (descEl) descEl.innerHTML = "Your session is received and account initialized! We've sent an **instant login link** to your email address.";
                 if (statusEl) statusEl.innerHTML = "Profile established for <strong>" + email + "</strong>";
-                if (badgeEl) badgeEl.innerText = "Secure Onboarding";
+                if (badgeEl) badgeEl.innerText = "Login Sent";
             } else {
                 // Return User
                 if (titleEl) titleEl.innerText = "Welcome Back";
