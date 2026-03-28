@@ -141,10 +141,12 @@ const onScroll = () => {
 
 window.addEventListener("scroll", onScroll, { passive: true });
 
-// 4. Smooth Scroll (Lenis Optimized)
-if (window.Lenis) {
+// 4. Smooth Scroll (Lenis Optimized - Disabled on Mobile)
+const isMobile = window.innerWidth <= 900 || /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+
+if (window.Lenis && !isMobile) {
   lenis = new window.Lenis({
-    duration: 0.9, // Snappier duration
+    duration: 0.9,
     smoothWheel: true,
     smoothTouch: false,
     wheelMultiplier: 1,
