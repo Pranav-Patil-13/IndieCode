@@ -459,7 +459,19 @@ if (contactForm) {
         const message = formData.get('message');
 
         try {
-            // 1. Create Account via Magic Link (SignIn with OTP)
+            // 1. SAVE INQUIRY FIRST (Priority)
+            const { error: dbError } = await window.supabaseClient
+                .from('inquiries')
+                .insert([
+                    { name, email, interest, message }
+                ]);
+
+            if (dbError) {
+                console.warn("DB Insert failed: Table 'inquiries' probably not created yet or RLS blocked it.", dbError);
+            }
+
+            // 2. TRIGGER AUTH (Check existing session first to adjust message)
+            const { data: { session } } = await window.supabaseClient.auth.getSession();
             const { error: authError } = await window.supabaseClient.auth.signInWithOtp({
                 email: email,
                 options: {
@@ -469,16 +481,26 @@ if (contactForm) {
 
             if (authError) throw authError;
 
-            // 2. Save Inquiry to Database
-            const { error: dbError } = await window.supabaseClient
-                .from('inquiries')
-                .insert([
-                    { name, email, interest, message }
-                ]);
+            // 3. Update Modal Dynamically
+            const titleEl = document.getElementById('modal-title');
+            const descEl = document.getElementById('modal-description');
+            const statusEl = document.getElementById('modal-status-text');
+            const badgeEl = document.getElementById('modal-badge-status');
 
-            if (dbError) console.warn("DB Insert failed: Table 'inquiries' probably not created yet. See SQL instructions.");
+            if (session && session.user.email === email) {
+                // User is already logged in with this email
+                if (titleEl) titleEl.innerText = "Project Synced";
+                if (descEl) descEl.innerHTML = "Your new project details have been **successfully linked** to your active account.";
+                if (statusEl) statusEl.innerHTML = "Linked to <strong>" + email + "</strong>";
+                if (badgeEl) badgeEl.innerText = "Sync Complete";
+            } else {
+                // New login link sent
+                if (titleEl) titleEl.innerText = "Connection Established";
+                if (descEl) descEl.innerHTML = "Inquiry received! We've sent a **secure login link** to your inbox for dashboard access.";
+                if (statusEl) statusEl.innerHTML = "Login sent to <strong>" + email + "</strong>";
+                if (badgeEl) badgeEl.innerText = "Link Sent";
+            }
 
-            // 3. Show Success Modal
             if (modalEmailDisplay) modalEmailDisplay.innerText = email;
             if (successModal) successModal.classList.add('is-active');
             contactForm.reset();

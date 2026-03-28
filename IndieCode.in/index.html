@@ -7,14 +7,16 @@
   <title>IndieCode | Custom SaaS On Demand</title>
   <meta name="description"
     content="Custom SaaS development services and ready-to-buy SaaS products for fast-moving teams." />
-    
+
   <!-- Preloads for Instant Content -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Serif:wght@400;700&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
-  
+  <link
+    href="https://fonts.googleapis.com/css2?family=IBM+Plex+Serif:wght@400;700&family=Poppins:wght@400;600;700&display=swap"
+    rel="stylesheet">
+
   <link rel="stylesheet" href="styles.css" />
-  
+
   <!-- Tiny inline script to trigger hero reveal immediately while scripts download -->
   <script>document.documentElement.className = "is-ready";</script>
 </head>
@@ -28,10 +30,10 @@
         <a href="#projects">Projects</a>
         <a href="#cube-methodology">Methodology</a>
         <a href="#contact">Contact</a>
-        <a href="login.html" class="nav-portal-link">Client Portal</a>
+        <a href="login.html" class="nav-portal-link">Login</a>
       </nav>
       <a class="header-cta" href="#contact" id="header-cta">Start Your Project</a>
-      
+
       <!-- User Profile (Hidden by default) -->
       <div id="user-profile-nav" class="user-profile-nav" style="display: none;">
         <button class="user-trigger" onclick="toggleDashboard()">
@@ -57,819 +59,832 @@
       <section class="hero" id="home">
         <!-- ... keeping all existing hero content ... -->
 
-      <div class="hero-media" aria-hidden="true">
-        <div class="orb orb-one hero-fade"></div>
-        <div class="orb orb-two hero-fade hero-delay-1"></div>
-        <div class="orb orb-three hero-fade hero-delay-2"></div>
-        <div class="grid-glow hero-fade hero-delay-2"></div>
+        <div class="hero-media" aria-hidden="true">
+          <div class="orb orb-one hero-fade"></div>
+          <div class="orb orb-two hero-fade hero-delay-1"></div>
+          <div class="orb orb-three hero-fade hero-delay-2"></div>
+          <div class="grid-glow hero-fade hero-delay-2"></div>
+        </div>
+        <div class="hero-overlay" aria-hidden="true"></div>
+        <div class="hero-noise" aria-hidden="true"></div>
+
+        <div class="hero-shell">
+          <div class="hero-copy-block">
+            <h1 class="hero-reveal hero-delay-1">
+              Build your SaaS. <br>
+              <span>Or launch instantly.</span>
+            </h1>
+            <p class="hero-copy hero-reveal hero-delay-2">
+              From idea to product — faster than ever
+            </p>
+
+            <div class="hero-actions hero-reveal hero-delay-3">
+              <a class="button button-primary" href="#contact">Book Free Consultation</a>
+              <a class="button button-secondary" href="#projects">Explore Products</a>
+            </div>
+          </div>
+
+          <div class="hero-visual hero-reveal-scale hero-delay-2" aria-hidden="true">
+            <div class="visual-card visual-card-main">
+              <div class="visual-topbar">
+                <span></span>
+                <span></span>
+                <span></span>
+              </div>
+              <div class="visual-layout">
+                <aside class="visual-sidebar">
+                  <div></div>
+                  <div></div>
+                  <div></div>
+                  <div></div>
+                </aside>
+
+                <div class="visual-content">
+                  <div class="visual-metrics">
+                    <article>
+                      <strong>+42%</strong>
+                      <span>Launch speed</span>
+                    </article>
+                    <article>
+                      <strong>18 days</strong>
+                      <span>Build cycle</span>
+                    </article>
+                    <article>
+                      <strong>12+</strong>
+                      <span>Product blocks</span>
+                    </article>
+                  </div>
+
+                  <div class="visual-chart">
+                    <div class="chart-line"></div>
+                    <div class="chart-bars">
+                      <span></span>
+                      <span></span>
+                      <span></span>
+                      <span></span>
+                      <span></span>
+                    </div>
+                  </div>
+
+                  <div class="visual-table">
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="visual-card visual-card-floating floating-left hero-reveal hero-delay-4">
+              <p>Custom Build</p>
+              <strong>Workflow Suite</strong>
+              <span>Built around your team</span>
+            </div>
+
+            <div class="visual-card visual-card-floating floating-right hero-reveal hero-delay-5">
+              <p>Ready Product</p>
+              <strong>Client Portal</strong>
+              <span>Buy, brand, deploy</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div class="tech-stack-marquee reveal-on-scroll">
+        <div class="marquee-track">
+          <span>Next.js</span>
+          <span>TypeScript</span>
+          <span>Node.js</span>
+          <span>Supabase</span>
+          <span>PostgreSQL</span>
+          <span>Redis</span>
+          <span>Docker</span>
+          <span>Stripe</span>
+          <span>Tailwind</span>
+          <span>AWS</span>
+          <span>Vercel</span>
+          <span>Firebase</span>
+          <span>HLS.js</span>
+          <span>GraphQL</span>
+          <!-- Repeat for seamless looping -->
+          <span>Next.js</span>
+          <span>TypeScript</span>
+          <span>Node.js</span>
+          <span>Supabase</span>
+          <span>PostgreSQL</span>
+          <span>Redis</span>
+          <span>Docker</span>
+          <span>Stripe</span>
+          <span>Tailwind</span>
+          <span>AWS</span>
+          <span>Vercel</span>
+          <span>Firebase</span>
+          <span>HLS.js</span>
+          <span>GraphQL</span>
+        </div>
       </div>
-      <div class="hero-overlay" aria-hidden="true"></div>
-      <div class="hero-noise" aria-hidden="true"></div>
 
-      <div class="hero-shell">
-        <div class="hero-copy-block">
-          <h1 class="hero-reveal hero-delay-1">
-            Build your SaaS. <br>
-            <span>Or launch instantly.</span>
-          </h1>
-          <p class="hero-copy hero-reveal hero-delay-2">
-            From idea to product — faster than ever
-          </p>
+      <section class="pathways" id="pathways" aria-labelledby="pathways-title">
+        <div class="pathways-inner">
+          <div class="pathways-heading reveal-on-scroll">
+            <h2 id="pathways-title">Build custom.<br> Or launch instantly.</h2>
+          </div>
 
-          <div class="hero-actions hero-reveal hero-delay-3">
-            <a class="button button-primary" href="#contact">Book Free Consultation</a>
-            <a class="button button-secondary" href="#projects">Explore Products</a>
+          <div class="pathways-grid">
+            <article class="path-card path-card-featured reveal-on-scroll reveal-delay-1">
+              <span class="path-card-label">Custom Build</span>
+              <h3>Build Custom SaaS</h3>
+              <p>
+                Software that fits your workflow — not the other way around.
+              </p>
+              <a class="path-card-cta path-card-cta-solid" href="#contact">Book Free Consultation</a>
+            </article>
+
+            <article class="path-card reveal-on-scroll reveal-delay-2">
+              <span class="path-card-label">Ready Product</span>
+              <h3>Buy Ready Products</h3>
+              <p>
+                Ready-made SaaS products you can brand, deploy, and start using
+                faster.
+              </p>
+              <a class="path-card-cta path-card-cta-outline" href="#projects">Explore Products</a>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="projects" id="projects" aria-labelledby="projects-title">
+        <div class="projects-inner">
+          <div class="projects-header reveal-on-scroll">
+            <span class="projects-tagline">Our Work</span>
+            <h2 id="projects-title">Featured Projects</h2>
+            <p>A glimpse into the robust custom solutions and ready-to-deploy products we've built.</p>
+          </div>
+
+          <div class="projects-grid">
+            <article class="project-card reveal-on-scroll reveal-delay-1"
+              onclick="window.location.href='product.html?id=corporate-intranet'" style="cursor: pointer;">
+              <div class="project-image">
+                <span class="project-badge project-badge-custom">Custom Build</span>
+                <img src="assets/intranet-desktop.png">
+                <!-- <div class="project-visual">
+                <div class="project-ui-mock placeholder-ui-1"></div>
+              </div> -->
+              </div>
+              <div class="project-content">
+                <h3>Corporate Intranet</h3>
+                <p>A highly secure, multi-tenant portal designed for robust internal communications, file sharing, and
+                  HR
+                  workflows.</p>
+                <a href="product.html?id=corporate-intranet" class="project-link">View Details <svg width="16"
+                    height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M5 12h14M12 5l7 7-7 7" />
+                  </svg></a>
+              </div>
+            </article>
+
+            <article class="project-card reveal-on-scroll reveal-delay-2"
+              onclick="window.location.href='product.html?id=modern-lms-platform'" style="cursor: pointer;">
+              <div class="project-image">
+                <span class="project-badge project-badge-ready">Ready Product</span>
+                <img src="assets/lms-desktop.png">
+                <!-- <div class="project-visual">
+                <div class="project-ui-mock placeholder-ui-2"></div>
+              </div> -->
+              </div>
+              <div class="project-content">
+                <h3>Modern LMS Platform</h3>
+                <p>A fully featured Learning Management System that teams can brand, launch, and monetize in less than a
+                  week.</p>
+                <a href="product.html?id=modern-lms-platform" class="project-link">View Details <svg width="16"
+                    height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M5 12h14M12 5l7 7-7 7" />
+                  </svg></a>
+              </div>
+            </article>
+
+            <article class="project-card reveal-on-scroll reveal-delay-3"
+              onclick="window.location.href='product.html?id=train-navigation-app'" style="cursor: pointer;">
+              <div class="project-image">
+                <span class="project-badge project-badge-custom">Custom Build</span>
+                <img src="assets/train-desktop.png">
+                <!-- <div class="project-visual">
+                <div class="project-ui-mock placeholder-ui-3"></div>
+              </div> -->
+              </div>
+              <div class="project-content">
+                <h3>Train Navigation App</h3>
+                <p>An intelligent route-optimization algorithm wrapped in a consumer-friendly mobile web experience.</p>
+                <a href="product.html?id=train-navigation-app" class="project-link">View Details <svg width="16"
+                    height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M5 12h14M12 5l7 7-7 7" />
+                  </svg></a>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="audience" id="who-this-is-for" aria-labelledby="audience-title">
+        <div class="audience-inner">
+          <div class="audience-header reveal-on-scroll">
+            <h2 id="audience-title">Who We Work Best With</h2>
+            <p>We work with visionaries who value technical excellence as much as business speed.</p>
+          </div>
+
+          <div class="audience-grid">
+            <article class="audience-card reveal-on-scroll reveal-delay-1">
+              <div class="audience-card-image">
+                <img src="assets/card-1.jpg" alt="Collaborative Team" loading="lazy">
+                <div class="audience-card-overlay"></div>
+                <h3>Solo Founders & <br>Early-Stage Teams</h3>
+              </div>
+              <div class="audience-card-content">
+                <p>You have the vision but need a technical powerhouse to bring it to life. We act as your fractional
+                  CTO
+                  and engineering team, taking you from wireframes to a live, scaling product.</p>
+                <ul class="audience-list">
+                  <li>Proof of Concept / MVPs</li>
+                  <li>Product-Market Fit Iterations</li>
+                </ul>
+              </div>
+            </article>
+
+            <article class="audience-card audience-card-highlighted reveal-on-scroll reveal-delay-2">
+              <div class="audience-card-image">
+                <img src="assets/card-2.jpg" alt="Structured Business Meeting" loading="lazy">
+                <div class="audience-card-overlay"></div>
+                <h3>Businesses Needing <br>Custom Software</h3>
+              </div>
+              <div class="audience-card-content">
+                <p>You need a tailored solution to automate workflows, manage data, or serve your clients better. We
+                  build
+                  robust, custom-engineered software that solves your specific operational challenges and scales with
+                  your
+                  growth.</p>
+                <ul class="audience-list">
+                  <li>Automated Business Workflows</li>
+                  <li>Custom Internal Dashboards</li>
+                </ul>
+              </div>
+            </article>
+
+            <article class="audience-card reveal-on-scroll reveal-delay-3">
+              <div class="audience-card-image">
+                <img src="assets/card-3.jpg" alt="Design Agency Workspace" loading="lazy">
+                <div class="audience-card-overlay"></div>
+                <h3>Design & Development <br>Agencies</h3>
+              </div>
+              <div class="audience-card-content">
+                <p>You design beautiful things but need a reliable backend partner to handle the complex architecture.
+                  We
+                  plug into your workflow as a invisible, high-output development layer.</p>
+                <ul class="audience-list">
+                  <li>Complex Backend Integrations</li>
+                  <li>Custom Internal Tools</li>
+                </ul>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+
+      <!-- 3D Cube Methodology Exploration Section -->
+      <div class="cube-section-wrapper" id="cube-methodology">
+        <div id="cube-scene">
+          <div id="cube">
+            <div class="face" data-face="top" data-i="0">
+              <img src="assets/phase-1.jpg" alt="Phase 01 Strategy" loading="lazy">
+              <span class="face-ph">PHASE 01</span>
+            </div>
+            <div class="face" data-face="front" data-i="1">
+              <img src="assets/phase-2.jpg" alt="Phase 02 Design" loading="lazy">
+              <span class="face-ph">PHASE 02</span>
+            </div>
+            <div class="face" data-face="right" data-i="2">
+              <img src="assets/phase-3.jpg" alt="Phase 03 Build" loading="lazy">
+              <span class="face-ph">PHASE 03</span>
+            </div>
+            <div class="face" data-face="back" data-i="3">
+              <img src="assets/phase-4.jpg" alt="Phase 04 Launch" loading="lazy">
+              <span class="face-ph">PHASE 04</span>
+            </div>
+            <div class="face" data-face="left" data-i="4">
+              <img src="assets/phase-5.jpg" alt="Phase 05 Scale" loading="lazy">
+              <span class="face-ph">PHASE 05</span>
+            </div>
+            <div class="face" data-face="bottom" data-i="5">
+              <img src="assets/phase-6.jpg" alt="Phase 06 Genesis" loading="lazy">
+              <span class="face-ph">PHASE 06</span>
+            </div>
           </div>
         </div>
 
-        <div class="hero-visual hero-reveal-scale hero-delay-2" aria-hidden="true">
-          <div class="visual-card visual-card-main">
-            <div class="visual-topbar">
-              <span></span>
-              <span></span>
-              <span></span>
+        <div id="cube-hud">
+          <div id="cube-hud-pct">000%</div>
+          <div class="cube-progress-bar">
+            <div class="cube-progress-fill" id="cube-prog-fill"></div>
+          </div>
+          <div class="cube-scene-label" id="cube-scene-name">STRATEGY</div>
+        </div>
+
+        <div id="cube-scroll-container">
+          <section class="cube-slide" id="cs0">
+            <div class="cube-text-card">
+              <div class="cube-tag">METHODOLOGY</div>
+              <h2>PRODUCTS THAT ACTUALLY WORK</h2>
+              <p class="cube-body-text">
+                Not just code or UI — we design systems that solve real problems, deliver value fast, and scale without
+                breaking.
+              </p>
+              <a class="cube-cta" href="#cs1">
+                Explore depth
+                <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5">
+                  <path d="M1 6h10M6 1l5 5-5 5" />
+                </svg>
+              </a>
             </div>
-            <div class="visual-layout">
-              <aside class="visual-sidebar">
-                <div></div>
-                <div></div>
-                <div></div>
-                <div></div>
-              </aside>
+          </section>
 
-              <div class="visual-content">
-                <div class="visual-metrics">
-                  <article>
-                    <strong>+42%</strong>
-                    <span>Launch speed</span>
-                  </article>
-                  <article>
-                    <strong>18 days</strong>
-                    <span>Build cycle</span>
-                  </article>
-                  <article>
-                    <strong>12+</strong>
-                    <span>Product blocks</span>
-                  </article>
-                </div>
+          <section class="cube-slide" id="cs1">
+            <div class="cube-text-card right">
+              <div class="cube-h-line"></div>
+              <div class="cube-tag">01 — STRATEGY</div>
+              <h2>CLARITY BEFORE CODE</h2>
+              <p class="cube-body-text">
+                Before we build anything, we define what matters — what to build, what to ignore, and how to reach users
+                without unnecessary complexity.
+              </p>
+              <a class="cube-cta" href="#cs2">
+                Define the direction
+                <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5">
+                  <path d="M1 6h10M6 1l5 5-5 5" />
+                </svg>
+              </a>
+            </div>
+          </section>
 
-                <div class="visual-chart">
-                  <div class="chart-line"></div>
-                  <div class="chart-bars">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                    <span></span>
+          <section class="cube-slide" id="cs2">
+            <div class="cube-text-card">
+              <div class="cube-h-line"></div>
+              <div class="cube-tag">02 — DESIGN</div>
+              <h2>EFFORTLESS USER EXPERIENCE</h2>
+              <p class="cube-body-text">
+                Clear paths, smooth interactions, and zero confusion — everything works exactly how users expect,
+                guiding
+                them naturally to real value.
+              </p>
+              <a class="cube-cta" href="#cs3">
+                Shape the experience
+                <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5">
+                  <path d="M1 6h10M6 1l5 5-5 5" />
+                </svg>
+              </a>
+            </div>
+          </section>
+
+          <section class="cube-slide" id="cs3">
+            <div class="cube-text-card right">
+              <div class="cube-h-line"></div>
+              <div class="cube-tag">03 — DEVELOPMENT</div>
+              <h2>SCALABLE SYSTEM ARCHITECTURE</h2>
+              <p class="cube-body-text">
+                We build clean, modular systems designed to handle real users, real load, and long-term growth without
+                breaking.
+              </p>
+              <a class="cube-cta" href="#cs4">
+                Build the foundation
+                <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5">
+                  <path d="M1 6h10M6 1l5 5-5 5" />
+                </svg>
+              </a>
+            </div>
+          </section>
+
+          <section class="cube-slide" id="cs4">
+            <div class="cube-text-card">
+              <div class="cube-h-line"></div>
+              <div class="cube-tag">04 — LAUNCH</div>
+              <h2>PRODUCTION-READY DELIVERY</h2>
+              <p class="cube-body-text">
+                From final testing to deployment, everything is handled with precision — no surprises, no broken
+                releases,
+                just a clean launch you can trust.
+              </p>
+              <a class="cube-cta" href="#cs5">
+                Go live confidently
+                <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5">
+                  <path d="M1 6h10M6 1l5 5-5 5" />
+                </svg>
+              </a>
+            </div>
+          </section>
+
+          <section class="cube-slide" id="cs5">
+            <div class="cube-text-card right">
+              <div class="cube-h-line"></div>
+              <div class="cube-tag">05 — SCALE</div>
+              <h2>BUILT FOR GROWTH</h2>
+              <p class="cube-body-text">
+                Your product isn’t static — it adapts, improves, and scales as your users and business evolve.
+              </p>
+              <a class="cube-cta" href="#cs0">
+                Scale with confidence
+                <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5">
+                  <path d="M1 6h10M6 1l5 5-5 5" />
+                </svg>
+              </a>
+            </div>
+          </section>
+        </div>
+      </div>
+
+      <section class="value-prop" id="what-you-get" aria-labelledby="value-title">
+        <div class="value-prop-inner">
+          <div class="value-header reveal-on-scroll">
+            <span class="value-tagline">Deliverables</span>
+            <h2 id="value-title">What You Walk Away With</h2>
+            <p>We don’t just write code — we build SaaS products designed to scale from day one.</p>
+          </div>
+
+          <div class="value-grid">
+            <!-- Top Row: Featured -->
+            <article class="value-item value-item-featured reveal-on-scroll reveal-delay-1">
+              <div class="value-icon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                  stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="20 6 9 17 4 12"></polyline>
+                </svg>
+              </div>
+              <p>Launch a fully functional, <br>production-ready SaaS</p>
+            </article>
+
+            <article class="value-item value-item-featured reveal-on-scroll reveal-delay-2">
+              <div class="value-icon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                  stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="20 6 9 17 4 12"></polyline>
+                </svg>
+              </div>
+              <p>Scale confidently with a <br>robust backend architecture</p>
+            </article>
+
+            <article class="value-item value-item-featured reveal-on-scroll reveal-delay-3">
+              <div class="value-icon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                  stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="20 6 9 17 4 12"></polyline>
+                </svg>
+              </div>
+              <p>Design that converts <br>users into customers</p>
+            </article>
+
+            <!-- Bottom Row: Supporting -->
+            <article class="value-item value-item-secondary reveal-on-scroll reveal-delay-1">
+              <div class="value-icon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                  stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="20 6 9 17 4 12"></polyline>
+                </svg>
+              </div>
+              <p>Protect your users with <br>secure authentication</p>
+            </article>
+
+            <article class="value-item value-item-secondary reveal-on-scroll reveal-delay-2">
+              <div class="value-icon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                  stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="20 6 9 17 4 12"></polyline>
+                </svg>
+              </div>
+              <p>Deploy faster with automated <br>CI/CD pipelines</p>
+            </article>
+
+            <article class="value-item value-item-secondary reveal-on-scroll reveal-delay-3">
+              <div class="value-icon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                  stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="20 6 9 17 4 12"></polyline>
+                </svg>
+              </div>
+              <p>Keep improving with <br>post-launch support</p>
+            </article>
+          </div>
+
+          <div class="value-footer reveal-on-scroll">
+            <p>And that’s just the foundation — here’s who this is built for.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="about" id="about" aria-labelledby="about-title">
+        <div class="about-inner">
+          <div class="about-content reveal-on-scroll">
+            <span class="about-tagline">About Us</span>
+            <h2 id="about-title">We build custom software that your business needs</h2>
+            <p>
+
+              We don’t just build software — we build systems that scale.
+
+              From idea to execution, we act as your dedicated technical team, delivering high-performance SaaS products
+              designed to grow with your business.
+            </p>
+            <div class="about-metrics">
+              <div class="metric"><strong>100%</strong><span>Remote HQ</span></div>
+              <div class="metric"><strong>0</strong><span>Outsourcing</span></div>
+              <div class="metric"><strong>1</strong><span>Focus</span></div>
+            </div>
+            <a href="#contact" class="about-cta-link">
+              Work with us
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M5 12h14M12 5l7 7-7 7" />
+              </svg>
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <section class="cta-final reveal-on-scroll">
+        <div class="cta-inner">
+          <h3>Ready to build your SaaS?</h3>
+          <p>Join the next wave of successful founders. Your product journey starts here.</p>
+          <div class="cta-actions">
+            <a class="button button-primary" href="#contact">Start Your Project</a>
+            <a class="cta-secondary-link" href="#projects">Or explore ready-to-launch products →</a>
+          </div>
+        </div>
+      </section>
+
+      <section class="contact" id="contact" aria-labelledby="contact-title">
+        <div class="contact-inner">
+
+          <div class="contact-grid">
+            <div class="contact-left">
+              <div class="contact-header reveal-on-scroll">
+                <span class="contact-tagline">Project Consultation</span>
+                <h2 id="contact-title">Let's build<br>together.</h2>
+                <p>Whether you need a custom SaaS or a ready-to-launch product, we're ready to make it happen.</p>
+              </div>
+
+              <div class="contact-info reveal-on-scroll reveal-delay-1">
+                <div class="contact-method">
+                  <div class="contact-icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                      stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                      <polyline points="22,6 12,13 2,6"></polyline>
+                    </svg>
+                  </div>
+                  <div>
+                    <strong>Email Us</strong>
+                    <a href="mailto:hello@indiecode.in">hello@indiecode.in</a>
                   </div>
                 </div>
 
-                <div class="visual-table">
-                  <div></div>
-                  <div></div>
-                  <div></div>
+                <div class="contact-method">
+                  <div class="contact-icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                      stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                      <circle cx="12" cy="10" r="3"></circle>
+                    </svg>
+                  </div>
+                  <div>
+                    <strong>Location</strong>
+                    <span>Global Remote HQ</span>
+                  </div>
+                </div>
+
+                <div class="contact-method">
+                  <div class="contact-icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                      stroke-linecap="round" stroke-linejoin="round">
+                      <circle cx="12" cy="12" r="10"></circle>
+                      <polyline points="12 6 12 12 16 14"></polyline>
+                    </svg>
+                  </div>
+                  <div>
+                    <strong>Response Time</strong>
+                    <span>Within 24 hours</span>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
 
-          <div class="visual-card visual-card-floating floating-left hero-reveal hero-delay-4">
-            <p>Custom Build</p>
-            <strong>Workflow Suite</strong>
-            <span>Built around your team</span>
-          </div>
+            <form class="contact-form reveal-on-scroll reveal-delay-2" id="contact-form">
+              <!-- Web3Forms Configuration -->
+              <input type="hidden" name="access_key" value="3f5b29f2-794a-429c-8dd2-46f2d1c21ea4">
+              <input type="hidden" name="subject" value="New Inquiry from IndieCode.in">
+              <input type="hidden" name="from_name" value="IndieCode Contact Form">
+              <input type="checkbox" name="botcheck" class="hidden" style="display: none;">
 
-          <div class="visual-card visual-card-floating floating-right hero-reveal hero-delay-5">
-            <p>Ready Product</p>
-            <strong>Client Portal</strong>
-            <span>Buy, brand, deploy</span>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <div class="tech-stack-marquee reveal-on-scroll">
-      <div class="marquee-track">
-        <span>Next.js</span>
-        <span>TypeScript</span>
-        <span>Node.js</span>
-        <span>Supabase</span>
-        <span>PostgreSQL</span>
-        <span>Redis</span>
-        <span>Docker</span>
-        <span>Stripe</span>
-        <span>Tailwind</span>
-        <span>AWS</span>
-        <span>Vercel</span>
-        <span>Firebase</span>
-        <span>HLS.js</span>
-        <span>GraphQL</span>
-        <!-- Repeat for seamless looping -->
-        <span>Next.js</span>
-        <span>TypeScript</span>
-        <span>Node.js</span>
-        <span>Supabase</span>
-        <span>PostgreSQL</span>
-        <span>Redis</span>
-        <span>Docker</span>
-        <span>Stripe</span>
-        <span>Tailwind</span>
-        <span>AWS</span>
-        <span>Vercel</span>
-        <span>Firebase</span>
-        <span>HLS.js</span>
-        <span>GraphQL</span>
-      </div>
-    </div>
-
-    <section class="pathways" id="pathways" aria-labelledby="pathways-title">
-      <div class="pathways-inner">
-        <div class="pathways-heading reveal-on-scroll">
-          <h2 id="pathways-title">Build custom.<br> Or launch instantly.</h2>
-        </div>
-
-        <div class="pathways-grid">
-          <article class="path-card path-card-featured reveal-on-scroll reveal-delay-1">
-            <span class="path-card-label">Custom Build</span>
-            <h3>Build Custom SaaS</h3>
-            <p>
-              Software that fits your workflow — not the other way around.
-            </p>
-            <a class="path-card-cta path-card-cta-solid" href="#contact">Book Free Consultation</a>
-          </article>
-
-          <article class="path-card reveal-on-scroll reveal-delay-2">
-            <span class="path-card-label">Ready Product</span>
-            <h3>Buy Ready Products</h3>
-            <p>
-              Ready-made SaaS products you can brand, deploy, and start using
-              faster.
-            </p>
-            <a class="path-card-cta path-card-cta-outline" href="#projects">Explore Products</a>
-          </article>
-        </div>
-      </div>
-    </section>
-
-    <section class="projects" id="projects" aria-labelledby="projects-title">
-      <div class="projects-inner">
-        <div class="projects-header reveal-on-scroll">
-          <span class="projects-tagline">Our Work</span>
-          <h2 id="projects-title">Featured Projects</h2>
-          <p>A glimpse into the robust custom solutions and ready-to-deploy products we've built.</p>
-        </div>
-
-        <div class="projects-grid">
-          <article class="project-card reveal-on-scroll reveal-delay-1"
-            onclick="window.location.href='product.html?id=corporate-intranet'" style="cursor: pointer;">
-            <div class="project-image">
-              <span class="project-badge project-badge-custom">Custom Build</span>
-              <img src="assets/intranet-desktop.png">
-              <!-- <div class="project-visual">
-                <div class="project-ui-mock placeholder-ui-1"></div>
-              </div> -->
-            </div>
-            <div class="project-content">
-              <h3>Corporate Intranet</h3>
-              <p>A highly secure, multi-tenant portal designed for robust internal communications, file sharing, and HR
-                workflows.</p>
-              <a href="product.html?id=corporate-intranet" class="project-link">View Details <svg width="16" height="16"
-                  viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                  stroke-linejoin="round">
-                  <path d="M5 12h14M12 5l7 7-7 7" />
-                </svg></a>
-            </div>
-          </article>
-
-          <article class="project-card reveal-on-scroll reveal-delay-2"
-            onclick="window.location.href='product.html?id=modern-lms-platform'" style="cursor: pointer;">
-            <div class="project-image">
-              <span class="project-badge project-badge-ready">Ready Product</span>
-              <img src="assets/lms-desktop.png">
-              <!-- <div class="project-visual">
-                <div class="project-ui-mock placeholder-ui-2"></div>
-              </div> -->
-            </div>
-            <div class="project-content">
-              <h3>Modern LMS Platform</h3>
-              <p>A fully featured Learning Management System that teams can brand, launch, and monetize in less than a
-                week.</p>
-              <a href="product.html?id=modern-lms-platform" class="project-link">View Details <svg width="16"
-                  height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                  stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M5 12h14M12 5l7 7-7 7" />
-                </svg></a>
-            </div>
-          </article>
-
-          <article class="project-card reveal-on-scroll reveal-delay-3"
-            onclick="window.location.href='product.html?id=train-navigation-app'" style="cursor: pointer;">
-            <div class="project-image">
-              <span class="project-badge project-badge-custom">Custom Build</span>
-              <img src="assets/train-desktop.png">
-              <!-- <div class="project-visual">
-                <div class="project-ui-mock placeholder-ui-3"></div>
-              </div> -->
-            </div>
-            <div class="project-content">
-              <h3>Train Navigation App</h3>
-              <p>An intelligent route-optimization algorithm wrapped in a consumer-friendly mobile web experience.</p>
-              <a href="product.html?id=train-navigation-app" class="project-link">View Details <svg width="16"
-                  height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                  stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M5 12h14M12 5l7 7-7 7" />
-                </svg></a>
-            </div>
-          </article>
-        </div>
-      </div>
-    </section>
-
-    <section class="audience" id="who-this-is-for" aria-labelledby="audience-title">
-      <div class="audience-inner">
-        <div class="audience-header reveal-on-scroll">
-          <h2 id="audience-title">Who We Work Best With</h2>
-          <p>We work with visionaries who value technical excellence as much as business speed.</p>
-        </div>
-
-        <div class="audience-grid">
-          <article class="audience-card reveal-on-scroll reveal-delay-1">
-            <div class="audience-card-image">
-              <img src="assets/card-1.jpg" alt="Collaborative Team" loading="lazy">
-              <div class="audience-card-overlay"></div>
-              <h3>Solo Founders & <br>Early-Stage Teams</h3>
-            </div>
-            <div class="audience-card-content">
-              <p>You have the vision but need a technical powerhouse to bring it to life. We act as your fractional CTO
-                and engineering team, taking you from wireframes to a live, scaling product.</p>
-              <ul class="audience-list">
-                <li>Proof of Concept / MVPs</li>
-                <li>Product-Market Fit Iterations</li>
-              </ul>
-            </div>
-          </article>
-
-          <article class="audience-card audience-card-highlighted reveal-on-scroll reveal-delay-2">
-            <div class="audience-card-image">
-              <img src="assets/card-2.jpg" alt="Structured Business Meeting" loading="lazy">
-              <div class="audience-card-overlay"></div>
-              <h3>Businesses Needing <br>Custom Software</h3>
-            </div>
-            <div class="audience-card-content">
-              <p>You need a tailored solution to automate workflows, manage data, or serve your clients better. We build
-                robust, custom-engineered software that solves your specific operational challenges and scales with your
-                growth.</p>
-              <ul class="audience-list">
-                <li>Automated Business Workflows</li>
-                <li>Custom Internal Dashboards</li>
-              </ul>
-            </div>
-          </article>
-
-          <article class="audience-card reveal-on-scroll reveal-delay-3">
-            <div class="audience-card-image">
-              <img src="assets/card-3.jpg" alt="Design Agency Workspace" loading="lazy">
-              <div class="audience-card-overlay"></div>
-              <h3>Design & Development <br>Agencies</h3>
-            </div>
-            <div class="audience-card-content">
-              <p>You design beautiful things but need a reliable backend partner to handle the complex architecture. We
-                plug into your workflow as a invisible, high-output development layer.</p>
-              <ul class="audience-list">
-                <li>Complex Backend Integrations</li>
-                <li>Custom Internal Tools</li>
-              </ul>
-            </div>
-          </article>
-        </div>
-      </div>
-    </section>
-
-
-    <!-- 3D Cube Methodology Exploration Section -->
-    <div class="cube-section-wrapper" id="cube-methodology">
-      <div id="cube-scene">
-        <div id="cube">
-          <div class="face" data-face="top" data-i="0">
-            <img src="assets/phase-1.jpg" alt="Phase 01 Strategy" loading="lazy">
-            <span class="face-ph">PHASE 01</span>
-          </div>
-          <div class="face" data-face="front" data-i="1">
-            <img src="assets/phase-2.jpg" alt="Phase 02 Design" loading="lazy">
-            <span class="face-ph">PHASE 02</span>
-          </div>
-          <div class="face" data-face="right" data-i="2">
-            <img src="assets/phase-3.jpg" alt="Phase 03 Build" loading="lazy">
-            <span class="face-ph">PHASE 03</span>
-          </div>
-          <div class="face" data-face="back" data-i="3">
-            <img src="assets/phase-4.jpg" alt="Phase 04 Launch" loading="lazy">
-            <span class="face-ph">PHASE 04</span>
-          </div>
-          <div class="face" data-face="left" data-i="4">
-            <img src="assets/phase-5.jpg" alt="Phase 05 Scale" loading="lazy">
-            <span class="face-ph">PHASE 05</span>
-          </div>
-          <div class="face" data-face="bottom" data-i="5">
-            <img src="assets/phase-6.jpg" alt="Phase 06 Genesis" loading="lazy">
-            <span class="face-ph">PHASE 06</span>
-          </div>
-        </div>
-      </div>
-
-      <div id="cube-hud">
-        <div id="cube-hud-pct">000%</div>
-        <div class="cube-progress-bar">
-          <div class="cube-progress-fill" id="cube-prog-fill"></div>
-        </div>
-        <div class="cube-scene-label" id="cube-scene-name">STRATEGY</div>
-      </div>
-
-      <div id="cube-scroll-container">
-        <section class="cube-slide" id="cs0">
-          <div class="cube-text-card">
-            <div class="cube-tag">METHODOLOGY</div>
-            <h2>PRODUCTS THAT ACTUALLY WORK</h2>
-            <p class="cube-body-text">
-              Not just code or UI — we design systems that solve real problems, deliver value fast, and scale without
-              breaking.
-            </p>
-            <a class="cube-cta" href="#cs1">
-              Explore depth
-              <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5">
-                <path d="M1 6h10M6 1l5 5-5 5" />
-              </svg>
-            </a>
-          </div>
-        </section>
-
-        <section class="cube-slide" id="cs1">
-          <div class="cube-text-card right">
-            <div class="cube-h-line"></div>
-            <div class="cube-tag">01 — STRATEGY</div>
-            <h2>CLARITY BEFORE CODE</h2>
-            <p class="cube-body-text">
-              Before we build anything, we define what matters — what to build, what to ignore, and how to reach users
-              without unnecessary complexity.
-            </p>
-            <a class="cube-cta" href="#cs2">
-              Define the direction
-              <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5">
-                <path d="M1 6h10M6 1l5 5-5 5" />
-              </svg>
-            </a>
-          </div>
-        </section>
-
-        <section class="cube-slide" id="cs2">
-          <div class="cube-text-card">
-            <div class="cube-h-line"></div>
-            <div class="cube-tag">02 — DESIGN</div>
-            <h2>EFFORTLESS USER EXPERIENCE</h2>
-            <p class="cube-body-text">
-              Clear paths, smooth interactions, and zero confusion — everything works exactly how users expect, guiding
-              them naturally to real value.
-            </p>
-            <a class="cube-cta" href="#cs3">
-              Shape the experience
-              <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5">
-                <path d="M1 6h10M6 1l5 5-5 5" />
-              </svg>
-            </a>
-          </div>
-        </section>
-
-        <section class="cube-slide" id="cs3">
-          <div class="cube-text-card right">
-            <div class="cube-h-line"></div>
-            <div class="cube-tag">03 — DEVELOPMENT</div>
-            <h2>SCALABLE SYSTEM ARCHITECTURE</h2>
-            <p class="cube-body-text">
-              We build clean, modular systems designed to handle real users, real load, and long-term growth without
-              breaking.
-            </p>
-            <a class="cube-cta" href="#cs4">
-              Build the foundation
-              <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5">
-                <path d="M1 6h10M6 1l5 5-5 5" />
-              </svg>
-            </a>
-          </div>
-        </section>
-
-        <section class="cube-slide" id="cs4">
-          <div class="cube-text-card">
-            <div class="cube-h-line"></div>
-            <div class="cube-tag">04 — LAUNCH</div>
-            <h2>PRODUCTION-READY DELIVERY</h2>
-            <p class="cube-body-text">
-              From final testing to deployment, everything is handled with precision — no surprises, no broken releases,
-              just a clean launch you can trust.
-            </p>
-            <a class="cube-cta" href="#cs5">
-              Go live confidently
-              <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5">
-                <path d="M1 6h10M6 1l5 5-5 5" />
-              </svg>
-            </a>
-          </div>
-        </section>
-
-        <section class="cube-slide" id="cs5">
-          <div class="cube-text-card right">
-            <div class="cube-h-line"></div>
-            <div class="cube-tag">05 — SCALE</div>
-            <h2>BUILT FOR GROWTH</h2>
-            <p class="cube-body-text">
-              Your product isn’t static — it adapts, improves, and scales as your users and business evolve.
-            </p>
-            <a class="cube-cta" href="#cs0">
-              Scale with confidence
-              <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5">
-                <path d="M1 6h10M6 1l5 5-5 5" />
-              </svg>
-            </a>
-          </div>
-        </section>
-      </div>
-    </div>
-
-    <section class="value-prop" id="what-you-get" aria-labelledby="value-title">
-      <div class="value-prop-inner">
-        <div class="value-header reveal-on-scroll">
-          <span class="value-tagline">Deliverables</span>
-          <h2 id="value-title">What You Walk Away With</h2>
-          <p>We don’t just write code — we build SaaS products designed to scale from day one.</p>
-        </div>
-
-        <div class="value-grid">
-          <!-- Top Row: Featured -->
-          <article class="value-item value-item-featured reveal-on-scroll reveal-delay-1">
-            <div class="value-icon">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
-                stroke-linecap="round" stroke-linejoin="round">
-                <polyline points="20 6 9 17 4 12"></polyline>
-              </svg>
-            </div>
-            <p>Launch a fully functional, <br>production-ready SaaS</p>
-          </article>
-
-          <article class="value-item value-item-featured reveal-on-scroll reveal-delay-2">
-            <div class="value-icon">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
-                stroke-linecap="round" stroke-linejoin="round">
-                <polyline points="20 6 9 17 4 12"></polyline>
-              </svg>
-            </div>
-            <p>Scale confidently with a <br>robust backend architecture</p>
-          </article>
-
-          <article class="value-item value-item-featured reveal-on-scroll reveal-delay-3">
-            <div class="value-icon">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
-                stroke-linecap="round" stroke-linejoin="round">
-                <polyline points="20 6 9 17 4 12"></polyline>
-              </svg>
-            </div>
-            <p>Design that converts <br>users into customers</p>
-          </article>
-
-          <!-- Bottom Row: Supporting -->
-          <article class="value-item value-item-secondary reveal-on-scroll reveal-delay-1">
-            <div class="value-icon">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
-                stroke-linecap="round" stroke-linejoin="round">
-                <polyline points="20 6 9 17 4 12"></polyline>
-              </svg>
-            </div>
-            <p>Protect your users with <br>secure authentication</p>
-          </article>
-
-          <article class="value-item value-item-secondary reveal-on-scroll reveal-delay-2">
-            <div class="value-icon">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
-                stroke-linecap="round" stroke-linejoin="round">
-                <polyline points="20 6 9 17 4 12"></polyline>
-              </svg>
-            </div>
-            <p>Deploy faster with automated <br>CI/CD pipelines</p>
-          </article>
-
-          <article class="value-item value-item-secondary reveal-on-scroll reveal-delay-3">
-            <div class="value-icon">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
-                stroke-linecap="round" stroke-linejoin="round">
-                <polyline points="20 6 9 17 4 12"></polyline>
-              </svg>
-            </div>
-            <p>Keep improving with <br>post-launch support</p>
-          </article>
-        </div>
-
-        <div class="value-footer reveal-on-scroll">
-          <p>And that’s just the foundation — here’s who this is built for.</p>
-        </div>
-      </div>
-    </section>
-
-    <section class="about" id="about" aria-labelledby="about-title">
-      <div class="about-inner">
-        <div class="about-content reveal-on-scroll">
-          <span class="about-tagline">About Us</span>
-          <h2 id="about-title">We build custom software that your business needs</h2>
-          <p>
-
-            We don’t just build software — we build systems that scale.
-
-            From idea to execution, we act as your dedicated technical team, delivering high-performance SaaS products
-            designed to grow with your business.
-          </p>
-          <div class="about-metrics">
-            <div class="metric"><strong>100%</strong><span>Remote HQ</span></div>
-            <div class="metric"><strong>0</strong><span>Outsourcing</span></div>
-            <div class="metric"><strong>1</strong><span>Focus</span></div>
-          </div>
-          <a href="#contact" class="about-cta-link">
-            Work with us
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-              stroke-linecap="round" stroke-linejoin="round">
-              <path d="M5 12h14M12 5l7 7-7 7" />
-            </svg>
-          </a>
-        </div>
-      </div>
-    </section>
-
-    <section class="cta-final reveal-on-scroll">
-      <div class="cta-inner">
-        <h3>Ready to build your SaaS?</h3>
-        <p>Join the next wave of successful founders. Your product journey starts here.</p>
-        <div class="cta-actions">
-          <a class="button button-primary" href="#contact">Start Your Project</a>
-          <a class="cta-secondary-link" href="#projects">Or explore ready-to-launch products →</a>
-        </div>
-      </div>
-    </section>
-
-    <section class="contact" id="contact" aria-labelledby="contact-title">
-      <div class="contact-inner">
-
-        <div class="contact-grid">
-          <div class="contact-left">
-            <div class="contact-header reveal-on-scroll">
-              <span class="contact-tagline">Project Consultation</span>
-              <h2 id="contact-title">Let's build<br>together.</h2>
-              <p>Whether you need a custom SaaS or a ready-to-launch product, we're ready to make it happen.</p>
-            </div>
-
-            <div class="contact-info reveal-on-scroll reveal-delay-1">
-              <div class="contact-method">
-                <div class="contact-icon">
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                    stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
-                    <polyline points="22,6 12,13 2,6"></polyline>
-                  </svg>
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="name">Full Name</label>
+                  <input type="text" id="name" name="name" placeholder="John Doe" required>
                 </div>
-                <div>
-                  <strong>Email Us</strong>
-                  <a href="mailto:hello@indiecode.in">hello@indiecode.in</a>
+                <div class="form-group">
+                  <label for="email">Email Address</label>
+                  <input type="email" id="email" name="email" placeholder="john@company.com" required>
                 </div>
               </div>
 
-              <div class="contact-method">
-                <div class="contact-icon">
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                    stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
-                    <circle cx="12" cy="10" r="3"></circle>
-                  </svg>
-                </div>
-                <div>
-                  <strong>Location</strong>
-                  <span>Global Remote HQ</span>
-                </div>
-              </div>
-
-              <div class="contact-method">
-                <div class="contact-icon">
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                    stroke-linecap="round" stroke-linejoin="round">
-                    <circle cx="12" cy="12" r="10"></circle>
-                    <polyline points="12 6 12 12 16 14"></polyline>
-                  </svg>
-                </div>
-                <div>
-                  <strong>Response Time</strong>
-                  <span>Within 24 hours</span>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <form class="contact-form reveal-on-scroll reveal-delay-2" id="contact-form">
-            <!-- Web3Forms Configuration -->
-            <input type="hidden" name="access_key" value="3f5b29f2-794a-429c-8dd2-46f2d1c21ea4">
-            <input type="hidden" name="subject" value="New Inquiry from IndieCode.in">
-            <input type="hidden" name="from_name" value="IndieCode Contact Form">
-            <input type="checkbox" name="botcheck" class="hidden" style="display: none;">
-
-            <div class="form-row">
               <div class="form-group">
-                <label for="name">Full Name</label>
-                <input type="text" id="name" name="name" placeholder="John Doe" required>
+                <label for="interest">I'm interested in...</label>
+                <select id="interest" name="interest">
+                  <option value="custom">Custom SaaS Development</option>
+                  <option value="ready">Ready Products</option>
+                  <option value="other">Other Inquiry</option>
+                </select>
               </div>
+
               <div class="form-group">
-                <label for="email">Email Address</label>
-                <input type="email" id="email" name="email" placeholder="john@company.com" required>
+                <label for="message">Project Details</label>
+                <textarea id="message" name="message" rows="4"
+                  placeholder="Tell us about your project goals, timeline, and budget..." required></textarea>
               </div>
-            </div>
 
-            <div class="form-group">
-              <label for="interest">I'm interested in...</label>
-              <select id="interest" name="interest">
-                <option value="custom">Custom SaaS Development</option>
-                <option value="ready">Ready Products</option>
-                <option value="other">Other Inquiry</option>
-              </select>
-            </div>
+              <button type="submit" class="button button-primary submit-btn" id="submit-btn">
+                <span>Send Message</span>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                  stroke-linecap="round" stroke-linejoin="round">
+                  <line x1="22" y1="2" x2="11" y2="13"></line>
+                  <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                </svg>
+              </button>
 
-            <div class="form-group">
-              <label for="message">Project Details</label>
-              <textarea id="message" name="message" rows="4"
-                placeholder="Tell us about your project goals, timeline, and budget..." required></textarea>
-            </div>
+              <div id="form-result" class="form-status"></div>
 
-            <button type="submit" class="button button-primary submit-btn" id="submit-btn">
-              <span>Send Message</span>
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
-                stroke-linecap="round" stroke-linejoin="round">
-                <line x1="22" y1="2" x2="11" y2="13"></line>
-                <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
-              </svg>
-            </button>
+              <p class="form-trust-message"><strong>Wait, no payment?</strong><br>No upfront payment is ever required
+                for custom projects. Following your consultation, we’ll provide a fixed-price scope. You can then secure
+                your development slot with a simple deposit fee.</p>
+            </form>
 
-            <div id="form-result" class="form-status"></div>
-            
-            <p class="form-trust-message"><strong>Wait, no payment?</strong><br>No upfront payment is ever required for custom projects. Following your consultation, we’ll provide a fixed-price scope. You can then secure your development slot with a simple deposit fee.</p>
-          </form>
-
+          </div>
         </div>
-      </div>
-      </div>
+    </div>
     </section>
 
     <!-- VIEW: Client Dashboard (Hidden by default) -->
     <div id="dashboard-view" style="display: none;">
       <section class="portal-hero">
-          <div class="portal-header-content">
-              <div class="portal-badge">Client Dashboard</div>
-              <h1>Welcome back, <span id="dash-user-name">Client</span></h1>
-              <p>Your strategic overview and project progress.</p>
-          </div>
+        <div class="portal-header-content">
+          <div class="portal-badge">Client Dashboard</div>
+          <h1>Welcome back, <span id="dash-user-name">Client</span></h1>
+          <p>Your strategic overview and project progress.</p>
+        </div>
       </section>
 
       <section class="portal-grid">
 
-          <!-- Active Project Overview -->
-          <article class="portal-card active-project">
-              <div class="card-inner">
-                  <div class="card-header">
-                      <div class="project-title-group">
-                          <div class="project-icon">
-                              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                                  <path d="M3 3h7v7H3zM14 3h7v7h-7zM14 14h7v7h-7zM3 14h7v7H3z"/>
-                              </svg>
-                          </div>
-                          <div>
-                              <h3>Active Project</h3>
-                              <h2 id="dash-project-name">SaaS Enterprise Dashboard</h2>
-                          </div>
-                      </div>
-                      <span class="status-badge status-progress">Building v1.0</span>
-                  </div>
-
-                  <div class="tracker-v2">
-                      <div class="tracker-steps">
-                          <div class="step completed" data-label="Strategy">
-                              <div class="step-dot"></div>
-                              <span>Strategy</span>
-                          </div>
-                          <div class="step completed" data-label="Design">
-                              <div class="step-dot"></div>
-                              <span>Design</span>
-                          </div>
-                          <div class="step active" data-label="Build">
-                              <div class="step-dot"></div>
-                              <span>Development</span>
-                          </div>
-                          <div class="step" data-label="Launch">
-                              <div class="step-dot"></div>
-                              <span>Launch</span>
-                          </div>
-                      </div>
-                      <div class="tracker-line-v2">
-                          <div class="line-fill" style="width: 65%;"></div>
-                      </div>
-                  </div>
-
-                  <div class="project-meta-grid">
-                      <div class="meta-item">
-                          <span>Next Milestone</span>
-                          <strong>API Integration</strong>
-                      </div>
-                      <div class="meta-item">
-                          <span>Target Launch</span>
-                          <strong>April 20, 2024</strong>
-                      </div>
-                      <div class="meta-item">
-                          <span>Architecture</span>
-                          <strong>Next.js + Supabase</strong>
-                      </div>
-                  </div>
-              </div>
-          </article>
-
-          <!-- Payments & Finance -->
-          <article class="portal-card payments-card">
-              <div class="card-header">
-                  <div class="header-icon-group">
-                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="5" width="20" height="14" rx="2" ry="2"></rect><line x1="2" y1="10" x2="22" y2="10"></line></svg>
-                      <h3>Financial Status</h3>
-                  </div>
-              </div>
-              
-              <div class="financial-flow">
-                  <div class="flow-item">
-                      <div class="flow-label">
-                          <span>Initial Deposit</span>
-                          <span class="badge-tag paid">Settled</span>
-                      </div>
-                      <div class="flow-amount">$1,500.00</div>
-                  </div>
-                  <div class="flow-item">
-                      <div class="flow-label">
-                          <span>Development Slot</span>
-                          <span class="badge-tag confirmed">Reserved</span>
-                      </div>
-                      <div class="flow-amount">Confirmed</div>
-                  </div>
-                  <div class="flow-item total">
-                      <div class="flow-label">
-                          <span>Total Balance Due</span>
-                      </div>
-                      <div class="flow-amount">$2,500.00</div>
-                  </div>
-              </div>
-              
-              <button class="button button-primary pay-btn-v2">
-                  <span>Settle Balance</span>
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                      <path d="M5 12h14M12 5l7 7-7 7"/>
+        <!-- Active Project Overview -->
+        <article class="portal-card active-project">
+          <div class="card-inner">
+            <div class="card-header">
+              <div class="project-title-group">
+                <div class="project-icon">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                    <path d="M3 3h7v7H3zM14 3h7v7h-7zM14 14h7v7h-7zM3 14h7v7H3z" />
                   </svg>
-              </button>
-          </article>
+                </div>
+                <div>
+                  <h3>Active Project</h3>
+                  <h2 id="dash-project-name">SaaS Enterprise Dashboard</h2>
+                </div>
+              </div>
+              <span class="status-badge status-progress">Building v1.0</span>
+            </div>
 
-          <!-- Interaction Logs -->
-          <article class="portal-card timeline-card">
-              <div class="card-header">
-                  <h3>Project Activity</h3>
+            <div class="tracker-v2">
+              <div class="tracker-steps">
+                <div class="step completed" data-label="Strategy">
+                  <div class="step-dot"></div>
+                  <span>Strategy</span>
+                </div>
+                <div class="step completed" data-label="Design">
+                  <div class="step-dot"></div>
+                  <span>Design</span>
+                </div>
+                <div class="step active" data-label="Build">
+                  <div class="step-dot"></div>
+                  <span>Development</span>
+                </div>
+                <div class="step" data-label="Launch">
+                  <div class="step-dot"></div>
+                  <span>Launch</span>
+                </div>
               </div>
-              <div class="activity-timeline">
-                  <div class="activity-item">
-                      <div class="activity-marker"></div>
-                      <div class="activity-content">
-                          <span class="activity-date">Today, 2:40 PM</span>
-                          <p>Database schema optimized for multi-tenancy.</p>
-                      </div>
-                  </div>
-                  <div class="activity-item">
-                      <div class="activity-marker"></div>
-                      <div class="activity-content">
-                          <span class="activity-date">Mar 27</span>
-                          <p>UI review completed. Design phase signed off.</p>
-                      </div>
-                  </div>
-                  <div class="activity-item">
-                      <div class="activity-marker ripple"></div>
-                      <div class="activity-content">
-                          <span class="activity-date">Mar 24</span>
-                          <p>Project initialized. Strategy documentation shared.</p>
-                      </div>
-                  </div>
+              <div class="tracker-line-v2">
+                <div class="line-fill" style="width: 65%;"></div>
               </div>
-          </article>
+            </div>
+
+            <div class="project-meta-grid">
+              <div class="meta-item">
+                <span>Next Milestone</span>
+                <strong>API Integration</strong>
+              </div>
+              <div class="meta-item">
+                <span>Target Launch</span>
+                <strong>April 20, 2024</strong>
+              </div>
+              <div class="meta-item">
+                <span>Architecture</span>
+                <strong>Next.js + Supabase</strong>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- Payments & Finance -->
+        <article class="portal-card payments-card">
+          <div class="card-header">
+            <div class="header-icon-group">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="2" y="5" width="20" height="14" rx="2" ry="2"></rect>
+                <line x1="2" y1="10" x2="22" y2="10"></line>
+              </svg>
+              <h3>Financial Status</h3>
+            </div>
+          </div>
+
+          <div class="financial-flow">
+            <div class="flow-item">
+              <div class="flow-label">
+                <span>Initial Deposit</span>
+                <span class="badge-tag paid">Settled</span>
+              </div>
+              <div class="flow-amount">$1,500.00</div>
+            </div>
+            <div class="flow-item">
+              <div class="flow-label">
+                <span>Development Slot</span>
+                <span class="badge-tag confirmed">Reserved</span>
+              </div>
+              <div class="flow-amount">Confirmed</div>
+            </div>
+            <div class="flow-item total">
+              <div class="flow-label">
+                <span>Total Balance Due</span>
+              </div>
+              <div class="flow-amount">$2,500.00</div>
+            </div>
+          </div>
+
+          <button class="button button-primary pay-btn-v2">
+            <span>Settle Balance</span>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M5 12h14M12 5l7 7-7 7" />
+            </svg>
+          </button>
+        </article>
+
+        <!-- Interaction Logs -->
+        <article class="portal-card timeline-card">
+          <div class="card-header">
+            <h3>Project Activity</h3>
+          </div>
+          <div class="activity-timeline">
+            <div class="activity-item">
+              <div class="activity-marker"></div>
+              <div class="activity-content">
+                <span class="activity-date">Today, 2:40 PM</span>
+                <p>Database schema optimized for multi-tenancy.</p>
+              </div>
+            </div>
+            <div class="activity-item">
+              <div class="activity-marker"></div>
+              <div class="activity-content">
+                <span class="activity-date">Mar 27</span>
+                <p>UI review completed. Design phase signed off.</p>
+              </div>
+            </div>
+            <div class="activity-item">
+              <div class="activity-marker ripple"></div>
+              <div class="activity-content">
+                <span class="activity-date">Mar 24</span>
+                <p>Project initialized. Strategy documentation shared.</p>
+              </div>
+            </div>
+          </div>
+        </article>
       </section>
     </div>
   </main>
-  
+
   <div class="bottom-reveal-block">
     <footer class="site-footer">
       <div class="footer-inner">
         <div class="founder-note reveal-on-scroll">
           <div class="founder-inner">
             <div class="founder-text">
-              <p>“I believe great software comes from ownership — <br>that’s why every product we build is treated like our own”</p>
+              <p>“I believe great software comes from ownership — <br>that’s why every product we build is treated like
+                our own”</p>
               <div class="founder-meta">
                 <div class="founder-profile-img">
                   <img src="assets/founder.jpg" alt="Pranav Patil" />
@@ -926,19 +941,23 @@
   <div id="success-modal" class="modal-overlay">
     <div class="modal-container">
       <div class="modal-inner">
-        <div class="modal-badge">Project Secured</div>
-        <h2>Connection Established</h2>
-        <p>Your project inquiry has been received! We've also created your private **Client Portal** account.</p>
-        
+        <div class="modal-badge" id="modal-badge-status">Inquiry Sent</div>
+        <h2 id="modal-title">Project Secured</h2>
+        <p id="modal-description">Your project inquiry has been received! We've also updated your private **Client Portal**.</p>
+
         <div class="modal-check-step">
           <div class="step-icon">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"
+              stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
           </div>
-          <span>Account created for <strong id="modal-email-display">user@email.com</strong></span>
+          <span id="modal-status-text">Account active for <strong id="modal-email-display">user@email.com</strong></span>
         </div>
 
         <div class="modal-action-box">
-          <p>Check your email for a <strong>magic login link</strong>. It’s the only thing you need to access your project dashboard.</p>
+          <p>Check your email for a <strong>magic login link</strong>. It’s the only thing you need to access your
+            project dashboard.</p>
         </div>
 
         <button onclick="closeModal()" class="button button-secondary modal-close-btn">Return to Site</button>
