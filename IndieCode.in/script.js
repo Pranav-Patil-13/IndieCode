@@ -497,9 +497,7 @@ if (contactForm) {
             const titleEl = document.getElementById('modal-title');
             const descEl = document.getElementById('modal-description');
             const badgeEl = document.getElementById('modal-badge-status');
-            const emailLabel = document.getElementById('sent-email-label');
             
-            if (emailLabel) emailLabel.innerText = email;
             if (titleEl) titleEl.innerText = "Inquiry Received";
             if (descEl) descEl.innerHTML = "Thanks for reaching out! We've received your project details and will be in touch within **24 hours** to discuss the next steps.";
             if (badgeEl) badgeEl.innerText = "Success";
