@@ -49,14 +49,14 @@
         <p>Manage clients, project status, and invoices.</p>
       </div>
       <div>
-        <button class="button button-primary" style="padding: 12px 24px; font-size: 0.95rem;">+ New Client</button>
+        <button id="new-client-btn" class="button button-primary" style="padding: 12px 24px; font-size: 0.95rem;">+ New Client</button>
       </div>
     </div>
 
     <!-- New Inquiries List -->
     <section class="portal-card" style="margin-bottom: 40px; padding: 0; overflow: hidden;">
       <div class="portal-card-header" style="padding: 32px 32px 16px;">
-        <h3>Inbound Inquiries</h3>
+        <h3>Inbound Inquiries <span id="lead-count" style="font-size: 0.75rem; color: rgba(248,249,250,0.3); font-weight: 400;"></span></h3>
         <p style="font-size: 0.85rem; color: rgba(248,249,250,0.4); margin-top: 4px;">Convert these leads into clients by activating their portal.</p>
       </div>
       
@@ -73,19 +73,16 @@
       </div>
       <form style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px;">
         <div style="display: flex; flex-direction: column; gap: 8px;">
-          <label style="font-size: 0.85rem; color: rgba(248,249,250,0.6);">Select Client Project</label>
-          <select style="background: rgba(10,13,18,0.5); border: 1px solid rgba(248,249,250,0.1); padding: 12px; border-radius: 12px; color: #fff;">
-            <option>Acme Corp Custom SaaS</option>
-            <option>Modern LMS Setup</option>
-          </select>
+          <label style="font-size: 0.85rem; color: rgba(248,249,250,0.6);">Client Email</label>
+          <input type="email" id="payment-client-email" placeholder="client@example.com" style="background: rgba(10,13,18,0.5); border: 1px solid rgba(248,249,250,0.1); padding: 12px; border-radius: 12px; color: #fff;">
         </div>
         <div style="display: flex; flex-direction: column; gap: 8px;">
           <label style="font-size: 0.85rem; color: rgba(248,249,250,0.6);">Amount (INR)</label>
-          <input type="number" placeholder="50000" style="background: rgba(10,13,18,0.5); border: 1px solid rgba(248,249,250,0.1); padding: 12px; border-radius: 12px; color: #fff;">
+          <input type="number" id="payment-amount" placeholder="50000" style="background: rgba(10,13,18,0.5); border: 1px solid rgba(248,249,250,0.1); padding: 12px; border-radius: 12px; color: #fff;">
         </div>
         <div style="grid-column: 1 / -1; display: flex; flex-direction: column; gap: 8px;">
-          <label style="font-size: 0.85rem; color: rgba(248,249,250,0.6);">Invoice Description</label>
-          <input type="text" placeholder="Phase 2 Design Deliverables" style="background: rgba(10,13,18,0.5); border: 1px solid rgba(248,249,250,0.1); padding: 12px; border-radius: 12px; color: #fff;">
+          <label style="font-size: 0.85rem; color: rgba(248,249,250,0.6);">Payment Description</label>
+          <input type="text" id="payment-desc" placeholder="Initial Deposit / Phase 1 Milestone" style="background: rgba(10,13,18,0.5); border: 1px solid rgba(248,249,250,0.1); padding: 12px; border-radius: 12px; color: #fff;">
         </div>
         <div style="grid-column: 1 / -1; margin-top: 12px;">
           <button type="button" class="button button-primary" onclick="alert('Supabase & Razorpay Link generation pending keys.')">Send Payment Request via Email</button>
