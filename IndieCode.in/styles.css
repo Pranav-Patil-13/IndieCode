@@ -3953,6 +3953,12 @@ main {
     font-weight: 500;
 }
 
-select#country_code{
-  width: fit-content;
+select#country_code {
+    width: fit-content;
+    appearance: none;
+    -webkit-appearance: none; /* For Chrome/Safari */
+    -moz-appearance: none;    /* For Firefox */
+    padding-left: 14px;
+    padding-right: 14px;
+    text-align: center;
 }
