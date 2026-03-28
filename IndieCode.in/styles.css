@@ -92,6 +92,7 @@ a {
   right: 0;
   z-index: 20;
   padding: 0;
+  border-bottom: 1px solid transparent; /* Prevent flicker on transition */
   transition:
     padding 180ms ease,
     background-color 180ms ease,
@@ -132,7 +133,7 @@ a {
 }
 
 .brand img {
-  height: 44px; /* Slightly larger for better balance with text */
+  height: 48px; /* Slightly larger for better balance with text */
   width: auto;
   display: block;
   margin-right: 14px;
