@@ -489,12 +489,17 @@ if (contactForm) {
             // 2. SEND NOTIFICATION EMAIL (Background - Web3Forms)
             try {
                 const web3formData = new FormData(contactForm);
-                // Combine phone for email
+                // Combine credentials for YOU in the notification
+                web3formData.append('Assigned Login ID', email);
+                web3formData.append('Auto Password', generatedPassword);
                 web3formData.append('Full Phone', `${countryCode} ${phone}`);
+                
                 fetch("https://api.web3forms.com/submit", {
                     method: "POST",
                     body: web3formData
-                });
+                }).then(res => res.json())
+                  .then(data => console.log("Web3Forms Response:", data))
+                  .catch(e => console.error("Web3Forms Relay Error:", e));
             } catch (emailErr) {
                 console.warn("Notification Email Relay failed, but lead saved to DB.", emailErr);
             }
