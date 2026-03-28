@@ -122,11 +122,19 @@ a {
 }
 
 .brand {
+  display: inline-flex;
+  align-items: center;
   font-size: 1.3rem;
   font-weight: 800;
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--bg-0);
+}
+
+.brand img {
+  height: 32px; /* Standard logo height */
+  width: auto;
+  display: block;
 }
 
 .site-nav {
@@ -3948,7 +3956,6 @@ main {
     font-size: 1.1rem;
     color: white;
 }
-
 .security-text p {
     margin: 0;
     font-size: 0.9rem;
