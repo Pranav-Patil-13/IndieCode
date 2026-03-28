@@ -455,15 +455,29 @@ if (contactForm) {
         const formData = new FormData(contactForm);
         const email = formData.get('email');
         const name = formData.get('name');
+        const countryCode = formData.get('country_code');
+        const phone = formData.get('phone');
         const interest = formData.get('interest');
         const message = formData.get('message');
+
+        // Generate Password (e.g., "pranav@123")
+        const firstName = name.trim().split(' ')[0].toLowerCase();
+        let generatedPassword = firstName + "@123";
+        // Ensure min length (Supabase requires 6+)
+        if (generatedPassword.length < 6) generatedPassword = firstName + "123456";
 
         try {
             // 1. SAVE INQUIRY FIRST (Priority - Database)
             const { error: dbError } = await window.supabaseClient
                 .from('inquiries')
                 .insert([
-                    { name, email, interest, message }
+                    { 
+                        name, 
+                        email, 
+                        phone: `${countryCode} ${phone}`,
+                        interest, 
+                        message 
+                    }
                 ]);
 
             if (dbError) {
@@ -471,10 +485,10 @@ if (contactForm) {
             }
 
             // 2. SEND NOTIFICATION EMAIL (Background - Web3Forms)
-            // We use background fetch so the user isn't redirected.
             try {
                 const web3formData = new FormData(contactForm);
-                // The 'access_key' is already on the hidden input in your HTML
+                // Combine phone for email
+                web3formData.append('Full Phone', `${countryCode} ${phone}`);
                 fetch("https://api.web3forms.com/submit", {
                     method: "POST",
                     body: web3formData
@@ -483,20 +497,24 @@ if (contactForm) {
                 console.warn("Notification Email Relay failed, but lead saved to DB.", emailErr);
             }
 
-            // 3. TRIGGER AUTH (Check existing session first to adjust message)
-            const { data: { session } } = await window.supabaseClient.auth.getSession();
+            // 3. TRIGGER ACCOUNT CREATION (Password based)
+            let isNewAccount = false;
+            const { data: { session: currentSession } } = await window.supabaseClient.auth.getSession();
             
-            // We use a nested try because Auth rate limits shouldn't STOP the success modal
-            try {
-                const { error: authError } = await window.supabaseClient.auth.signInWithOtp({
+            if (!currentSession || currentSession.user.email !== email) {
+                // Try to Sign Up (Create Account)
+                const { data: signUpData, error: signUpError } = await window.supabaseClient.auth.signUp({
                     email: email,
+                    password: generatedPassword,
                     options: {
                         data: { full_name: name }
                     }
                 });
-                if (authError) throw authError;
-            } catch (authGateErr) {
-                console.warn("Auth Gate Throttled: User likely testing too fast. Ignoring error to show 'Sent' modal.", authGateErr);
+                
+                // If it fails because user already exists, we just move on (they can just login)
+                if (!signUpError) {
+                    isNewAccount = true;
+                }
             }
 
             // 4. Update Modal Dynamically
@@ -504,19 +522,24 @@ if (contactForm) {
             const descEl = document.getElementById('modal-description');
             const statusEl = document.getElementById('modal-status-text');
             const badgeEl = document.getElementById('modal-badge-status');
+            const loginIdEl = document.getElementById('display-login-id');
+            const passEl = document.getElementById('display-password');
 
-            if (session && session.user.email === email) {
-                // User is already logged in with this email
-                if (titleEl) titleEl.innerText = "Project Synced";
-                if (descEl) descEl.innerHTML = "Your new project details have been **successfully linked** to your active account.";
-                if (statusEl) statusEl.innerHTML = "Linked to <strong>" + email + "</strong>";
-                if (badgeEl) badgeEl.innerText = "Sync Complete";
+            if (loginIdEl) loginIdEl.innerText = email;
+            if (passEl) passEl.innerText = generatedPassword;
+
+            if (isNewAccount) {
+                if (titleEl) titleEl.innerText = "Account Created";
+                if (descEl) descEl.innerHTML = "Your inquiry is received! We've generated your **private portal credentials** below.";
+                if (statusEl) statusEl.innerHTML = "Account created for <strong>" + email + "</strong>";
+                if (badgeEl) badgeEl.innerText = "Account Ready";
             } else {
-                // New login link sent
-                if (titleEl) titleEl.innerText = "Connection Established";
-                if (descEl) descEl.innerHTML = "Inquiry received! We've sent a **secure login link** to your inbox for dashboard access.";
-                if (statusEl) statusEl.innerHTML = "Login sent to <strong>" + email + "</strong>";
-                if (badgeEl) badgeEl.innerText = "Link Sent";
+                // Return User
+                if (titleEl) titleEl.innerText = "Inquiry Synced";
+                if (descEl) descEl.innerHTML = "Welcome back! Your new project details have been **linked** to your existing account.";
+                if (statusEl) statusEl.innerHTML = "Inquiry added to <strong>" + email + "</strong>";
+                if (badgeEl) badgeEl.innerText = "Lead Synced";
+                if (passEl) passEl.innerText = "Your existing password";
             }
 
             if (modalEmailDisplay) modalEmailDisplay.innerText = email;
@@ -530,6 +553,46 @@ if (contactForm) {
             submitBtn.disabled = false;
             submitBtn.classList.remove('is-loading');
             if (submitBtnText) submitBtnText.textContent = 'Send Message';
+        }
+    };
+}
+
+// ==========================================================================
+// LOGIN FORM HANDLER (login.html)
+// ==========================================================================
+const loginForm = document.getElementById('login-form');
+if (loginForm) {
+    loginForm.onsubmit = async (e) => {
+        e.preventDefault();
+        
+        const email = document.getElementById('email').value;
+        const password = document.getElementById('password').value;
+        const statusEl = document.getElementById('auth-status');
+        const submitBtn = document.getElementById('auth-submit-btn');
+
+        if (!window.supabaseClient) return;
+
+        submitBtn.disabled = true;
+        submitBtn.classList.add('is-loading');
+
+        try {
+            const { error } = await window.supabaseClient.auth.signInWithPassword({
+                email,
+                password
+            });
+
+            if (error) throw error;
+
+            // Success -> Redirect to index.html with fragment to trigger dashboard view
+            window.location.href = 'index.html#dashboard';
+        } catch (err) {
+            if (statusEl) {
+                statusEl.innerText = "Error: " + err.message;
+                statusEl.style.color = "#ff4444";
+            }
+        } finally {
+            submitBtn.disabled = false;
+            submitBtn.classList.remove('is-loading');
         }
     };
 }

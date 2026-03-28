@@ -3879,3 +3879,66 @@ main {
     grid-template-columns: 1fr;
   }
 }
+
+/* Phone Input Group */
+.phone-input-group {
+    display: flex;
+    gap: 12px;
+}
+
+.country-select {
+    width: 120px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 8px;
+    padding: 0 12px;
+    color: white;
+    cursor: pointer;
+    font-size: 0.9rem;
+}
+
+.phone-input-group input {
+    flex: 1;
+}
+
+/* Credentials Box */
+.credentials-box {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+    padding: 24px;
+    margin-top: 24px;
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.credential-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 12px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+}
+
+.credential-item span {
+    font-size: 0.8rem;
+    color: rgba(255, 255, 255, 0.4);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.credential-item strong {
+    font-family: var(--font-serif);
+    color: #0070f3;
+    font-size: 1.1rem;
+}
+
+.credential-note {
+    font-size: 0.75rem;
+    color: rgba(16, 185, 129, 0.6);
+    text-align: center;
+    margin-top: 8px;
+    font-weight: 500;
+}
