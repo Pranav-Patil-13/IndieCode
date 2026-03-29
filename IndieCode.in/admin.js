@@ -299,6 +299,9 @@ async function saveClientChanges() {
             if (newPassword) authUpdate.password = newPassword;
 
             if (Object.keys(authUpdate).length > 0) {
+                // Always auto-confirm the user when updating credentials
+                authUpdate.email_confirm = true;
+
                 // Find the user by email
                 const { data: { users }, error: listErr } = await window.supabaseAdmin.auth.admin.listUsers();
                 if (listErr) {
@@ -737,17 +740,40 @@ async function handleModalSubmit() {
 
         let alreadyExists = false;
 
-        const { data, error } = await window.supabaseClient.auth.signUp({
-            email, password,
-            options: { data: { full_name: name } }
-        });
+        // Use admin API (creates confirmed users that can log in immediately)
+        if (window.supabaseAdmin) {
+            const { data, error } = await window.supabaseAdmin.auth.admin.createUser({
+                email,
+                password,
+                email_confirm: true,
+                user_metadata: { full_name: name }
+            });
 
-        if (error) {
-            // If the user already exists in Auth, that's fine — just add them to clients table
-            if (error.message.toLowerCase().includes('already registered') || error.message.toLowerCase().includes('already been registered')) {
-                alreadyExists = true;
-            } else {
-                throw error;
+            if (error) {
+                if (error.message.toLowerCase().includes('already') || error.message.toLowerCase().includes('exists') || error.message.toLowerCase().includes('registered')) {
+                    alreadyExists = true;
+                    // Auto-confirm existing user in case they weren't confirmed
+                    const { data: { users } } = await window.supabaseAdmin.auth.admin.listUsers();
+                    const existingUser = users?.find(u => u.email === email);
+                    if (existingUser) {
+                        await window.supabaseAdmin.auth.admin.updateUserById(existingUser.id, { email_confirm: true });
+                    }
+                } else {
+                    throw error;
+                }
+            }
+        } else {
+            // Fallback: use regular signUp (user may need email confirmation)
+            const { data, error } = await window.supabaseClient.auth.signUp({
+                email, password,
+                options: { data: { full_name: name } }
+            });
+            if (error) {
+                if (error.message.toLowerCase().includes('already registered') || error.message.toLowerCase().includes('already been registered')) {
+                    alreadyExists = true;
+                } else {
+                    throw error;
+                }
             }
         }
 
