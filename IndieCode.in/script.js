@@ -542,8 +542,13 @@ if (loginForm) {
 
             if (error) throw error;
 
-            // Success -> Redirect to index.html with fragment to trigger dashboard view
-            window.location.href = 'index.html#dashboard';
+            // Route admins to admin dashboard, clients to portal
+            const adminEmails = ['admin@indiecode.in', 'hello@indiecode.in', 'pranavpatil13.2004@gmail.com'];
+            if (adminEmails.includes(email)) {
+                window.location.href = 'admin.html';
+            } else {
+                window.location.href = 'index.html#dashboard';
+            }
         } catch (err) {
             if (statusEl) {
                 statusEl.innerText = "Error: " + err.message;
