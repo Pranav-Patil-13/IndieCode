@@ -263,6 +263,19 @@ async function saveClientChanges() {
         return;
     }
 
+    // Password must be at least 6 characters (Supabase requirement)
+    if (newPassword && newPassword.length < 6) {
+        passwordInput.style.borderColor = '#ef4444';
+        const hint = document.getElementById('detail-current-password');
+        hint.textContent = '⚠️ Password must be at least 6 characters.';
+        hint.style.color = '#ef4444';
+        setTimeout(() => {
+            passwordInput.style.borderColor = '';
+            hint.style.color = 'rgba(248,249,250,0.25)';
+        }, 3000);
+        return;
+    }
+
     saveBtn.textContent = 'Saving...';
     saveBtn.disabled = true;
 
@@ -279,23 +292,33 @@ async function saveClientChanges() {
         if (dbError) throw dbError;
 
         // 2. Update Supabase Auth (requires service_role admin client)
+        let authMsg = '';
         if (window.supabaseAdmin) {
             const authUpdate = {};
             if (newEmail !== currentDetailClient.email) authUpdate.email = newEmail;
             if (newPassword) authUpdate.password = newPassword;
 
             if (Object.keys(authUpdate).length > 0) {
-                // Find the user by email first
+                // Find the user by email
                 const { data: { users }, error: listErr } = await window.supabaseAdmin.auth.admin.listUsers();
-                if (!listErr && users) {
+                if (listErr) {
+                    authMsg = 'Warning: Could not list users — ' + listErr.message;
+                } else if (users) {
                     const authUser = users.find(u => u.email === currentDetailClient.email);
                     if (authUser) {
                         const { error: updateErr } = await window.supabaseAdmin.auth.admin.updateUserById(authUser.id, authUpdate);
                         if (updateErr) {
-                            console.warn("Auth update warning:", updateErr.message);
+                            throw new Error('Auth update failed: ' + updateErr.message);
                         }
+                        authMsg = 'Login credentials updated.';
+                    } else {
+                        authMsg = 'Warning: No matching Auth user found. Record saved but login not updated.';
                     }
                 }
+            }
+        } else {
+            if (newPassword || newEmail !== currentDetailClient.email) {
+                authMsg = 'Note: service_role key not configured. Saved to table only, login not changed.';
             }
         }
 
@@ -309,6 +332,16 @@ async function saveClientChanges() {
         saveBtn.style.borderColor = '#10b981';
         saveBtn.style.color = '#10b981';
 
+        // Show auth status
+        const subtitle = document.getElementById('client-detail-subtitle');
+        if (authMsg) {
+            subtitle.textContent = authMsg;
+            subtitle.style.color = authMsg.includes('Warning') ? '#fbbf24' : '#34d399';
+        } else {
+            subtitle.textContent = 'Changes saved successfully.';
+            subtitle.style.color = '#34d399';
+        }
+
         clientsFetched = false;
 
         setTimeout(() => {
@@ -318,17 +351,24 @@ async function saveClientChanges() {
             saveBtn.style.borderColor = '';
             saveBtn.style.color = '';
             saveBtn.disabled = false;
+            subtitle.textContent = "View and edit this client's information.";
+            subtitle.style.color = '';
             fetchClients();
-        }, 1000);
+        }, 2500);
     } catch (err) {
-        saveBtn.textContent = 'Error!';
+        saveBtn.textContent = 'Failed';
         saveBtn.style.color = '#ef4444';
+        const subtitle = document.getElementById('client-detail-subtitle');
+        subtitle.textContent = err.message;
+        subtitle.style.color = '#ef4444';
         console.error("Save failed:", err);
         setTimeout(() => {
             saveBtn.textContent = 'Save Changes';
             saveBtn.style.color = '';
             saveBtn.disabled = false;
-        }, 2000);
+            subtitle.textContent = "View and edit this client's information.";
+            subtitle.style.color = '';
+        }, 4000);
     }
 }
 
