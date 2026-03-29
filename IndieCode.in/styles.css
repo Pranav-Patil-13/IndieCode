@@ -4719,3 +4719,73 @@ select#country_code {
 .modal-form-body {
     padding: 32px 40px !important; /* More compact body */
 }
+
+/* --- The Unbreakable Modal Scroll Pattern --- */
+.modal-overlay {
+    position: fixed !important;
+    top: 88px !important; /* Below header */
+    left: 0;
+    width: 100%;
+    height: calc(100vh - 88px) !important;
+    background: rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(10px);
+    z-index: 10001 !important;
+    
+    /* Crucial: Make the whole background scrollable */
+    overflow-y: auto !important;
+    padding: 40px 0 !important;
+    display: block !important; /* Switch from flex to block */
+}
+
+.contact-modal-container {
+    max-width: 1200px !important;
+    width: 95% !important;
+    margin: 0 auto !important; /* Centered horizontally */
+    background: #0a0d12;
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    position: relative;
+    max-height: none !important; /* Allow natural height */
+    overflow: visible !important;
+}
+
+.modal-inner {
+    overflow: visible !important;
+}
+
+.modal-header {
+    background: #0a0d12;
+    padding: 20px 32px !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 20px 20px 0 0;
+}
+
+.modal-header h2 {
+    font-size: 1.5rem !important; /* Even smaller */
+}
+
+/* Modal Form Styles */
+.modal-form-body {
+    padding: 32px !important;
+    overflow: visible !important; /* No more internal scroll conflict */
+}
+
+.modal-close-icon {
+    top: 15px !important;
+    right: 15px !important;
+}
+
+/* --- FINAL SCROLL OVERRIDE --- */
+#contact-modal {
+  display: block !important;
+  overflow-y: scroll !important;
+  -webkit-overflow-scrolling: touch !important;
+}
+
+body.modal-open {
+  overflow: hidden !important;
+}
+
+.contact-modal-container {
+  overflow: visible !important;
+}

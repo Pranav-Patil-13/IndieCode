@@ -678,7 +678,7 @@ window.openContactModal = function() {
     const modal = document.getElementById('contact-modal');
     if (modal) {
         modal.classList.add('is-active');
-        document.body.style.overflow = 'hidden'; // Stop background scrolling
+        // No body overflow: hidden here — we want to let the overlay scroll!
     }
 };
 
@@ -686,17 +686,16 @@ window.closeContactModal = function() {
     const modal = document.getElementById('contact-modal');
     if (modal) {
         modal.classList.remove('is-active');
-        document.body.style.overflow = ''; // Restore
     }
 };
 
-// Fix for internal modal scrolling (Lenis conflict)
-document.addEventListener('wheel', (e) => {
-    const path = e.composedPath();
-    if (path.some(el => el.id === 'contact-modal')) {
-        e.stopPropagation();
-    }
-}, { passive: false });
+// Ensure Lenis doesn't stop the overlay scroll
+document.addEventListener('DOMContentLoaded', () => {
+  const overlay = document.getElementById('contact-modal');
+  if (overlay) {
+    overlay.setAttribute('data-lenis-prevent', '');
+  }
+});
 
 // Handle Modal Form Submission
 document.addEventListener('DOMContentLoaded', () => {
