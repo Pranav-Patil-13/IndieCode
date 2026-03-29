@@ -525,7 +525,7 @@ h1 span {
 }
 
 .hero-copy {
-  max-width: 34ch;
+  max-width: 40ch;
   margin: 50px 0px;
   color: rgba(248, 249, 250, 0.8);
   font-size: clamp(1rem, 1.4vw, 1.06rem);
