@@ -4934,3 +4934,39 @@ body.modal-open {
         justify-content: space-between;
     }
 }
+
+/* --- Force Exactly 3 Cards & Centered Slider --- */
+.projects-slider-container {
+    width: 100% !important; /* Back to normal width */
+    position: static !important;
+    margin: 0 auto !important;
+    left: auto !important;
+    right: auto !important;
+    overflow: hidden;
+}
+
+.projects-slider {
+    display: flex;
+    gap: 32px;
+    padding: 10px 0 40px !important; /* Remove the extreme side padding */
+    width: 100%;
+}
+
+.projects-slider .project-card {
+    /* (100% - all gaps) divided by 3 cards */
+    flex: 0 0 calc((100% - 64px) / 3) !important;
+    min-width: 320px;
+    scroll-snap-align: center;
+}
+
+@media (max-width: 1200px) {
+    .projects-slider .project-card {
+        flex: 0 0 calc((100% - 32px) / 2) !important; /* Show 2 cards */
+    }
+}
+
+@media (max-width: 768px) {
+    .projects-slider .project-card {
+        flex: 0 0 100% !important; /* Show 1 card */
+    }
+}

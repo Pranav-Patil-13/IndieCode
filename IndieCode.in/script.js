@@ -745,19 +745,12 @@ window.scrollSlider = function(direction) {
     const slider = document.querySelector('.projects-slider');
     if (!slider) return;
     
-    // Calculate one card width (card + gap)
-    const card = slider.querySelector('.project-card');
-    if (!card) return;
-    
-    const cardWidth = card.offsetWidth + 32; // card + gap
+    // Scroll by the visible container width
+    const scrollAmount = slider.clientWidth + 32; // Container width + gap
     const currentScroll = slider.scrollLeft;
     
-    // Snap to nearest card
-    let target = currentScroll + (direction * cardWidth);
-    
-    // Smooth scroll to target
     slider.scrollTo({
-        left: target,
+        left: currentScroll + (direction * scrollAmount),
         behavior: 'smooth'
     });
 };
