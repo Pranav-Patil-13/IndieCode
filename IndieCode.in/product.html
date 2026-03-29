@@ -731,7 +731,7 @@
       </div>
 
       <div class="product-actions">
-        <a href="index.html#contact" class="button button-secondary">Request Similar</a>
+        <button class="button button-secondary" onclick="openRequestModal()">Request Similar</button>
         <button class="button button-primary" onclick="openBuyModal()">Buy Current Build</button>
       </div>
     </div>
@@ -861,6 +861,54 @@
     </div>
   </div>
 
+  <!-- Request Similar Modal -->
+  <div class="buy-modal" id="request-modal">
+    <div class="buy-modal-backdrop" onclick="closeRequestModal()"></div>
+    <div class="buy-modal-content">
+      <button class="buy-modal-close" aria-label="Close" onclick="closeRequestModal()">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
+      </button>
+      <div id="request-modal-initial">
+        <div class="buy-modal-header">
+          <h2>Request a Similar Build</h2>
+          <p>Tell us what you need and we'll craft a custom version of <strong id="request-modal-product-name">...</strong> tailored to your brand.</p>
+        </div>
+        <form class="buy-modal-form" id="request-form">
+          <input type="hidden" name="access_key" value="3f5b29f2-794a-429c-8dd2-46f2d1c21ea4">
+          <input type="hidden" name="subject" value="Similar Build Request - IndieCode">
+          <input type="hidden" name="from_name" value="IndieCode Product Page">
+          <input type="hidden" name="product_reference" id="request-product-ref" value="">
+          <div class="form-group">
+            <label>Your Name</label>
+            <input type="text" id="request-name" name="name" placeholder="John Doe" required>
+          </div>
+          <div class="form-group">
+            <label>Email Address</label>
+            <input type="email" id="request-email" name="email" placeholder="you@company.com" required>
+          </div>
+          <div class="form-group">
+            <label>Phone Number</label>
+            <input type="tel" id="request-phone" name="phone" placeholder="+91 98765 43210">
+          </div>
+          <div class="form-group">
+            <label>What do you need?</label>
+            <textarea id="request-message" name="message" rows="3" placeholder="Describe your requirements..." required style="width:100%;background:rgba(248,249,250,0.04);border:1px solid rgba(248,249,250,0.1);border-radius:12px;padding:14px 16px;color:var(--bg-0);font-family:inherit;font-size:1rem;resize:vertical;box-sizing:border-box;"></textarea>
+          </div>
+          <button type="submit" id="request-submit-btn" class="button button-primary" style="width:100%;margin-top:10px;">Send Inquiry</button>
+        </form>
+        <p class="buy-modal-secure">We typically respond within 24 hours</p>
+      </div>
+      <div id="request-modal-success" style="display:none;text-align:center;padding:20px 0;">
+        <div style="width:80px;height:80px;background:rgba(16,185,129,0.1);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 24px;">
+          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+        </div>
+        <h2 style="font-family:'IBM Plex Serif',serif;margin-bottom:12px;font-size:2rem;">Inquiry Sent!</h2>
+        <p style="color:rgba(248,249,250,0.7);line-height:1.6;margin-bottom:32px;">We've received your request. Our team will review it and reach out within 24 hours.</p>
+        <button onclick="closeRequestModal()" class="button" style="margin-top:16px;width:100%;border:1px solid rgba(255,255,255,0.1);">Back to Product</button>
+      </div>
+    </div>
+  </div>
+
   <div class="fullscreen-overlay" id="p-overlay" onclick="toggleFullscreen()"></div>
   <button class="fullscreen-close" onclick="toggleFullscreen()" aria-label="Exit Expand Mode">
     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
@@ -929,6 +977,20 @@
 
     function closeBuyModal() {
       document.getElementById('buy-modal').classList.remove('is-active');
+    }
+
+    function openRequestModal() {
+      document.getElementById('request-modal').classList.add('is-active');
+    }
+
+    function closeRequestModal() {
+      document.getElementById('request-modal').classList.remove('is-active');
+      // Reset form after closing
+      setTimeout(() => {
+        document.getElementById('request-modal-initial').style.display = 'block';
+        document.getElementById('request-modal-success').style.display = 'none';
+        document.getElementById('request-form').reset();
+      }, 300);
     }
 
     document.addEventListener("DOMContentLoaded", () => {
@@ -1014,6 +1076,49 @@
       document.getElementById("p-title").textContent = product.title;
       document.getElementById("p-desc").textContent = product.description;
       document.getElementById("buy-modal-product-name").textContent = product.title;
+      document.getElementById("request-modal-product-name").textContent = product.title;
+      document.getElementById("request-product-ref").value = product.title;
+
+      // Request Similar form submission
+      document.getElementById("request-form").addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const btn = document.getElementById("request-submit-btn");
+        btn.textContent = "Sending...";
+        btn.disabled = true;
+
+        const formData = new FormData(e.target);
+        try {
+          // Submit via Web3Forms
+          const res = await fetch("https://api.web3forms.com/submit", {
+            method: "POST",
+            body: formData
+          });
+
+          // Log to Supabase
+          if (window.supabaseClient) {
+            try {
+              await window.supabaseClient.from('leads').insert([{
+                full_name: formData.get('name'),
+                email: formData.get('email'),
+                project_type: `Similar to: ${product.title}`,
+                message: formData.get('message'),
+                source: "Product Page Request"
+              }]);
+            } catch (err) { console.error("DB log failed:", err); }
+          }
+
+          // Show success
+          document.getElementById("request-modal-initial").style.display = "none";
+          document.getElementById("request-modal-success").style.display = "block";
+        } catch (err) {
+          alert("Something went wrong. Please try again.");
+          console.error(err);
+        } finally {
+          btn.textContent = "Send Inquiry";
+          btn.disabled = false;
+        }
+      });
+
 
       document.getElementById("p-meta1-label").textContent = product.meta1Label;
       document.getElementById("p-meta1-value").textContent = product.meta1Value;
