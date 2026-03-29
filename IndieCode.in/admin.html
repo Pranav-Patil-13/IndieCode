@@ -32,6 +32,10 @@
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
         Clients
       </a>
+      <a href="#" data-tab="projects">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+        Projects
+      </a>
       <a href="#" data-tab="payments">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
         Payments
@@ -112,6 +116,22 @@
       </section>
     </div>
 
+    <!-- TAB: Projects -->
+    <div id="tab-projects" class="admin-tab-panel" style="display: none;">
+      <section class="portal-card" style="padding: 0; overflow: hidden;">
+        <div class="portal-card-header" style="padding: 32px 32px 16px; display: flex; justify-content: space-between; align-items: center;">
+          <div>
+            <h3>Projects <span id="project-count" style="font-size: 0.75rem; color: rgba(248,249,250,0.3); font-weight: 400;"></span></h3>
+            <p style="font-size: 0.85rem; color: rgba(248,249,250,0.4); margin-top: 4px;">Manage active and completed projects for your clients.</p>
+          </div>
+          <button id="new-project-btn" class="button button-primary" style="padding: 10px 20px; font-size: 0.85rem;">+ New Project</button>
+        </div>
+        <div id="projects-list" style="padding: 0 32px 32px;">
+          <div class="loading-state">Loading projects...</div>
+        </div>
+      </section>
+    </div>
+
     <!-- TAB: Payments -->
     <div id="tab-payments" class="admin-tab-panel" style="display: none;">
       <section class="portal-card">
@@ -138,6 +158,70 @@
       </section>
     </div>
   </main>
+
+  <!-- Admin Modal: Project Create/Edit -->
+  <div id="project-modal" class="admin-modal-overlay">
+    <div class="admin-modal-container">
+      <div class="admin-modal-inner">
+        <button class="admin-modal-close" onclick="closeProjectModal()">&times;</button>
+        <h3 id="project-modal-title">New Project</h3>
+        <p class="admin-modal-desc" id="project-modal-desc">Assign a project to a client.</p>
+
+        <div id="project-modal-form">
+          <div class="admin-modal-field">
+            <label for="proj-client-email">Client Email</label>
+            <input type="email" id="proj-client-email" placeholder="client@email.com">
+          </div>
+          <div class="admin-modal-field">
+            <label for="proj-name">Project Name</label>
+            <input type="text" id="proj-name" placeholder="e.g. E-Commerce Platform">
+          </div>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+            <div class="admin-modal-field">
+              <label for="proj-status">Status</label>
+              <select id="proj-status" style="background: rgba(10,13,18,0.6); border: 1px solid rgba(248,249,250,0.12); padding: 12px; border-radius: 12px; color: #fff; font-family: inherit; font-size: 0.9rem; width: 100%;">
+                <option value="planning">Planning</option>
+                <option value="in_progress">In Progress</option>
+                <option value="completed">Completed</option>
+                <option value="on_hold">On Hold</option>
+              </select>
+            </div>
+            <div class="admin-modal-field">
+              <label for="proj-phase">Current Phase</label>
+              <select id="proj-phase" style="background: rgba(10,13,18,0.6); border: 1px solid rgba(248,249,250,0.12); padding: 12px; border-radius: 12px; color: #fff; font-family: inherit; font-size: 0.9rem; width: 100%;">
+                <option value="strategy">Strategy</option>
+                <option value="design">Design</option>
+                <option value="development">Development</option>
+                <option value="launch">Launch</option>
+              </select>
+            </div>
+          </div>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+            <div class="admin-modal-field">
+              <label for="proj-tech">Tech Stack</label>
+              <input type="text" id="proj-tech" placeholder="e.g. Next.js + Supabase">
+            </div>
+            <div class="admin-modal-field">
+              <label for="proj-launch">Target Launch</label>
+              <input type="text" id="proj-launch" placeholder="e.g. June 2026">
+            </div>
+          </div>
+          <div class="admin-modal-field">
+            <label for="proj-milestone">Next Milestone</label>
+            <input type="text" id="proj-milestone" placeholder="e.g. UI Design Review">
+          </div>
+          <div class="admin-modal-field">
+            <label for="proj-desc">Description</label>
+            <textarea id="proj-desc" placeholder="Brief about the project..." rows="3" style="background: rgba(10,13,18,0.6); border: 1px solid rgba(248,249,250,0.12); padding: 12px; border-radius: 12px; color: #fff; font-family: inherit; font-size: 0.9rem; width: 100%; resize: vertical;"></textarea>
+          </div>
+          <div class="admin-modal-actions">
+            <button class="button button-secondary admin-modal-cancel" onclick="closeProjectModal()">Cancel</button>
+            <button id="project-modal-submit" class="button button-primary">Create Project</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <!-- Admin Modal: New Client / Activate Portal -->
   <div id="admin-modal" class="admin-modal-overlay">

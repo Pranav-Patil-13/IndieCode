@@ -78,8 +78,9 @@ function setupTabNavigation() {
             const target = document.getElementById('tab-' + tab);
             if (target) target.style.display = 'block';
 
-            // Lazy-load clients on first visit
+            // Lazy-load data on first visit
             if (tab === 'clients') fetchClients();
+            if (tab === 'projects') fetchProjects();
         });
     });
 }
@@ -843,3 +844,226 @@ async function handleModalSubmit() {
 window.closeConfirmModal = (result) => {
     document.getElementById('confirm-modal').classList.remove('is-active');
 };
+
+// =========================================================================
+// PROJECT MANAGEMENT
+// =========================================================================
+let projectsFetched = false;
+let editingProjectId = null;
+
+async function fetchProjects() {
+    if (projectsFetched) return;
+    const container = document.getElementById('projects-list');
+    const countEl = document.getElementById('project-count');
+
+    try {
+        const { data: projects, error } = await window.supabaseClient
+            .from('projects')
+            .select('*')
+            .order('created_at', { ascending: false });
+
+        if (error) throw error;
+        projectsFetched = true;
+
+        if (!projects || projects.length === 0) {
+            container.innerHTML = '<div style="padding: 32px; color: rgba(248,249,250,0.4); font-size: 0.9rem;">No projects yet. Click "+ New Project" to create one.</div>';
+            if (countEl) countEl.textContent = '(0)';
+            return;
+        }
+
+        if (countEl) countEl.textContent = `(${projects.length})`;
+        renderProjects(projects, container);
+    } catch (err) {
+        container.innerHTML = `<div style="padding: 32px; color: #ff6b6b; font-size: 0.9rem;">Error: ${err.message}</div>`;
+    }
+}
+
+function renderProjects(projects, container) {
+    container.innerHTML = '';
+
+    const statusColors = {
+        planning: { bg: 'rgba(99, 102, 241, 0.1)', fg: '#818cf8', label: 'Planning' },
+        in_progress: { bg: 'rgba(16, 185, 129, 0.1)', fg: '#34d399', label: 'In Progress' },
+        completed: { bg: 'rgba(245, 158, 11, 0.1)', fg: '#fbbf24', label: 'Completed' },
+        on_hold: { bg: 'rgba(248, 113, 113, 0.1)', fg: '#f87171', label: 'On Hold' }
+    };
+
+    const phases = ['strategy', 'design', 'development', 'launch'];
+    const phaseLabels = { strategy: 'Strategy', design: 'Design', development: 'Development', launch: 'Launch' };
+
+    projects.forEach(proj => {
+        const sc = statusColors[proj.status] || statusColors.planning;
+        const phaseIdx = phases.indexOf(proj.current_phase || 'strategy');
+        const phasePercent = Math.round(((phaseIdx + 1) / phases.length) * 100);
+
+        const card = document.createElement('div');
+        card.className = 'payment-row';
+        card.style.cssText = 'flex-direction: column; align-items: stretch; gap: 16px; padding: 24px; margin-bottom: 12px;';
+        card.innerHTML = `
+            <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                <div>
+                    <h4 style="font-size: 1.05rem; font-weight: 600; margin-bottom: 4px;">${proj.name}</h4>
+                    <span style="font-size: 0.8rem; color: rgba(248,249,250,0.35);">${proj.client_email}</span>
+                </div>
+                <div style="display: flex; gap: 8px; align-items: center;">
+                    <span style="font-size: 0.72rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: ${sc.fg}; background: ${sc.bg}; padding: 4px 10px; border-radius: 6px;">${sc.label}</span>
+                    <button class="button button-secondary" style="padding: 6px 14px; font-size: 0.78rem;" data-edit-project="${proj.id}">Edit</button>
+                </div>
+            </div>
+            <div style="display: flex; gap: 0; align-items: center;">
+                ${phases.map((p, i) => `
+                    <div style="flex: 1; display: flex; flex-direction: column; align-items: center; gap: 6px;">
+                        <div style="width: 12px; height: 12px; border-radius: 50%; background: ${i <= phaseIdx ? sc.fg : 'rgba(248,249,250,0.08)'}; border: 2px solid ${i <= phaseIdx ? sc.fg : 'rgba(248,249,250,0.12)'}; transition: all 0.3s;"></div>
+                        <span style="font-size: 0.7rem; color: ${i <= phaseIdx ? 'rgba(248,249,250,0.6)' : 'rgba(248,249,250,0.2)'};">${phaseLabels[p]}</span>
+                    </div>
+                `).join('<div style="flex: 0.5; height: 2px; background: rgba(248,249,250,0.08); margin-bottom: 18px;"></div>')}
+            </div>
+            <div style="display: flex; gap: 24px; flex-wrap: wrap;">
+                ${proj.tech_stack ? `<div style="font-size: 0.8rem;"><span style="color: rgba(248,249,250,0.3);">Stack</span> <strong style="color: rgba(248,249,250,0.7); margin-left: 6px;">${proj.tech_stack}</strong></div>` : ''}
+                ${proj.target_launch ? `<div style="font-size: 0.8rem;"><span style="color: rgba(248,249,250,0.3);">Launch</span> <strong style="color: rgba(248,249,250,0.7); margin-left: 6px;">${proj.target_launch}</strong></div>` : ''}
+                ${proj.next_milestone ? `<div style="font-size: 0.8rem;"><span style="color: rgba(248,249,250,0.3);">Next</span> <strong style="color: rgba(248,249,250,0.7); margin-left: 6px;">${proj.next_milestone}</strong></div>` : ''}
+            </div>
+            ${proj.description ? `<p style="font-size: 0.82rem; color: rgba(248,249,250,0.3); line-height: 1.5; margin: 0;">${proj.description}</p>` : ''}
+        `;
+        container.appendChild(card);
+    });
+
+    // Store for editing
+    window._projectsData = {};
+    projects.forEach(p => { window._projectsData[p.id] = p; });
+
+    // Event delegation for Edit buttons
+    container.addEventListener('click', (e) => {
+        const btn = e.target.closest('[data-edit-project]');
+        if (btn) {
+            const proj = window._projectsData[btn.dataset.editProject];
+            if (proj) openProjectModal(proj);
+        }
+    });
+}
+
+// Wire up the "New Project" button
+document.addEventListener('DOMContentLoaded', () => {
+    const btn = document.getElementById('new-project-btn');
+    if (btn) btn.addEventListener('click', () => openProjectModal());
+});
+
+function openProjectModal(project) {
+    const modal = document.getElementById('project-modal');
+    const title = document.getElementById('project-modal-title');
+    const desc = document.getElementById('project-modal-desc');
+    const submitBtn = document.getElementById('project-modal-submit');
+
+    if (project) {
+        editingProjectId = project.id;
+        title.textContent = 'Edit Project';
+        desc.textContent = 'Update project details.';
+        submitBtn.textContent = 'Save Changes';
+        document.getElementById('proj-client-email').value = project.client_email || '';
+        document.getElementById('proj-name').value = project.name || '';
+        document.getElementById('proj-status').value = project.status || 'planning';
+        document.getElementById('proj-phase').value = project.current_phase || 'strategy';
+        document.getElementById('proj-tech').value = project.tech_stack || '';
+        document.getElementById('proj-launch').value = project.target_launch || '';
+        document.getElementById('proj-milestone').value = project.next_milestone || '';
+        document.getElementById('proj-desc').value = project.description || '';
+    } else {
+        editingProjectId = null;
+        title.textContent = 'New Project';
+        desc.textContent = 'Assign a project to a client.';
+        submitBtn.textContent = 'Create Project';
+        document.getElementById('proj-client-email').value = '';
+        document.getElementById('proj-name').value = '';
+        document.getElementById('proj-status').value = 'planning';
+        document.getElementById('proj-phase').value = 'strategy';
+        document.getElementById('proj-tech').value = '';
+        document.getElementById('proj-launch').value = '';
+        document.getElementById('proj-milestone').value = '';
+        document.getElementById('proj-desc').value = '';
+    }
+
+    submitBtn.onclick = () => saveProject();
+    modal.classList.add('is-active');
+}
+
+window.closeProjectModal = () => {
+    document.getElementById('project-modal').classList.remove('is-active');
+    editingProjectId = null;
+};
+
+async function saveProject() {
+    const submitBtn = document.getElementById('project-modal-submit');
+    const descEl = document.getElementById('project-modal-desc');
+    const email = document.getElementById('proj-client-email').value.trim();
+    const name = document.getElementById('proj-name').value.trim();
+
+    if (!email || !name) {
+        if (!email) document.getElementById('proj-client-email').style.borderColor = '#ef4444';
+        if (!name) document.getElementById('proj-name').style.borderColor = '#ef4444';
+        setTimeout(() => {
+            document.getElementById('proj-client-email').style.borderColor = '';
+            document.getElementById('proj-name').style.borderColor = '';
+        }, 2000);
+        return;
+    }
+
+    const projectData = {
+        client_email: email,
+        name: name,
+        status: document.getElementById('proj-status').value,
+        current_phase: document.getElementById('proj-phase').value,
+        tech_stack: document.getElementById('proj-tech').value.trim() || null,
+        target_launch: document.getElementById('proj-launch').value.trim() || null,
+        next_milestone: document.getElementById('proj-milestone').value.trim() || null,
+        description: document.getElementById('proj-desc').value.trim() || null,
+    };
+
+    submitBtn.textContent = 'Saving...';
+    submitBtn.disabled = true;
+
+    try {
+        let error;
+        if (editingProjectId) {
+            ({ error } = await window.supabaseClient
+                .from('projects')
+                .update(projectData)
+                .eq('id', editingProjectId));
+        } else {
+            ({ error } = await window.supabaseClient
+                .from('projects')
+                .insert([projectData]));
+        }
+
+        if (error) throw error;
+
+        descEl.textContent = editingProjectId ? 'Project updated!' : 'Project created!';
+        descEl.style.color = '#34d399';
+        submitBtn.textContent = 'Done!';
+        submitBtn.style.background = 'rgba(16, 185, 129, 0.15)';
+        submitBtn.style.borderColor = '#10b981';
+        submitBtn.style.color = '#10b981';
+
+        projectsFetched = false;
+
+        setTimeout(() => {
+            closeProjectModal();
+            submitBtn.textContent = editingProjectId ? 'Save Changes' : 'Create Project';
+            submitBtn.style.background = '';
+            submitBtn.style.borderColor = '';
+            submitBtn.style.color = '';
+            submitBtn.disabled = false;
+            descEl.style.color = '';
+            fetchProjects();
+        }, 1200);
+    } catch (err) {
+        descEl.textContent = 'Error: ' + err.message;
+        descEl.style.color = '#ef4444';
+        submitBtn.textContent = 'Failed';
+        submitBtn.disabled = false;
+        setTimeout(() => {
+            submitBtn.textContent = editingProjectId ? 'Save Changes' : 'Create Project';
+            descEl.textContent = 'Assign a project to a client.';
+            descEl.style.color = '';
+        }, 3000);
+    }
+}

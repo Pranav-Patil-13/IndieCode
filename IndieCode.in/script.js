@@ -72,6 +72,9 @@ const handleInitialAuth = async () => {
             const cleanName = rawName.charAt(0).toUpperCase() + rawName.slice(1);
             if (document.getElementById('dash-user-name')) document.getElementById('dash-user-name').innerText = cleanName;
 
+            // Load the client's project from Supabase
+            loadClientProject(user.email);
+
             // 3. Clear the URL hash if logged in via Magic Link
             if (window.location.hash.includes('access_token')) {
                 window.toggleDashboard();
@@ -565,4 +568,98 @@ if (loginForm) {
             submitBtn.classList.remove('is-loading');
         }
     };
+}
+
+// =========================================================================
+// CLIENT PROJECT LOADER
+// =========================================================================
+async function loadClientProject(email) {
+    if (!window.supabaseClient || !email) return;
+
+    try {
+        const { data: projects, error } = await window.supabaseClient
+            .from('projects')
+            .select('*')
+            .eq('client_email', email)
+            .order('created_at', { ascending: false })
+            .limit(1);
+
+        if (error || !projects || projects.length === 0) return; // Keep empty state
+
+        const proj = projects[0];
+        const projectCard = document.querySelector('.active-project .card-inner');
+        const financeCard = document.querySelector('.payments-card');
+        if (!projectCard) return;
+
+        const phases = ['strategy', 'design', 'development', 'launch'];
+        const phaseLabels = { strategy: 'Strategy', design: 'Design', development: 'Development', launch: 'Launch' };
+        const phaseIdx = phases.indexOf(proj.current_phase || 'strategy');
+
+        const statusMap = {
+            planning: { label: 'Planning', class: 'status-planning' },
+            in_progress: { label: 'In Progress', class: 'status-progress' },
+            completed: { label: 'Completed', class: 'status-complete' },
+            on_hold: { label: 'On Hold', class: 'status-hold' }
+        };
+        const st = statusMap[proj.status] || statusMap.planning;
+
+        // Update project name
+        const nameEl = document.getElementById('dash-project-name');
+        if (nameEl) {
+            nameEl.textContent = proj.name;
+            nameEl.style.color = '';
+            nameEl.style.fontSize = '';
+        }
+
+        // Rebuild the card content
+        projectCard.innerHTML = `
+            <div class="card-header">
+                <div class="project-title-group">
+                    <div class="project-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                            <path d="M3 3h7v7H3zM14 3h7v7h-7zM14 14h7v7h-7zM3 14h7v7H3z" />
+                        </svg>
+                    </div>
+                    <div>
+                        <h3>Active Project</h3>
+                        <h2>${proj.name}</h2>
+                    </div>
+                </div>
+                <span class="status-badge ${st.class}">${st.label}</span>
+            </div>
+
+            <div class="tracker-v2">
+                <div class="tracker-steps">
+                    ${phases.map((p, i) => `
+                        <div class="step ${i < phaseIdx ? 'completed' : i === phaseIdx ? 'active' : ''}" data-label="${phaseLabels[p]}">
+                            <div class="step-dot"></div>
+                            <span>${phaseLabels[p]}</span>
+                        </div>
+                    `).join('')}
+                </div>
+                <div class="tracker-line-v2">
+                    <div class="line-fill" style="width: ${Math.round(((phaseIdx + 0.5) / phases.length) * 100)}%;"></div>
+                </div>
+            </div>
+
+            <div class="project-meta-grid">
+                <div class="meta-item">
+                    <span>Next Milestone</span>
+                    <strong>${proj.next_milestone || 'TBD'}</strong>
+                </div>
+                <div class="meta-item">
+                    <span>Target Launch</span>
+                    <strong>${proj.target_launch || 'TBD'}</strong>
+                </div>
+                <div class="meta-item">
+                    <span>Architecture</span>
+                    <strong>${proj.tech_stack || 'TBD'}</strong>
+                </div>
+            </div>
+            ${proj.description ? `<p style="font-size: 0.85rem; color: rgba(248,249,250,0.35); line-height: 1.6; margin-top: 16px; padding-top: 16px; border-top: 1px solid rgba(248,249,250,0.06);">${proj.description}</p>` : ''}
+        `;
+
+    } catch (err) {
+        console.warn('Could not load project:', err);
+    }
 }
