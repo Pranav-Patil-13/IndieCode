@@ -540,10 +540,10 @@
 
       .product-visual-container {
         height: 55vh;
-        order: 1;
         border-left: none;
         border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-        padding: 60px 0 20px; /* Space for the floating header */
+        padding: 60px 0 20px;
+        /* Space for the floating header */
       }
 
       .visual-grid {
@@ -555,15 +555,18 @@
         -webkit-overflow-scrolling: touch;
       }
 
-      .visual-top, .visual-bottom-left, .visual-bottom-right {
+      .visual-top,
+      .visual-bottom-left,
+      .visual-bottom-right {
         flex: none;
         width: 85vw;
         height: 100%;
         scroll-snap-align: center;
       }
-      
+
       .visual-bottom {
-        display: contents; /* Allows children to be siblings in the flex grid */
+        display: contents;
+        /* Allows children to be siblings in the flex grid */
       }
 
       .back-btn {
