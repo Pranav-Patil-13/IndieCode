@@ -585,8 +585,11 @@
     </div>
   </div>
 
+  <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
   <script src="products-data.js"></script>
   <script>
+    // Config: Razorpay Integration
+    const RZP_KEY_ID = "rzp_test_pizC2MvT8C5iN8"; // Placeholder
     function openBuyModal() {
       document.getElementById('buy-modal').classList.add('is-active');
     }
@@ -630,28 +633,50 @@
       document.getElementById("p-meta3-label").textContent = product.meta3Label;
       document.getElementById("p-meta3-value").textContent = product.meta3Value;
 
-      // Checkout form logic
+      // Checkout form logic (Razorpay Integration)
       document.getElementById("checkout-form").addEventListener("submit", (e) => {
         e.preventDefault();
         const btn = document.getElementById("checkout-btn");
+        const email = document.getElementById("checkout-email").value;
         const originalText = btn.textContent;
         
-        btn.textContent = "Redirecting...";
-        btn.style.opacity = "0.7";
-        btn.style.pointerEvents = "none";
-        
-        setTimeout(() => {
-          if (product.checkoutLink && product.checkoutLink !== "#") {
-              // Pre-fill email parameter if passing to Stripe, LemonSqueezy, etc.
-              const email = encodeURIComponent(document.getElementById("checkout-email").value);
-              window.location.href = `${product.checkoutLink}?prefilled_email=${email}`;
-          } else {
-              alert("Payment integration not yet configured. Please add a valid 'checkoutLink' (e.g., Stripe Payment Link) for this item in products-data.js.");
-              btn.textContent = originalText;
-              btn.style.opacity = "1";
-              btn.style.pointerEvents = "auto";
-          }
-        }, 800);
+        if (product.checkoutLink === "razorpay") {
+            const options = {
+                "key": RZP_KEY_ID,
+                "amount": product.price, // Amount is in currency subunits. Default is paise.
+                "currency": "INR",
+                "name": "IndieCode",
+                "description": `Full Build - ${product.title}`,
+                "image": "assets/logo.png",
+                "handler": function (response) {
+                    alert(`Payment Successful! Payment ID: ${response.razorpay_payment_id}. We will contact you at ${email} with the source code access.`);
+                    closeBuyModal();
+                },
+                "prefill": {
+                    "email": email
+                },
+                "theme": {
+                    "color": "#e3ca8c"
+                }
+            };
+            const rzp1 = new Razorpay(options);
+            rzp1.on('payment.failed', function (response){
+                alert(`Payment Failed: ${response.error.description}`);
+                btn.textContent = originalText;
+                btn.style.opacity = "1";
+                btn.style.pointerEvents = "auto";
+            });
+            rzp1.open();
+            
+            btn.textContent = "Processing...";
+            btn.style.opacity = "0.7";
+            btn.style.pointerEvents = "none";
+        } else if (product.checkoutLink && product.checkoutLink !== "#") {
+            window.location.href = `${product.checkoutLink}?prefilled_email=${encodeURIComponent(email)}`;
+        } else {
+            alert("This item is not currently available for direct purchase. Please contact us.");
+            btn.textContent = originalText;
+        }
       });
 
       // Visuals

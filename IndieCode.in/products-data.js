@@ -259,8 +259,9 @@ const productsData = {
         meta3Label: "Core Tech",
         meta3Value: "Next.js, Node.js, PostgreSQL",
         actionText: "Request Similar Project",
+        price: 8500000, // INR 85,000 in paise
         actionLink: "index.html#contact",
-        checkoutLink: "#",
+        checkoutLink: "razorpay", 
         glowColor: "rgba(66, 133, 244, 0.15)",
         desktopImage: "assets/intranet-desktop.png",
         tabletImage: "",
@@ -281,8 +282,9 @@ const productsData = {
         meta3Label: "Core Tech",
         meta3Value: "React, Node.js, AWS",
         actionText: "Buy & Brand Now",
+        price: 4900000, // INR 49,000 in paise
         actionLink: "index.html#contact",
-        checkoutLink: "#",
+        checkoutLink: "razorpay", 
         glowColor: "rgba(155, 81, 224, 0.15)",
         desktopImage: "assets/lms-desktop.png",
         tabletImage: "assets/lms-tablet.png",
@@ -325,8 +327,9 @@ const productsData = {
         meta3Label: "Core Tech",
         meta3Value: "Next.js, Tailwind, Stripe",
         actionText: "Buy License",
+        price: 2900000, // INR 29,000 in paise
         actionLink: "index.html#contact",
-        checkoutLink: "#",
+        checkoutLink: "razorpay", 
         glowColor: "rgba(227, 202, 140, 0.12)",
         desktopImage: "assets/puregrains-desktop.png",
         tabletImage: "assets/puregrains-tab.png",
