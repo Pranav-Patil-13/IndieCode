@@ -565,7 +565,10 @@
               <div style="display: flex; align-items: center; gap: 12px;">
                 <span class="mockup-view-name">Desktop</span>
                 <button class="mockup-expand-btn" title="Expand View" onclick="toggleFullscreen()">
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg>
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7" />
+                  </svg>
                 </button>
               </div>
             </div>
@@ -573,32 +576,31 @@
           </div>
         </div>
 
-        </div>
         <div class="visual-bottom">
-          <div class="visual-bottom-left">
-            <div id="p-mockup-tablet" class="product-mockup type-tablet">
-              <div class="mockup-header" style="height: 30px;">
-                <div class="mockup-dots">
-                  <div class="mockup-dot"></div>
-                  <div class="mockup-dot"></div>
-                  <div class="mockup-dot"></div>
-                </div>
-                <span class="mockup-view-name">Tablet</span>
+        <div class="visual-bottom-left">
+          <div id="p-mockup-tablet" class="product-mockup type-tablet">
+            <div class="mockup-header" style="height: 30px;">
+              <div class="mockup-dots">
+                <div class="mockup-dot"></div>
+                <div class="mockup-dot"></div>
+                <div class="mockup-dot"></div>
               </div>
-              <div id="p-screen-tablet" class="mockup-screen"></div>
+              <span class="mockup-view-name">Tablet</span>
             </div>
+            <div id="p-screen-tablet" class="mockup-screen"></div>
           </div>
-          <div class="visual-bottom-right">
-            <div id="p-mockup-mobile" class="product-mockup type-mobile">
-              <div class="mockup-notch">
-                <span class="mockup-view-name" style="font-size: 0.55rem; color: rgba(255,255,255,0.4);">MOBILE</span>
-              </div>
-              <div id="p-screen-mobile" class="mockup-screen"></div>
+        </div>
+        <div class="visual-bottom-right">
+          <div id="p-mockup-mobile" class="product-mockup type-mobile">
+            <div class="mockup-notch">
+              <span class="mockup-view-name" style="font-size: 0.55rem; color: rgba(255,255,255,0.4);">MOBILE</span>
             </div>
+            <div id="p-screen-mobile" class="mockup-screen"></div>
           </div>
         </div>
       </div>
     </div>
+  </div>
   </div>
 
   <div class="buy-modal" id="buy-modal">
@@ -788,12 +790,12 @@
         const screen = document.getElementById(screenId);
         if (images && (typeof images === 'string' || Array.isArray(images))) {
           const imgArray = Array.isArray(images) ? images : [images];
-          
+
           if (imgArray.length > 1 && screenId === "p-screen-desktop") {
             // Build Slideshow
             let html = '<div class="slideshow-container">';
             imgArray.forEach((src, i) => {
-              html += `<img src="${src}" class="slide-img ${i === 0 ? 'active' : ''}" alt="Slide ${i+1}">`;
+              html += `<img src="${src}" class="slide-img ${i === 0 ? 'active' : ''}" alt="Slide ${i + 1}">`;
             });
             html += '<div class="slideshow-dots">';
             imgArray.forEach((_, i) => {
@@ -801,22 +803,22 @@
             });
             html += '</div></div>';
             screen.innerHTML = html;
-            
+
             // Start Timer
             let currentSlide = 0;
             const slides = screen.querySelectorAll('.slide-img');
             const dots = screen.querySelectorAll('.slideshow-dot');
-            
+
             setInterval(() => {
               // Get current elements freshly each time
               const activeSlide = screen.querySelector('.slide-img.active');
               const activeDot = screen.querySelector('.slideshow-dot.active');
-              
+
               if (activeSlide) activeSlide.classList.remove('active');
               if (activeDot) activeDot.classList.remove('active');
-              
+
               currentSlide = (currentSlide + 1) % slides.length;
-              
+
               slides[currentSlide].classList.add('active');
               dots[currentSlide].classList.add('active');
             }, 3000);
