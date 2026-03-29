@@ -490,7 +490,23 @@
       }
 
       .product-visual-container {
-        display: none;
+        flex: none;
+        height: 60vh;
+        border-left: none;
+        border-top: 1px solid rgba(248, 249, 250, 0.05);
+      }
+
+      .visual-grid {
+        flex-direction: row;
+        overflow-x: auto;
+        padding-bottom: 20px;
+        scroll-snap-type: x mandatory;
+      }
+
+      .visual-top, .visual-bottom {
+        flex: none;
+        width: 85vw;
+        scroll-snap-align: center;
       }
 
       .product-details h1 {
@@ -745,7 +761,16 @@
       }
 
       // Populate Data
-      document.title = `${product.title} | IndieCode`;
+      document.title = `${product.title} | Premium SaaS Build | IndieCode`;
+      
+      // Dynamic SEO Meta
+      let metaDesc = document.querySelector('meta[name="description"]');
+      if (!metaDesc) {
+        metaDesc = document.createElement('meta');
+        metaDesc.name = "description";
+        document.head.appendChild(metaDesc);
+      }
+      metaDesc.content = `Purchase the complete source code for ${product.title}. ${product.description.slice(0, 150)}...`;
 
       const badge = document.getElementById("p-badge");
       badge.textContent = product.badgeText;
