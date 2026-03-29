@@ -768,3 +768,28 @@ document.addEventListener('DOMContentLoaded', () => {
         prog.style.width = pct + '%';
     });
 });
+
+/* --- Desktop Mockup Full-Screen Toggle --- */
+window.toggleFullscreen = function() {
+    const mockup = document.getElementById('p-mockup-desktop');
+    const overlay = document.getElementById('p-overlay');
+    const body = document.body;
+    
+    if (!mockup || !overlay) return;
+    
+    const isFull = mockup.classList.toggle('is-fullscreen');
+    overlay.classList.toggle('active');
+    body.classList.toggle('has-fullscreen');
+    
+    // Smooth transition: if opening, scroll back to top of mockup area
+    if (isFull) {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+};
+
+// Handle ESC to close
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && document.body.classList.contains('has-fullscreen')) {
+        toggleFullscreen();
+    }
+});
