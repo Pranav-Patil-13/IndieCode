@@ -219,10 +219,26 @@
 
       <section class="projects" id="projects" aria-labelledby="projects-title">
         <div class="projects-inner">
-          <div class="projects-header reveal-on-scroll">
-            <span class="projects-tagline">Our Work</span>
-            <h2 id="projects-title">Featured Projects</h2>
-            <p>A glimpse into the robust custom solutions and ready-to-deploy products we've built.</p>
+          <div class="projects-header-group">
+            <div class="projects-header reveal-on-scroll">
+              <span class="projects-tagline">Our Work</span>
+              <h2 id="projects-title">Featured Projects</h2>
+              <p>A glimpse into the robust custom solutions and ready-to-deploy products we've built.</p>
+            </div>
+            
+            <div class="slider-controls reveal-on-scroll reveal-delay-2">
+              <div class="slider-track-pill">
+                <div class="slider-progress" id="projects-slider-prog"></div>
+              </div>
+              <div class="slider-arrows">
+                <button onclick="scrollSlider(-1)" class="slider-arrow" id="slider-left" aria-label="Previous Project">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M15 18l-6-6 6-6"/></svg>
+                </button>
+                <button onclick="scrollSlider(1)" class="slider-arrow" id="slider-right" aria-label="Next Project">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 6l6 6-6 6"/></svg>
+                </button>
+              </div>
+            </div>
           </div>
 
           <div class="projects-slider-container">

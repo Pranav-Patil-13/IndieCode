@@ -739,3 +739,39 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 });
+
+/* --- Projects Slider Navigation --- */
+window.scrollSlider = function(direction) {
+    const slider = document.querySelector('.projects-slider');
+    if (!slider) return;
+    
+    // Calculate one card width (card + gap)
+    const card = slider.querySelector('.project-card');
+    if (!card) return;
+    
+    const cardWidth = card.offsetWidth + 32; // card + gap
+    const currentScroll = slider.scrollLeft;
+    
+    // Snap to nearest card
+    let target = currentScroll + (direction * cardWidth);
+    
+    // Smooth scroll to target
+    slider.scrollTo({
+        left: target,
+        behavior: 'smooth'
+    });
+};
+
+// Update progress bar on scroll
+document.addEventListener('DOMContentLoaded', () => {
+    const slider = document.querySelector('.projects-slider');
+    const prog = document.getElementById('projects-slider-prog');
+    if (!slider || !prog) return;
+
+    slider.addEventListener('scroll', () => {
+        const total = slider.scrollWidth - slider.clientWidth;
+        const current = slider.scrollLeft;
+        const pct = Math.min(Math.max((current / total) * 100, 0), 100);
+        prog.style.width = pct + '%';
+    });
+});
