@@ -190,6 +190,47 @@
     </div>
   </div>
 
+  <!-- Admin Modal: Client Details -->
+  <div id="client-detail-modal" class="admin-modal-overlay">
+    <div class="admin-modal-container">
+      <div class="admin-modal-inner">
+        <button class="admin-modal-close" onclick="closeClientDetail()">&times;</button>
+        <h3>Client Details</h3>
+        <p class="admin-modal-desc" id="client-detail-subtitle">View and edit this client's information.</p>
+
+        <div id="client-detail-form">
+          <div class="admin-modal-field">
+            <label for="detail-client-name">Full Name</label>
+            <input type="text" id="detail-client-name" placeholder="Client Name">
+          </div>
+          <div class="admin-modal-field">
+            <label for="detail-client-email">Email Address</label>
+            <input type="email" id="detail-client-email" placeholder="client@email.com" style="opacity: 0.5;" readonly>
+            <span style="font-size: 0.72rem; color: rgba(248,249,250,0.25); margin-top: 4px; display: block;">Email cannot be changed here. Use Supabase dashboard if needed.</span>
+          </div>
+          <div class="admin-modal-field">
+            <label>Portal Password</label>
+            <div style="position: relative;">
+              <input type="password" id="detail-client-password" placeholder="Not stored" readonly style="padding-right: 80px;">
+              <button type="button" id="toggle-password-btn" style="position: absolute; right: 8px; top: 50%; transform: translateY(-50%); background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); color: rgba(248,249,250,0.5); padding: 4px 10px; border-radius: 8px; font-size: 0.72rem; cursor: pointer;">Show</button>
+            </div>
+            <span style="font-size: 0.72rem; color: rgba(248,249,250,0.25); margin-top: 4px; display: block;">This is the password generated at activation.</span>
+          </div>
+          <div class="admin-modal-field">
+            <label>Joined</label>
+            <input type="text" id="detail-client-date" readonly style="opacity: 0.5;">
+          </div>
+
+          <div class="admin-modal-actions">
+            <button class="button button-secondary admin-modal-cancel" onclick="closeClientDetail()">Cancel</button>
+            <button class="button button-secondary" id="detail-copy-creds-btn" style="flex: 0.8;">Copy Credentials</button>
+            <button id="detail-save-btn" class="button button-primary">Save Changes</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="supabase-config.js"></script>
   <script src="auth.js"></script>

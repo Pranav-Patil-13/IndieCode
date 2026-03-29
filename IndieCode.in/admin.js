@@ -146,6 +146,7 @@ function renderClients(clients, container) {
             { bg: 'rgba(155, 81, 224, 0.15)', fg: '#c084fc' },
         ];
         const color = colors[i % colors.length];
+        const safeData = JSON.stringify(client).replace(/'/g, "\\'").replace(/"/g, '&quot;');
 
         const row = document.createElement('div');
         row.className = 'payment-row';
@@ -159,12 +160,139 @@ function renderClients(clients, container) {
                 </div>
             </div>
             <div class="payment-detail" style="flex-direction: row; align-items: center; gap: 10px; flex-shrink: 0;">
-                <button class="button button-secondary" style="padding: 6px 14px; font-size: 0.78rem;" onclick="navigator.clipboard.writeText('${client.email}'); this.textContent='Copied!'; this.style.color='#10b981'; setTimeout(() => { this.textContent='Copy Email'; this.style.color=''; }, 1500);">Copy Email</button>
+                <button class="button button-secondary" style="padding: 6px 14px; font-size: 0.78rem;" data-view-client-id="${client.id}">View Details</button>
                 <span style="font-size: 0.72rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: #34d399; background: rgba(16,185,129,0.1); padding: 4px 10px; border-radius: 6px;">Active</span>
             </div>
         `;
         container.appendChild(row);
     });
+
+    // Store clients data for modal access
+    window._clientsData = {};
+    clients.forEach(c => { window._clientsData[c.id] = c; });
+
+    // Event delegation for View Details
+    container.addEventListener('click', (e) => {
+        const btn = e.target.closest('[data-view-client-id]');
+        if (btn) {
+            const client = window._clientsData[btn.dataset.viewClientId];
+            if (client) openClientDetail(client);
+        }
+    });
+}
+
+// =========================================================================
+// CLIENT DETAIL MODAL
+// =========================================================================
+let currentDetailClient = null;
+
+function openClientDetail(client) {
+    currentDetailClient = client;
+    const modal = document.getElementById('client-detail-modal');
+    const nameInput = document.getElementById('detail-client-name');
+    const emailInput = document.getElementById('detail-client-email');
+    const passwordInput = document.getElementById('detail-client-password');
+    const dateInput = document.getElementById('detail-client-date');
+    const toggleBtn = document.getElementById('toggle-password-btn');
+
+    nameInput.value = client.name || '';
+    emailInput.value = client.email || '';
+    passwordInput.value = client.password || '';
+    passwordInput.placeholder = client.password ? '' : 'Not stored (old account)';
+    passwordInput.type = 'password';
+    toggleBtn.textContent = 'Show';
+    dateInput.value = new Date(client.created_at).toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' });
+
+    // Password toggle
+    toggleBtn.onclick = () => {
+        if (passwordInput.type === 'password') {
+            passwordInput.type = 'text';
+            toggleBtn.textContent = 'Hide';
+        } else {
+            passwordInput.type = 'password';
+            toggleBtn.textContent = 'Show';
+        }
+    };
+
+    // Copy credentials
+    const copyBtn = document.getElementById('detail-copy-creds-btn');
+    copyBtn.onclick = () => {
+        const creds = `Email: ${client.email}\nPassword: ${client.password || 'N/A'}`;
+        navigator.clipboard.writeText(creds);
+        copyBtn.textContent = 'Copied!';
+        copyBtn.style.color = '#10b981';
+        setTimeout(() => { copyBtn.textContent = 'Copy Credentials'; copyBtn.style.color = ''; }, 1500);
+    };
+
+    // Save changes
+    const saveBtn = document.getElementById('detail-save-btn');
+    saveBtn.onclick = () => saveClientChanges();
+
+    modal.classList.add('is-active');
+    setTimeout(() => nameInput.focus(), 300);
+}
+
+window.closeClientDetail = () => {
+    document.getElementById('client-detail-modal').classList.remove('is-active');
+    currentDetailClient = null;
+};
+
+async function saveClientChanges() {
+    if (!currentDetailClient) return;
+    const nameInput = document.getElementById('detail-client-name');
+    const saveBtn = document.getElementById('detail-save-btn');
+    const newName = nameInput.value.trim();
+
+    if (!newName) {
+        nameInput.style.borderColor = '#ef4444';
+        setTimeout(() => nameInput.style.borderColor = '', 2000);
+        return;
+    }
+
+    saveBtn.textContent = 'Saving...';
+    saveBtn.disabled = true;
+
+    try {
+        const { error } = await window.supabaseClient
+            .from('clients')
+            .update({ name: newName })
+            .eq('id', currentDetailClient.id);
+
+        if (error) throw error;
+
+        // Update local data
+        currentDetailClient.name = newName;
+        if (window._clientsData[currentDetailClient.id]) {
+            window._clientsData[currentDetailClient.id].name = newName;
+        }
+
+        saveBtn.textContent = 'Saved!';
+        saveBtn.style.background = 'rgba(16, 185, 129, 0.15)';
+        saveBtn.style.borderColor = '#10b981';
+        saveBtn.style.color = '#10b981';
+
+        // Refresh the clients list
+        clientsFetched = false;
+
+        setTimeout(() => {
+            closeClientDetail();
+            saveBtn.textContent = 'Save Changes';
+            saveBtn.style.background = '';
+            saveBtn.style.borderColor = '';
+            saveBtn.style.color = '';
+            saveBtn.disabled = false;
+            fetchClients();
+        }, 1000);
+    } catch (err) {
+        saveBtn.textContent = 'Error!';
+        saveBtn.style.color = '#ef4444';
+        setTimeout(() => {
+            saveBtn.textContent = 'Save Changes';
+            saveBtn.style.color = '';
+            saveBtn.disabled = false;
+        }, 2000);
+        console.error("Save failed:", err);
+    }
 }
 
 // =========================================================================
@@ -546,10 +674,10 @@ async function handleModalSubmit() {
             }
         }
 
-        // Save to clients table (upsert to handle duplicates gracefully)
+        // Save to clients table with password (upsert to handle duplicates)
         try {
             await window.supabaseClient.from('clients').upsert(
-                [{ name, email }],
+                [{ name, email, password: alreadyExists ? undefined : password }],
                 { onConflict: 'email' }
             );
             clientsFetched = false;
