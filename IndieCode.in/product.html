@@ -32,24 +32,26 @@
 
     .product-details {
       flex: 1;
-      padding: 80px 100px;
+      padding: 60px 80px;
       display: flex;
       flex-direction: column;
+      justify-content: center;
       position: relative;
     }
 
     .back-btn {
+      position: absolute;
+      top: 40px;
+      left: 60px;
       display: inline-flex;
       align-items: center;
-      gap: 12px;
-      color: rgba(248, 249, 250, 0.4);
-      font-weight: 600;
-      font-size: 0.8rem;
-      transition: all 0.3s ease;
+      gap: 8px;
+      color: rgba(248, 249, 250, 0.6);
+      font-weight: 500;
+      font-size: 0.9rem;
+      transition: color 0.3s ease, transform 0.3s ease;
       text-transform: uppercase;
-      letter-spacing: 0.15em;
-      text-decoration: none;
-      margin-bottom: 48px;
+      letter-spacing: 0.05em;
     }
 
     .back-btn:hover {
@@ -58,15 +60,15 @@
     }
 
     .product-badge {
-      display: inline-block;
-      padding: 6px 12px;
+      position: absolute;
+      top: 40px;
+      right: 80px;
+      padding: 8px 16px;
       border-radius: 999px;
-      font-size: 0.75rem;
-      font-weight: 600;
+      font-size: 0.7rem;
+      font-weight: 700;
       text-transform: uppercase;
-      letter-spacing: 0.08em;
-      margin-bottom: 24px;
-      align-self: flex-start;
+      letter-spacing: 0.12em;
     }
 
     .badge-custom {
@@ -499,43 +501,58 @@
     }
 
     @media (max-width: 980px) {
+      body {
+        overflow-y: auto;
+        height: auto;
+      }
+
       .product-showcase {
         flex-direction: column;
       }
 
       .product-details {
-        padding: 40px;
-        flex: 1;
-        overflow-y: auto;
-      }
-
-      .product-visual-container {
-        flex: none;
-        height: 60vh;
-        border-left: none;
-        border-top: 1px solid rgba(248, 249, 250, 0.05);
-      }
-
-      .visual-grid {
-        flex-direction: row;
-        overflow-x: auto;
-        padding-bottom: 20px;
-        scroll-snap-type: x mandatory;
-      }
-
-      .visual-top, .visual-bottom {
-        flex: none;
-        width: 85vw;
-        scroll-snap-align: center;
+        padding: 80px 30px 40px;
+        order: 2;
       }
 
       .product-details h1 {
-        font-size: 2.5rem;
+        font-size: 3rem;
+      }
+
+      .product-meta {
+        grid-template-columns: 1fr;
+      }
+
+      .meta-item:last-child {
+        grid-column: span 1;
+      }
+
+      .product-visual-container {
+        height: 60vh;
+        order: 1;
+        border-left: none;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        padding: 20px;
       }
 
       .back-btn {
-        top: 20px;
-        left: 20px;
+        top: 30px;
+        left: 30px;
+      }
+
+      .product-badge {
+        top: 30px;
+        right: 30px;
+      }
+
+      .product-actions {
+        flex-direction: column;
+        gap: 16px;
+      }
+
+      .product-actions button, .product-actions a {
+        width: 100%;
+        justify-content: center;
       }
     }
   </style>
