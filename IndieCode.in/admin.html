@@ -205,16 +205,16 @@
           </div>
           <div class="admin-modal-field">
             <label for="detail-client-email">Email Address</label>
-            <input type="email" id="detail-client-email" placeholder="client@email.com" style="opacity: 0.5;" readonly>
-            <span style="font-size: 0.72rem; color: rgba(248,249,250,0.25); margin-top: 4px; display: block;">Email cannot be changed here. Use Supabase dashboard if needed.</span>
+            <input type="email" id="detail-client-email" placeholder="client@email.com">
+            <span style="font-size: 0.72rem; color: rgba(248,249,250,0.25); margin-top: 4px; display: block;">Changes here will update their login email.</span>
           </div>
           <div class="admin-modal-field">
-            <label>Portal Password</label>
+            <label>New Password <span style="font-weight: 400; color: rgba(248,249,250,0.2);">(leave blank to keep current)</span></label>
             <div style="position: relative;">
-              <input type="password" id="detail-client-password" placeholder="Not stored" readonly style="padding-right: 80px;">
+              <input type="password" id="detail-client-password" placeholder="Enter new password" style="padding-right: 80px;">
               <button type="button" id="toggle-password-btn" style="position: absolute; right: 8px; top: 50%; transform: translateY(-50%); background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); color: rgba(248,249,250,0.5); padding: 4px 10px; border-radius: 8px; font-size: 0.72rem; cursor: pointer;">Show</button>
             </div>
-            <span style="font-size: 0.72rem; color: rgba(248,249,250,0.25); margin-top: 4px; display: block;">This is the password generated at activation.</span>
+            <span id="detail-current-password" style="font-size: 0.72rem; color: rgba(248,249,250,0.25); margin-top: 4px; display: block;"></span>
           </div>
           <div class="admin-modal-field">
             <label>Joined</label>
@@ -233,6 +233,7 @@
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="supabase-config.js"></script>
+  <script src="supabase-admin-config.js"></script>
   <script src="auth.js"></script>
   <script src="admin.js"></script>
 </body>

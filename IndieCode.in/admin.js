@@ -194,14 +194,21 @@ function openClientDetail(client) {
     const passwordInput = document.getElementById('detail-client-password');
     const dateInput = document.getElementById('detail-client-date');
     const toggleBtn = document.getElementById('toggle-password-btn');
+    const currentPwHint = document.getElementById('detail-current-password');
 
     nameInput.value = client.name || '';
     emailInput.value = client.email || '';
-    passwordInput.value = client.password || '';
-    passwordInput.placeholder = client.password ? '' : 'Not stored (old account)';
+    passwordInput.value = '';
     passwordInput.type = 'password';
     toggleBtn.textContent = 'Show';
     dateInput.value = new Date(client.created_at).toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' });
+
+    // Show current stored password as hint
+    if (client.password) {
+        currentPwHint.textContent = `Current: ${client.password}`;
+    } else {
+        currentPwHint.textContent = 'No password on file (old account).';
+    }
 
     // Password toggle
     toggleBtn.onclick = () => {
@@ -217,7 +224,8 @@ function openClientDetail(client) {
     // Copy credentials
     const copyBtn = document.getElementById('detail-copy-creds-btn');
     copyBtn.onclick = () => {
-        const creds = `Email: ${client.email}\nPassword: ${client.password || 'N/A'}`;
+        const pw = passwordInput.value || client.password || 'N/A';
+        const creds = `Email: ${emailInput.value}\nPassword: ${pw}`;
         navigator.clipboard.writeText(creds);
         copyBtn.textContent = 'Copied!';
         copyBtn.style.color = '#10b981';
@@ -239,13 +247,19 @@ window.closeClientDetail = () => {
 
 async function saveClientChanges() {
     if (!currentDetailClient) return;
-    const nameInput = document.getElementById('detail-client-name');
-    const saveBtn = document.getElementById('detail-save-btn');
-    const newName = nameInput.value.trim();
 
-    if (!newName) {
-        nameInput.style.borderColor = '#ef4444';
-        setTimeout(() => nameInput.style.borderColor = '', 2000);
+    const nameInput = document.getElementById('detail-client-name');
+    const emailInput = document.getElementById('detail-client-email');
+    const passwordInput = document.getElementById('detail-client-password');
+    const saveBtn = document.getElementById('detail-save-btn');
+
+    const newName = nameInput.value.trim();
+    const newEmail = emailInput.value.trim();
+    const newPassword = passwordInput.value.trim();
+
+    if (!newName || !newEmail) {
+        if (!newName) { nameInput.style.borderColor = '#ef4444'; setTimeout(() => nameInput.style.borderColor = '', 2000); }
+        if (!newEmail) { emailInput.style.borderColor = '#ef4444'; setTimeout(() => emailInput.style.borderColor = '', 2000); }
         return;
     }
 
@@ -253,25 +267,48 @@ async function saveClientChanges() {
     saveBtn.disabled = true;
 
     try {
-        const { error } = await window.supabaseClient
+        // 1. Update the clients table
+        const updateData = { name: newName, email: newEmail };
+        if (newPassword) updateData.password = newPassword;
+
+        const { error: dbError } = await window.supabaseClient
             .from('clients')
-            .update({ name: newName })
+            .update(updateData)
             .eq('id', currentDetailClient.id);
 
-        if (error) throw error;
+        if (dbError) throw dbError;
 
-        // Update local data
-        currentDetailClient.name = newName;
-        if (window._clientsData[currentDetailClient.id]) {
-            window._clientsData[currentDetailClient.id].name = newName;
+        // 2. Update Supabase Auth (requires service_role admin client)
+        if (window.supabaseAdmin) {
+            const authUpdate = {};
+            if (newEmail !== currentDetailClient.email) authUpdate.email = newEmail;
+            if (newPassword) authUpdate.password = newPassword;
+
+            if (Object.keys(authUpdate).length > 0) {
+                // Find the user by email first
+                const { data: { users }, error: listErr } = await window.supabaseAdmin.auth.admin.listUsers();
+                if (!listErr && users) {
+                    const authUser = users.find(u => u.email === currentDetailClient.email);
+                    if (authUser) {
+                        const { error: updateErr } = await window.supabaseAdmin.auth.admin.updateUserById(authUser.id, authUpdate);
+                        if (updateErr) {
+                            console.warn("Auth update warning:", updateErr.message);
+                        }
+                    }
+                }
+            }
         }
+
+        // 3. Update local data
+        currentDetailClient.name = newName;
+        currentDetailClient.email = newEmail;
+        if (newPassword) currentDetailClient.password = newPassword;
 
         saveBtn.textContent = 'Saved!';
         saveBtn.style.background = 'rgba(16, 185, 129, 0.15)';
         saveBtn.style.borderColor = '#10b981';
         saveBtn.style.color = '#10b981';
 
-        // Refresh the clients list
         clientsFetched = false;
 
         setTimeout(() => {
@@ -286,12 +323,12 @@ async function saveClientChanges() {
     } catch (err) {
         saveBtn.textContent = 'Error!';
         saveBtn.style.color = '#ef4444';
+        console.error("Save failed:", err);
         setTimeout(() => {
             saveBtn.textContent = 'Save Changes';
             saveBtn.style.color = '';
             saveBtn.disabled = false;
         }, 2000);
-        console.error("Save failed:", err);
     }
 }
 
