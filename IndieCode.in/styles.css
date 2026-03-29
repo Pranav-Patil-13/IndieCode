@@ -4561,8 +4561,6 @@ select#country_code {
   margin-bottom: 0 !important;
   background: #0a0d12;
   border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-  position: sticky;
-  top: 0;
   z-index: 5;
 }
 
@@ -4788,4 +4786,16 @@ body.modal-open {
 
 .contact-modal-container {
   overflow: visible !important;
+}
+
+/* --- Force consistent input/select heights for 2-column rows --- */
+.modal-form select, 
+.modal-form input, 
+.modal-form .phone-input-group {
+    height: 54px !important;
+}
+
+.modal-form textarea {
+    height: auto !important;
+    min-height: 120px !important;
 }
