@@ -331,7 +331,12 @@ const productsData = {
         actionLink: "index.html#contact",
         checkoutLink: "razorpay", 
         glowColor: "rgba(227, 202, 140, 0.12)",
-        desktopImages: ["assets/puregrains-desktop.png"],
+        desktopImages: [
+            "assets/puregrains-desktop.png",
+            "assets/puregrains-desktop-2.png",
+            "assets/puregrains-desktop-3.png",
+            "assets/puregrains-desktop-4.png"
+        ],
         tabletImage: "assets/puregrains-tab.png",
         mobileImage: "assets/puregrains-mobile.png",
         desktopSkeleton: desktopHTML4,
