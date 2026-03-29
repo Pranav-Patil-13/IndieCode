@@ -5150,7 +5150,7 @@ body.has-fullscreen .fullscreen-close {
     transform: translateX(-50%);
     width: 140px;
     height: 32px;
-    background: rgba(15, 19, 24, 0.95);
+    background: rgb(41 45 47);
     backdrop-filter: blur(8px);
     z-index: 50; /* Above the image */
     display: flex;
