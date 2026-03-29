@@ -35,6 +35,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 
                 // Success: Redirect to Dashboard based on user role or simply to portal
                 statusDiv.className = 'form-status success';
+                statusDiv.style.color = '#34d399';
                 statusDiv.innerText = 'Login successful! Redirecting...';
                 
                 // In a real app we'd fetch the user profile here to check if Admin or Client.

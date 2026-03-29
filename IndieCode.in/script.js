@@ -542,6 +542,12 @@ if (loginForm) {
 
             if (error) throw error;
 
+            // Show green success message
+            if (statusEl) {
+                statusEl.innerText = 'Login successful! Redirecting...';
+                statusEl.style.color = '#34d399';
+            }
+
             // Route admins to admin dashboard, clients to portal
             const adminEmails = ['admin@indiecode.in', 'hello@indiecode.in', 'pranavpatil13.2004@gmail.com'];
             if (adminEmails.includes(email)) {
