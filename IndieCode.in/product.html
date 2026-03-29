@@ -677,16 +677,41 @@
     const RZP_KEY_ID = "rzp_live_SW8Z2TVGygsVYj"; // Placeholder
 
     // Fullscreen Toggle Logic
+    let originalParent = null;
+    let originalNextSibling = null;
+
     window.toggleFullscreen = function() {
         const mockup = document.getElementById('p-mockup-desktop');
         const overlay = document.getElementById('p-overlay');
         const body = document.body;
         if (!mockup || !overlay) return;
         
-        const isFull = mockup.classList.toggle('is-fullscreen');
-        overlay.classList.toggle('active');
-        body.classList.toggle('has-fullscreen');
-        if (isFull) window.scrollTo({ top: 0, behavior: 'smooth' });
+        const isCurrentlyFull = mockup.classList.contains('is-fullscreen');
+        
+        if (!isCurrentlyFull) {
+            // Save original position
+            originalParent = mockup.parentNode;
+            originalNextSibling = mockup.nextSibling;
+            
+            // Move to body to escape stacking context
+            body.appendChild(mockup);
+            
+            // Add classes
+            mockup.classList.add('is-fullscreen');
+            overlay.classList.add('active');
+            body.classList.add('has-fullscreen');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        } else {
+            // Remove classes
+            mockup.classList.remove('is-fullscreen');
+            overlay.classList.remove('active');
+            body.classList.remove('has-fullscreen');
+            
+            // Return to original parent
+            if (originalParent) {
+                originalParent.insertBefore(mockup, originalNextSibling);
+            }
+        }
     };
 
     // Handle ESC to close
