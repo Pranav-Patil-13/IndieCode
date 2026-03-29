@@ -1,12 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Admin Dashboard | IndieCode Portal</title>
+  <!-- Preloads for Instant Content -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=IBM+Plex+Serif:wght@400;700&family=Poppins:wght@400;600;700&display=swap"
+    rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
   <link rel="icon" href="assets/logo-favicon.jpg" type="image/jpeg">
 </head>
+
 <body class="portal-layout" style="opacity: 0; transition: opacity 0.3s ease;">
 
   <!-- Sidebar -->
@@ -17,15 +25,29 @@
     </a>
     <nav class="portal-nav">
       <a href="#" class="active">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+          stroke-linecap="round" stroke-linejoin="round">
+          <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+          <circle cx="9" cy="7" r="4"></circle>
+          <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+          <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+        </svg>
         Clients
       </a>
       <a href="#">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+          stroke-linecap="round" stroke-linejoin="round">
+          <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
+          <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
+        </svg>
         Projects
       </a>
       <a href="#">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"></line><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+          stroke-linecap="round" stroke-linejoin="round">
+          <line x1="12" y1="1" x2="12" y2="23"></line>
+          <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+        </svg>
         Payments
       </a>
     </nav>
@@ -35,8 +57,15 @@
         <strong>Pranav Patil</strong>
         <span>Founder / Admin</span>
       </div>
-      <button onclick="signOutUser()" style="margin-left: auto; background: none; border: none; color: rgba(248,249,250,0.4); cursor: pointer; padding: 4px;" aria-label="Sign out" title="Sign out">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+      <button onclick="signOutUser()"
+        style="margin-left: auto; background: none; border: none; color: rgba(248,249,250,0.4); cursor: pointer; padding: 4px;"
+        aria-label="Sign out" title="Sign out">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+          stroke-linecap="round" stroke-linejoin="round">
+          <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+          <polyline points="16 17 21 12 16 7"></polyline>
+          <line x1="21" y1="12" x2="9" y2="12"></line>
+        </svg>
       </button>
     </div>
   </aside>
@@ -49,21 +78,56 @@
         <p>Manage clients, project status, and invoices.</p>
       </div>
       <div>
-        <button id="new-client-btn" class="button button-primary" style="padding: 12px 24px; font-size: 0.95rem;">+ New Client</button>
+        <button id="new-client-btn" class="button button-primary" style="padding: 12px 24px; font-size: 0.95rem;">+ New
+          Client</button>
       </div>
     </div>
 
     <!-- New Inquiries List -->
     <section class="portal-card" style="margin-bottom: 40px; padding: 0; overflow: hidden;">
-      <div class="portal-card-header" style="padding: 32px 32px 16px;">
-        <h3>Inbound Inquiries <span id="lead-count" style="font-size: 0.75rem; color: rgba(248,249,250,0.3); font-weight: 400;"></span></h3>
-        <p style="font-size: 0.85rem; color: rgba(248,249,250,0.4); margin-top: 4px;">Convert these leads into clients by activating their portal.</p>
+      <div class="portal-card-header" style="padding: 32px 32px 0;">
+        <h3>Inbound Inquiries <span id="lead-count"
+            style="font-size: 0.75rem; color: rgba(248,249,250,0.3); font-weight: 400;"></span></h3>
+        <p style="font-size: 0.85rem; color: rgba(248,249,250,0.4); margin-top: 4px;">Convert these leads into clients
+          by activating their portal.</p>
       </div>
-      
-      <div id="leads-list" style="padding: 0 32px 32px;">
-        <!-- Leads will be injected here by admin.js -->
+
+      <!-- Sort & View Toolbar -->
+      <div class="leads-toolbar" style="padding: 16px 32px;">
+        <div class="leads-toolbar-left">
+          <button class="leads-sort-btn is-active" data-sort="newest">Newest</button>
+          <button class="leads-sort-btn" data-sort="oldest">Oldest</button>
+          <button class="leads-sort-btn" data-sort="name">Name</button>
+          <button class="leads-sort-btn" data-sort="interest">Interest</button>
+        </div>
+        <div class="leads-toolbar-right">
+          <button class="leads-view-btn is-active" data-view="grouped" title="Group by person">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="3" y="3" width="7" height="7" />
+              <rect x="14" y="3" width="7" height="7" />
+              <rect x="3" y="14" width="7" height="7" />
+              <rect x="14" y="14" width="7" height="7" />
+            </svg>
+          </button>
+          <button class="leads-view-btn" data-view="flat" title="Show all individually">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="8" y1="6" x2="21" y2="6" />
+              <line x1="8" y1="12" x2="21" y2="12" />
+              <line x1="8" y1="18" x2="21" y2="18" />
+              <line x1="3" y1="6" x2="3.01" y2="6" />
+              <line x1="3" y1="12" x2="3.01" y2="12" />
+              <line x1="3" y1="18" x2="3.01" y2="18" />
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <div id="leads-list" style="padding: 0 32px 16px;">
         <div class="loading-state">Syncing with database...</div>
       </div>
+
+      <!-- Pagination -->
+      <div id="leads-pagination" class="leads-pagination" style="padding: 0 32px 32px;"></div>
     </section>
 
     <!-- Payment Generation -->
@@ -74,18 +138,22 @@
       <form style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px;">
         <div style="display: flex; flex-direction: column; gap: 8px;">
           <label style="font-size: 0.85rem; color: rgba(248,249,250,0.6);">Client Email</label>
-          <input type="email" id="payment-client-email" placeholder="client@example.com" style="background: rgba(10,13,18,0.5); border: 1px solid rgba(248,249,250,0.1); padding: 12px; border-radius: 12px; color: #fff;">
+          <input type="email" id="payment-client-email" placeholder="client@example.com"
+            style="background: rgba(10,13,18,0.5); border: 1px solid rgba(248,249,250,0.1); padding: 12px; border-radius: 12px; color: #fff;">
         </div>
         <div style="display: flex; flex-direction: column; gap: 8px;">
           <label style="font-size: 0.85rem; color: rgba(248,249,250,0.6);">Amount (INR)</label>
-          <input type="number" id="payment-amount" placeholder="50000" style="background: rgba(10,13,18,0.5); border: 1px solid rgba(248,249,250,0.1); padding: 12px; border-radius: 12px; color: #fff;">
+          <input type="number" id="payment-amount" placeholder="50000"
+            style="background: rgba(10,13,18,0.5); border: 1px solid rgba(248,249,250,0.1); padding: 12px; border-radius: 12px; color: #fff;">
         </div>
         <div style="grid-column: 1 / -1; display: flex; flex-direction: column; gap: 8px;">
           <label style="font-size: 0.85rem; color: rgba(248,249,250,0.6);">Payment Description</label>
-          <input type="text" id="payment-desc" placeholder="Initial Deposit / Phase 1 Milestone" style="background: rgba(10,13,18,0.5); border: 1px solid rgba(248,249,250,0.1); padding: 12px; border-radius: 12px; color: #fff;">
+          <input type="text" id="payment-desc" placeholder="Initial Deposit / Phase 1 Milestone"
+            style="background: rgba(10,13,18,0.5); border: 1px solid rgba(248,249,250,0.1); padding: 12px; border-radius: 12px; color: #fff;">
         </div>
         <div style="grid-column: 1 / -1; margin-top: 12px;">
-          <button type="button" class="button button-primary" onclick="alert('Supabase & Razorpay Link generation pending keys.')">Send Payment Request via Email</button>
+          <button type="button" class="button button-primary"
+            onclick="alert('Supabase & Razorpay Link generation pending keys.')">Send Payment Request via Email</button>
         </div>
       </form>
     </section>
@@ -98,7 +166,7 @@
         <button class="admin-modal-close" onclick="closeAdminModal()">&times;</button>
         <h3 id="admin-modal-title">New Client</h3>
         <p id="admin-modal-desc" class="admin-modal-desc">Create a portal account for a new client.</p>
-        
+
         <!-- Form View -->
         <div id="admin-modal-form">
           <div class="admin-modal-field">
@@ -120,7 +188,8 @@
           <div id="admin-modal-result-content"></div>
           <div class="admin-modal-actions" style="margin-top: 24px;">
             <button class="button button-secondary" onclick="closeAdminModal()">Close</button>
-            <button id="admin-modal-copy-btn" class="button button-primary" style="display: none;">Copy Credentials</button>
+            <button id="admin-modal-copy-btn" class="button button-primary" style="display: none;">Copy
+              Credentials</button>
           </div>
         </div>
       </div>
@@ -146,4 +215,5 @@
   <script src="auth.js"></script>
   <script src="admin.js"></script>
 </body>
+
 </html>
