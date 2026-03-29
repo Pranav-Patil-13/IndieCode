@@ -530,42 +530,72 @@ async function handleModalSubmit() {
         for (let i = 0; i < 10; i++) password += chars.charAt(Math.floor(Math.random() * chars.length));
         password += '@Indie';
 
+        let alreadyExists = false;
+
         const { data, error } = await window.supabaseClient.auth.signUp({
             email, password,
             options: { data: { full_name: name } }
         });
-        if (error) throw error;
 
-        // Also save to clients table for the Clients view
+        if (error) {
+            // If the user already exists in Auth, that's fine — just add them to clients table
+            if (error.message.toLowerCase().includes('already registered') || error.message.toLowerCase().includes('already been registered')) {
+                alreadyExists = true;
+            } else {
+                throw error;
+            }
+        }
+
+        // Save to clients table (upsert to handle duplicates gracefully)
         try {
-            await window.supabaseClient.from('clients').insert([{ name, email }]);
-            clientsFetched = false; // Force re-fetch on next Clients tab visit
+            await window.supabaseClient.from('clients').upsert(
+                [{ name, email }],
+                { onConflict: 'email' }
+            );
+            clientsFetched = false;
         } catch (dbErr) {
             console.warn("Could not save to clients table:", dbErr);
         }
 
         formView.style.display = 'none';
         resultView.style.display = 'block';
-        document.getElementById('admin-modal-title').textContent = 'Account Created';
-        document.getElementById('admin-modal-desc').textContent = `Portal access is now ready for ${name}.`;
 
-        resultContent.innerHTML = `
-            <div class="admin-modal-success-icon">✓</div>
-            <div class="admin-modal-result-card">
-                <div class="result-row"><span class="result-label">Client</span><span class="result-value">${name}</span></div>
-                <div class="result-row"><span class="result-label">Email</span><span class="result-value">${email}</span></div>
-                <div class="result-row"><span class="result-label">Password</span><span class="result-value">${password}</span></div>
-            </div>
-        `;
+        if (alreadyExists) {
+            document.getElementById('admin-modal-title').textContent = 'Client Added';
+            document.getElementById('admin-modal-desc').textContent = `${name} already had an account and has been added to your Clients list.`;
 
-        copyBtn.style.display = 'flex';
-        copyBtn.textContent = 'Copy Credentials';
-        copyBtn.onclick = () => {
-            navigator.clipboard.writeText(`Email: ${email}\nPassword: ${password}`);
-            copyBtn.textContent = 'Copied!';
-            copyBtn.style.color = '#10b981';
-            setTimeout(() => { copyBtn.textContent = 'Copy Credentials'; copyBtn.style.color = ''; }, 2000);
-        };
+            resultContent.innerHTML = `
+                <div class="admin-modal-success-icon">✓</div>
+                <div class="admin-modal-result-card">
+                    <div class="result-row"><span class="result-label">Client</span><span class="result-value">${name}</span></div>
+                    <div class="result-row"><span class="result-label">Email</span><span class="result-value">${email}</span></div>
+                    <div class="result-row"><span class="result-label">Account</span><span class="result-value" style="color: #fbbf24;">Already Existed</span></div>
+                </div>
+                <p style="margin-top: 16px; color: rgba(248,249,250,0.35); font-size: 0.82rem;">The client can log in with their existing credentials. If they forgot their password, reset it via Supabase.</p>
+            `;
+            copyBtn.style.display = 'none';
+        } else {
+            document.getElementById('admin-modal-title').textContent = 'Account Created';
+            document.getElementById('admin-modal-desc').textContent = `Portal access is now ready for ${name}.`;
+
+            resultContent.innerHTML = `
+                <div class="admin-modal-success-icon">✓</div>
+                <div class="admin-modal-result-card">
+                    <div class="result-row"><span class="result-label">Client</span><span class="result-value">${name}</span></div>
+                    <div class="result-row"><span class="result-label">Email</span><span class="result-value">${email}</span></div>
+                    <div class="result-row"><span class="result-label">Password</span><span class="result-value">${password}</span></div>
+                </div>
+            `;
+
+            copyBtn.style.display = 'flex';
+            copyBtn.textContent = 'Copy Credentials';
+            copyBtn.onclick = () => {
+                navigator.clipboard.writeText(`Email: ${email}\nPassword: ${password}`);
+                copyBtn.textContent = 'Copied!';
+                copyBtn.style.color = '#10b981';
+                setTimeout(() => { copyBtn.textContent = 'Copy Credentials'; copyBtn.style.color = ''; }, 2000);
+            };
+        }
     } catch (err) {
         formView.style.display = 'none';
         resultView.style.display = 'block';
