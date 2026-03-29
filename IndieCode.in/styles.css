@@ -4970,3 +4970,34 @@ body.modal-open {
         flex: 0 0 100% !important; /* Show 1 card */
     }
 }
+
+/* --- Device Mockup Image Fixes --- */
+.device-mobile .device-screen img {
+    object-position: top center !important; /* Keep the logo/header visible */
+    object-fit: cover !important; /* Ensure it fills the frame but starts from the top */
+    width: 100% !important;
+    height: 100% !important;
+}
+
+.device-tablet .device-screen img {
+    object-position: center top !important;
+    object-fit: cover !important;
+}
+
+/* Adjusting the mobile frame aspect ratio for better fit */
+@media (max-width: 768px) {
+    .device-mobile {
+        max-width: 280px !important;
+    }
+}
+
+/* --- Force Mockup Images to fill exactly --- */
+.product-mockup .mockup-body:has(img) {
+    padding: 0 !important; /* Remove internal padding if image exists */
+}
+
+.product-mockup .mockup-body img {
+    object-position: top center !important;
+    object-fit: fill !important; /* Ensure the WHOLE mobile screenshot fits in the frame */
+    border-radius: inherit;
+}
