@@ -5152,8 +5152,6 @@ body.has-fullscreen .fullscreen-close {
     height: 32px;
     background: rgba(15, 19, 24, 0.95);
     backdrop-filter: blur(8px);
-    border-bottom-left-radius: 12px;
-    border-bottom-right-radius: 12px;
     z-index: 50; /* Above the image */
     display: flex;
     align-items: center;
