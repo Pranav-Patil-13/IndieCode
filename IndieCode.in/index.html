@@ -898,11 +898,15 @@
   <div id="contact-modal" class="modal-overlay">
     <div class="modal-container contact-modal-container">
       <div class="modal-inner">
-        <button class="modal-close-icon" onclick="closeContactModal()">&times;</button>
         <div class="modal-header">
-          <div class="modal-badge">Get Started</div>
-          <h2>Start Your Project</h2>
-          <p>Tell us about your vision. We'll get back to you with a roadmap within 24 hours.</p>
+          <div class="modal-header-text">
+            <div style="display: flex; align-items: center; gap: 12px;">
+              <div class="modal-badge">Get Started</div>
+              <h2 style="margin: 0; padding: 0;">Start Your Project</h2>
+            </div>
+            <p>Tell us about your vision. We'll get back with a roadmap within 24 hours.</p>
+          </div>
+          <button class="modal-close-icon" onclick="closeContactModal()" style="position: static !important; margin-left: 20px;">&times;</button>
         </div>
 
         <form class="contact-form modal-form" id="modal-contact-form">

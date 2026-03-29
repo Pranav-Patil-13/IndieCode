@@ -4674,3 +4674,48 @@ select#country_code {
   background: rgba(255, 255, 255, 0.2);
   border-radius: 10px;
 }
+
+/* --- Modal Clean Up & Scroll Fix --- */
+.contact-modal-container {
+    max-height: calc(100vh - 120px) !important;
+    overflow: visible !important; /* Open the path for scroll */
+}
+
+.contact-modal-container .modal-inner {
+    max-height: 100%;
+    overflow: hidden; /* Only inner hides overflow for corners */
+    display: flex;
+    flex-direction: column;
+}
+
+.modal-header {
+    padding: 24px 40px !important; /* Shrink padding */
+    text-align: left !important; /* Move to left for sleeker look */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.modal-header-text {
+  flex: 1;
+}
+
+.modal-header h2 {
+    font-size: 1.8rem !important; /* Shrink font */
+    margin: 4px 0 !important;
+}
+
+.modal-header p {
+    font-size: 0.85rem !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+}
+
+.modal-header .modal-badge {
+  margin-bottom: 0 !important;
+  margin-right: 12px;
+}
+
+.modal-form-body {
+    padding: 32px 40px !important; /* More compact body */
+}
