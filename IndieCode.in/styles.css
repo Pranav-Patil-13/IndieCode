@@ -5049,3 +5049,21 @@ body.modal-open {
     width: 18px;
     border-radius: 3px;
 }
+
+/* --- Slideshow Overlap Fix --- */
+.slideshow-container {
+    background: #0d1117 !important; /* Ensure solid background */
+}
+
+.slide-img {
+    visibility: hidden;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.slide-img.active {
+    visibility: visible;
+    pointer-events: auto;
+    opacity: 1;
+    z-index: 2; /* Bring active slide to front */
+}

@@ -793,8 +793,12 @@
             const dots = screen.querySelectorAll('.slideshow-dot');
             
             setInterval(() => {
-              slides[currentSlide].classList.remove('active');
-              dots[currentSlide].classList.remove('active');
+              // Get current elements freshly each time
+              const activeSlide = screen.querySelector('.slide-img.active');
+              const activeDot = screen.querySelector('.slideshow-dot.active');
+              
+              if (activeSlide) activeSlide.classList.remove('active');
+              if (activeDot) activeDot.classList.remove('active');
               
               currentSlide = (currentSlide + 1) % slides.length;
               
