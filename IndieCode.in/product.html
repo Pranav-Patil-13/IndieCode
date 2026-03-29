@@ -621,22 +621,31 @@
       </div>
 
       <div id="buy-modal-success" style="display: none; text-align: center; padding: 20px 0;">
-        <div style="width: 80px; height: 80px; background: rgba(16, 185, 129, 0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 24px;">
-          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+        <div
+          style="width: 80px; height: 80px; background: rgba(16, 185, 129, 0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 24px;">
+          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="3"
+            stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="20 6 9 17 4 12"></polyline>
+          </svg>
         </div>
         <h2 style="font-family: 'IBM Plex Serif', serif; margin-bottom: 12px; font-size: 2rem;">Payment Successful!</h2>
         <p style="color: rgba(248, 249, 250, 0.7); line-height: 1.6; margin-bottom: 32px;">
-          Thank you for choosing IndieCode. We have received your order. 
+          Thank you for choosing IndieCode. We have received your order.
           The complete build assets and source code links are being prepared for you.
         </p>
-        <div style="background: rgba(255,255,255,0.03); border-radius: 12px; padding: 20px; text-align: left; margin-bottom: 32px; border: 1px solid rgba(255,255,255,0.05);">
-          <div style="font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.1em; color: rgba(255,255,255,0.4); margin-bottom: 8px;">Order Ref</div>
-          <div id="success-ref-id" style="font-family: monospace; color: var(--bg-0); font-size: 1.1rem;">#IDX-29384812</div>
+        <div
+          style="background: rgba(255,255,255,0.03); border-radius: 12px; padding: 20px; text-align: left; margin-bottom: 32px; border: 1px solid rgba(255,255,255,0.05);">
+          <div
+            style="font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.1em; color: rgba(255,255,255,0.4); margin-bottom: 8px;">
+            Order Ref</div>
+          <div id="success-ref-id" style="font-family: monospace; color: var(--bg-0); font-size: 1.1rem;">#IDX-29384812
+          </div>
         </div>
         <p style="font-size: 0.9rem; color: rgba(248, 249, 250, 0.5);">
           A confirmation email with the download link will be sent to your inbox shortly.
         </p>
-        <button onclick="closeBuyModal()" class="button" style="margin-top: 32px; width: 100%; border: 1px solid rgba(255,255,255,0.1);">Back to Hub</button>
+        <button onclick="closeBuyModal()" class="button"
+          style="margin-top: 32px; width: 100%; border: 1px solid rgba(255,255,255,0.1);">Back to Hub</button>
       </div>
     </div>
   </div>
@@ -648,7 +657,7 @@
   <script src="products-data.js"></script>
   <script>
     // Config: Razorpay Integration
-    const RZP_KEY_ID = "rzp_live_SW8Z2TVGygsVYj"; // Placeholder
+    const RZP_KEY_ID = "rzp_test_RQG3Kq7W8V87zp"; // Placeholder
     function openBuyModal() {
       document.getElementById('buy-modal').classList.add('is-active');
     }
