@@ -657,7 +657,7 @@
   <script src="products-data.js"></script>
   <script>
     // Config: Razorpay Integration
-    const RZP_KEY_ID = "rzp_test_RQG3Kq7W8V87zp"; // Placeholder
+    const RZP_KEY_ID = "rzp_live_SW8Z2TVGygsVYj"; // Placeholder
     function openBuyModal() {
       document.getElementById('buy-modal').classList.add('is-active');
     }
@@ -769,16 +769,48 @@
       // Visuals
       document.getElementById("p-glow").style.background = `radial-gradient(circle, ${product.glowColor} 0%, transparent 70%)`;
 
-      const setScreenContext = (screenId, imageSrc, fallbackHtml) => {
+      const setScreenContext = (screenId, images, fallbackHtml) => {
         const screen = document.getElementById(screenId);
-        if (imageSrc) {
-          screen.innerHTML = `<img src="${imageSrc}" class="mockup-img" alt="Product Framework View">`;
+        if (images && (typeof images === 'string' || Array.isArray(images))) {
+          const imgArray = Array.isArray(images) ? images : [images];
+          
+          if (imgArray.length > 1 && screenId === "p-screen-desktop") {
+            // Build Slideshow
+            let html = '<div class="slideshow-container">';
+            imgArray.forEach((src, i) => {
+              html += `<img src="${src}" class="slide-img ${i === 0 ? 'active' : ''}" alt="Slide ${i+1}">`;
+            });
+            html += '<div class="slideshow-dots">';
+            imgArray.forEach((_, i) => {
+              html += `<div class="slideshow-dot ${i === 0 ? 'active' : ''}"></div>`;
+            });
+            html += '</div></div>';
+            screen.innerHTML = html;
+            
+            // Start Timer
+            let currentSlide = 0;
+            const slides = screen.querySelectorAll('.slide-img');
+            const dots = screen.querySelectorAll('.slideshow-dot');
+            
+            setInterval(() => {
+              slides[currentSlide].classList.remove('active');
+              dots[currentSlide].classList.remove('active');
+              
+              currentSlide = (currentSlide + 1) % slides.length;
+              
+              slides[currentSlide].classList.add('active');
+              dots[currentSlide].classList.add('active');
+            }, 3000);
+          } else {
+            // Static single image
+            screen.innerHTML = `<img src="${imgArray[0]}" class="mockup-img" alt="Product Framework View" style="object-fit: contain; object-position: top center;">`;
+          }
         } else {
           screen.innerHTML = fallbackHtml || '';
         }
       };
 
-      setScreenContext("p-screen-desktop", product.desktopImage, product.desktopSkeleton);
+      setScreenContext("p-screen-desktop", product.desktopImages || product.desktopImage, product.desktopSkeleton);
       setScreenContext("p-screen-tablet", product.tabletImage, product.tabletSkeleton);
       setScreenContext("p-screen-mobile", product.mobileImage, product.mobileSkeleton);
 

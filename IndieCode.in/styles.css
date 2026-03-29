@@ -5001,3 +5001,51 @@ body.modal-open {
     object-fit: fill !important; /* Ensure the WHOLE mobile screenshot fits in the frame */
     border-radius: inherit;
 }
+
+/* --- Desktop Slideshow Styling --- */
+.slideshow-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+.slide-img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    object-position: top center;
+    opacity: 0;
+    transition: opacity 1s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.slide-img.active {
+    opacity: 1;
+}
+
+.slideshow-dots {
+    position: absolute;
+    bottom: 12px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 6px;
+    z-index: 10;
+}
+
+.slideshow-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.2);
+    transition: all 0.3s ease;
+}
+
+.slideshow-dot.active {
+    background: var(--bg-0);
+    width: 18px;
+    border-radius: 3px;
+}
