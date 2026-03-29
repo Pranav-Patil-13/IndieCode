@@ -603,22 +603,46 @@
           <path d="M18 6L6 18M6 6l12 12" />
         </svg>
       </button>
-      <div class="buy-modal-header">
-        <h2>Get Complete Source Code</h2>
-        <p>Purchase the production-ready code, documentation, and design assets for <strong
-            id="buy-modal-product-name">...</strong>.</p>
-      </div>
-      <form class="buy-modal-form" id="checkout-form">
-        <div class="form-group">
-          <label>Email Address</label>
-          <input type="email" id="checkout-email" placeholder="you@company.com" required>
+      <div id="buy-modal-initial">
+        <div class="buy-modal-header">
+          <h2>Get Complete Source Code</h2>
+          <p>Purchase the production-ready code, documentation, and design assets for <strong
+              id="buy-modal-product-name">...</strong>.</p>
         </div>
-        <button type="submit" id="checkout-btn" class="button button-primary"
-          style="width: 100%; margin-top: 10px;">Proceed to Checkout</button>
-      </form>
-      <p class="buy-modal-secure">Secure 256-bit SSL encrypted checkout</p>
+        <form class="buy-modal-form" id="checkout-form">
+          <div class="form-group">
+            <label>Email Address</label>
+            <input type="email" id="checkout-email" placeholder="you@company.com" required>
+          </div>
+          <button type="submit" id="checkout-btn" class="button button-primary"
+            style="width: 100%; margin-top: 10px;">Proceed to Checkout</button>
+        </form>
+        <p class="buy-modal-secure">Secure 256-bit SSL encrypted checkout</p>
+      </div>
+
+      <div id="buy-modal-success" style="display: none; text-align: center; padding: 20px 0;">
+        <div style="width: 80px; height: 80px; background: rgba(16, 185, 129, 0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 24px;">
+          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+        </div>
+        <h2 style="font-family: 'IBM Plex Serif', serif; margin-bottom: 12px; font-size: 2rem;">Payment Successful!</h2>
+        <p style="color: rgba(248, 249, 250, 0.7); line-height: 1.6; margin-bottom: 32px;">
+          Thank you for choosing IndieCode. We have received your order. 
+          The complete build assets and source code links are being prepared for you.
+        </p>
+        <div style="background: rgba(255,255,255,0.03); border-radius: 12px; padding: 20px; text-align: left; margin-bottom: 32px; border: 1px solid rgba(255,255,255,0.05);">
+          <div style="font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.1em; color: rgba(255,255,255,0.4); margin-bottom: 8px;">Order Ref</div>
+          <div id="success-ref-id" style="font-family: monospace; color: var(--bg-0); font-size: 1.1rem;">#IDX-29384812</div>
+        </div>
+        <p style="font-size: 0.9rem; color: rgba(248, 249, 250, 0.5);">
+          A confirmation email with the download link will be sent to your inbox shortly.
+        </p>
+        <button onclick="closeBuyModal()" class="button" style="margin-top: 32px; width: 100%; border: 1px solid rgba(255,255,255,0.1);">Back to Hub</button>
+      </div>
     </div>
   </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="supabase-config.js"></script>
 
   <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
   <script src="products-data.js"></script>
@@ -683,9 +707,28 @@
             "name": "IndieCode",
             "description": `Full Build - ${product.title}`,
             "image": "assets/logo.png",
-            "handler": function (response) {
-              alert(`Payment Successful! Payment ID: ${response.razorpay_payment_id}. We will contact you at ${email} with the source code access.`);
-              closeBuyModal();
+            "handler": async function (response) {
+              // 1. Log to Supabase immediately
+              if (window.supabaseClient) {
+                try {
+                  await window.supabaseClient
+                    .from('leads')
+                    .insert([{
+                      full_name: "Customer (Product Purchase)",
+                      email: email,
+                      project_type: product.title,
+                      message: `PAID PURCHASE. Razorpay ID: ${response.razorpay_payment_id}. Amount: ₹${product.price / 100}`,
+                      source: "Order"
+                    }]);
+                } catch (err) {
+                  console.error("Database log failed:", err);
+                }
+              }
+
+              // 2. Show Success State
+              document.getElementById("buy-modal-initial").style.display = "none";
+              document.getElementById("buy-modal-success").style.display = "block";
+              document.getElementById("success-ref-id").textContent = `#PAY-${response.razorpay_payment_id.slice(-8).toUpperCase()}`;
             },
             "prefill": {
               "email": email
