@@ -754,15 +754,15 @@
     <div id="dashboard-view" style="display: none;">
       <section class="portal-hero">
         <div class="portal-header-content">
-          <div class="portal-badge">Client Dashboard</div>
+          <div class="portal-badge">Client Portal</div>
           <h1>Welcome back, <span id="dash-user-name">Client</span></h1>
-          <p>Your strategic overview and project progress.</p>
+          <p>Your project hub and communication center.</p>
         </div>
       </section>
 
       <section class="portal-grid">
 
-        <!-- Active Project Overview -->
+        <!-- Active Project -->
         <article class="portal-card active-project">
           <div class="card-inner">
             <div class="card-header">
@@ -774,54 +774,23 @@
                 </div>
                 <div>
                   <h3>Active Project</h3>
-                  <h2 id="dash-project-name">SaaS Enterprise Dashboard</h2>
+                  <h2 id="dash-project-name" style="color: rgba(248,249,250,0.4); font-size: 1.1rem;">No active projects yet</h2>
                 </div>
-              </div>
-              <span class="status-badge status-progress">Building v1.0</span>
-            </div>
-
-            <div class="tracker-v2">
-              <div class="tracker-steps">
-                <div class="step completed" data-label="Strategy">
-                  <div class="step-dot"></div>
-                  <span>Strategy</span>
-                </div>
-                <div class="step completed" data-label="Design">
-                  <div class="step-dot"></div>
-                  <span>Design</span>
-                </div>
-                <div class="step active" data-label="Build">
-                  <div class="step-dot"></div>
-                  <span>Development</span>
-                </div>
-                <div class="step" data-label="Launch">
-                  <div class="step-dot"></div>
-                  <span>Launch</span>
-                </div>
-              </div>
-              <div class="tracker-line-v2">
-                <div class="line-fill" style="width: 65%;"></div>
               </div>
             </div>
 
-            <div class="project-meta-grid">
-              <div class="meta-item">
-                <span>Next Milestone</span>
-                <strong>API Integration</strong>
-              </div>
-              <div class="meta-item">
-                <span>Target Launch</span>
-                <strong>April 20, 2024</strong>
-              </div>
-              <div class="meta-item">
-                <span>Architecture</span>
-                <strong>Next.js + Supabase</strong>
-              </div>
+            <div style="padding: 40px 0; text-align: center;">
+              <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="rgba(248,249,250,0.1)" stroke-width="1.5" style="margin-bottom: 16px;">
+                <rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/>
+              </svg>
+              <p style="color: rgba(248,249,250,0.35); font-size: 0.9rem; line-height: 1.6; max-width: 360px; margin: 0 auto;">
+                Once your project kicks off, you'll see your progress tracker, milestones, and timeline here.
+              </p>
             </div>
           </div>
         </article>
 
-        <!-- Payments & Finance -->
+        <!-- Financial Status -->
         <article class="portal-card payments-card">
           <div class="card-header">
             <div class="header-icon-group">
@@ -833,67 +802,32 @@
             </div>
           </div>
 
-          <div class="financial-flow">
-            <div class="flow-item">
-              <div class="flow-label">
-                <span>Initial Deposit</span>
-                <span class="badge-tag paid">Settled</span>
-              </div>
-              <div class="flow-amount">$1,500.00</div>
-            </div>
-            <div class="flow-item">
-              <div class="flow-label">
-                <span>Development Slot</span>
-                <span class="badge-tag confirmed">Reserved</span>
-              </div>
-              <div class="flow-amount">Confirmed</div>
-            </div>
-            <div class="flow-item total">
-              <div class="flow-label">
-                <span>Total Balance Due</span>
-              </div>
-              <div class="flow-amount">$2,500.00</div>
-            </div>
+          <div style="padding: 32px 0; text-align: center;">
+            <p style="color: rgba(248,249,250,0.35); font-size: 0.9rem;">No invoices or payments yet.</p>
+            <p style="color: rgba(248,249,250,0.2); font-size: 0.8rem; margin-top: 8px;">Payment details will appear here when your project begins.</p>
           </div>
-
-          <button class="button button-primary pay-btn-v2">
-            <span>Settle Balance</span>
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M5 12h14M12 5l7 7-7 7" />
-            </svg>
-          </button>
         </article>
 
-        <!-- Interaction Logs -->
+        <!-- Activity -->
         <article class="portal-card timeline-card">
           <div class="card-header">
             <h3>Project Activity</h3>
           </div>
           <div class="activity-timeline">
             <div class="activity-item">
-              <div class="activity-marker"></div>
-              <div class="activity-content">
-                <span class="activity-date">Today, 2:40 PM</span>
-                <p>Database schema optimized for multi-tenancy.</p>
-              </div>
-            </div>
-            <div class="activity-item">
-              <div class="activity-marker"></div>
-              <div class="activity-content">
-                <span class="activity-date">Mar 27</span>
-                <p>UI review completed. Design phase signed off.</p>
-              </div>
-            </div>
-            <div class="activity-item">
               <div class="activity-marker ripple"></div>
               <div class="activity-content">
-                <span class="activity-date">Mar 24</span>
-                <p>Project initialized. Strategy documentation shared.</p>
+                <span class="activity-date">Just now</span>
+                <p>You logged in to your portal. Welcome aboard! 🎉</p>
               </div>
             </div>
           </div>
         </article>
       </section>
+
+      <div style="text-align: center; padding: 40px 0 60px;">
+        <p style="color: rgba(248,249,250,0.25); font-size: 0.85rem;">Have questions? Reach out to us at <a href="mailto:hello@indiecode.in" style="color: rgba(248,249,250,0.5);">hello@indiecode.in</a></p>
+      </div>
     </div>
   </main>
 
