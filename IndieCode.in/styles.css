@@ -4594,3 +4594,64 @@ select#country_code {
 .modal-form textarea {
   min-height: 120px;
 }
+
+/* --- Modal Below Header Fix --- */
+.site-header {
+  z-index: 10002 !important; /* Ensure header is above everything */
+}
+
+.modal-overlay {
+  top: 88px !important; /* Start modal below the fixed header */
+  height: calc(100vh - 88px) !important;
+  z-index: 10001 !important;
+  align-items: flex-start !important; /* Align to top instead of center */
+  padding-top: 40px;
+}
+
+.contact-modal-container {
+  height: auto !important;
+  max-height: calc(100vh - 160px) !important; /* Ensure it fits between header and footer */
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.modal-form-body {
+  overflow-y: auto !important;
+  /* Ensure scroll works with Lenis */
+  scrollbar-width: thin;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* --- Fix Phone Input Styling --- */
+.phone-input-group {
+    display: flex;
+    gap: 0 !important; /* Remove gap for seamless look */
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 12px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.phone-input-group:focus-within {
+    border-color: rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.country-select {
+    background: rgba(255, 255, 255, 0.05) !important;
+    border: none !important;
+    border-right: 1px solid rgba(255, 255, 255, 0.1) !important;
+    padding: 0 16px !important;
+    width: 80px !important;
+    height: 52px !important;
+}
+
+#modal-phone {
+    flex: 1;
+    background: transparent !important;
+    border: none !important;
+    height: 52px !important;
+    padding: 0 16px !important;
+}
