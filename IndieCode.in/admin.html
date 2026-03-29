@@ -24,30 +24,16 @@
       IndieC&lt;&gt;de Admin
     </a>
     <nav class="portal-nav">
-      <a href="#" class="active">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-          stroke-linecap="round" stroke-linejoin="round">
-          <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
-          <circle cx="9" cy="7" r="4"></circle>
-          <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
-          <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
-        </svg>
+      <a href="#" class="active" data-tab="inquiries">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        Inquiries
+      </a>
+      <a href="#" data-tab="clients">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
         Clients
       </a>
-      <a href="#">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-          stroke-linecap="round" stroke-linejoin="round">
-          <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
-          <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
-        </svg>
-        Projects
-      </a>
-      <a href="#">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-          stroke-linecap="round" stroke-linejoin="round">
-          <line x1="12" y1="1" x2="12" y2="23"></line>
-          <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
-        </svg>
+      <a href="#" data-tab="payments">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
         Payments
       </a>
     </nav>
@@ -83,80 +69,74 @@
       </div>
     </div>
 
-    <!-- New Inquiries List -->
-    <section class="portal-card" style="margin-bottom: 40px; padding: 0; overflow: hidden;">
-      <div class="portal-card-header" style="padding: 32px 32px 0;">
-        <h3>Inbound Inquiries <span id="lead-count"
-            style="font-size: 0.75rem; color: rgba(248,249,250,0.3); font-weight: 400;"></span></h3>
-        <p style="font-size: 0.85rem; color: rgba(248,249,250,0.4); margin-top: 4px;">Convert these leads into clients
-          by activating their portal.</p>
-      </div>
+    <!-- TAB: Inquiries -->
+    <div id="tab-inquiries" class="admin-tab-panel">
+      <section class="portal-card" style="margin-bottom: 40px; padding: 0; overflow: hidden;">
+        <div class="portal-card-header" style="padding: 32px 32px 0;">
+          <h3>Inbound Inquiries <span id="lead-count" style="font-size: 0.75rem; color: rgba(248,249,250,0.3); font-weight: 400;"></span></h3>
+          <p style="font-size: 0.85rem; color: rgba(248,249,250,0.4); margin-top: 4px;">Convert these leads into clients by activating their portal.</p>
+        </div>
+        <div class="leads-toolbar" style="padding: 16px 32px;">
+          <div class="leads-toolbar-left">
+            <button class="leads-sort-btn is-active" data-sort="newest">Newest</button>
+            <button class="leads-sort-btn" data-sort="oldest">Oldest</button>
+            <button class="leads-sort-btn" data-sort="name">Name</button>
+            <button class="leads-sort-btn" data-sort="interest">Interest</button>
+          </div>
+          <div class="leads-toolbar-right">
+            <button class="leads-view-btn is-active" data-view="grouped" title="Group by person">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+            </button>
+            <button class="leads-view-btn" data-view="flat" title="Show all individually">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
+            </button>
+          </div>
+        </div>
+        <div id="leads-list" style="padding: 0 32px 16px;">
+          <div class="loading-state">Syncing with database...</div>
+        </div>
+        <div id="leads-pagination" class="leads-pagination" style="padding: 0 32px 32px;"></div>
+      </section>
+    </div>
 
-      <!-- Sort & View Toolbar -->
-      <div class="leads-toolbar" style="padding: 16px 32px;">
-        <div class="leads-toolbar-left">
-          <button class="leads-sort-btn is-active" data-sort="newest">Newest</button>
-          <button class="leads-sort-btn" data-sort="oldest">Oldest</button>
-          <button class="leads-sort-btn" data-sort="name">Name</button>
-          <button class="leads-sort-btn" data-sort="interest">Interest</button>
+    <!-- TAB: Clients -->
+    <div id="tab-clients" class="admin-tab-panel" style="display: none;">
+      <section class="portal-card" style="padding: 0; overflow: hidden;">
+        <div class="portal-card-header" style="padding: 32px 32px 16px;">
+          <h3>Active Clients <span id="client-count" style="font-size: 0.75rem; color: rgba(248,249,250,0.3); font-weight: 400;"></span></h3>
+          <p style="font-size: 0.85rem; color: rgba(248,249,250,0.4); margin-top: 4px;">All clients with an activated portal account.</p>
         </div>
-        <div class="leads-toolbar-right">
-          <button class="leads-view-btn is-active" data-view="grouped" title="Group by person">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <rect x="3" y="3" width="7" height="7" />
-              <rect x="14" y="3" width="7" height="7" />
-              <rect x="3" y="14" width="7" height="7" />
-              <rect x="14" y="14" width="7" height="7" />
-            </svg>
-          </button>
-          <button class="leads-view-btn" data-view="flat" title="Show all individually">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <line x1="8" y1="6" x2="21" y2="6" />
-              <line x1="8" y1="12" x2="21" y2="12" />
-              <line x1="8" y1="18" x2="21" y2="18" />
-              <line x1="3" y1="6" x2="3.01" y2="6" />
-              <line x1="3" y1="12" x2="3.01" y2="12" />
-              <line x1="3" y1="18" x2="3.01" y2="18" />
-            </svg>
-          </button>
+        <div id="clients-list" style="padding: 0 32px 32px;">
+          <div class="loading-state">Loading clients...</div>
         </div>
-      </div>
+      </section>
+    </div>
 
-      <div id="leads-list" style="padding: 0 32px 16px;">
-        <div class="loading-state">Syncing with database...</div>
-      </div>
-
-      <!-- Pagination -->
-      <div id="leads-pagination" class="leads-pagination" style="padding: 0 32px 32px;"></div>
-    </section>
-
-    <!-- Payment Generation -->
-    <section class="portal-card">
-      <div class="portal-card-header">
-        <h3>Generate Payment Request</h3>
-      </div>
-      <form style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px;">
-        <div style="display: flex; flex-direction: column; gap: 8px;">
-          <label style="font-size: 0.85rem; color: rgba(248,249,250,0.6);">Client Email</label>
-          <input type="email" id="payment-client-email" placeholder="client@example.com"
-            style="background: rgba(10,13,18,0.5); border: 1px solid rgba(248,249,250,0.1); padding: 12px; border-radius: 12px; color: #fff;">
+    <!-- TAB: Payments -->
+    <div id="tab-payments" class="admin-tab-panel" style="display: none;">
+      <section class="portal-card">
+        <div class="portal-card-header">
+          <h3>Generate Payment Request</h3>
         </div>
-        <div style="display: flex; flex-direction: column; gap: 8px;">
-          <label style="font-size: 0.85rem; color: rgba(248,249,250,0.6);">Amount (INR)</label>
-          <input type="number" id="payment-amount" placeholder="50000"
-            style="background: rgba(10,13,18,0.5); border: 1px solid rgba(248,249,250,0.1); padding: 12px; border-radius: 12px; color: #fff;">
-        </div>
-        <div style="grid-column: 1 / -1; display: flex; flex-direction: column; gap: 8px;">
-          <label style="font-size: 0.85rem; color: rgba(248,249,250,0.6);">Payment Description</label>
-          <input type="text" id="payment-desc" placeholder="Initial Deposit / Phase 1 Milestone"
-            style="background: rgba(10,13,18,0.5); border: 1px solid rgba(248,249,250,0.1); padding: 12px; border-radius: 12px; color: #fff;">
-        </div>
-        <div style="grid-column: 1 / -1; margin-top: 12px;">
-          <button type="button" class="button button-primary"
-            onclick="alert('Supabase & Razorpay Link generation pending keys.')">Send Payment Request via Email</button>
-        </div>
-      </form>
-    </section>
+        <form style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px;">
+          <div style="display: flex; flex-direction: column; gap: 8px;">
+            <label style="font-size: 0.85rem; color: rgba(248,249,250,0.6);">Client Email</label>
+            <input type="email" id="payment-client-email" placeholder="client@example.com" style="background: rgba(10,13,18,0.5); border: 1px solid rgba(248,249,250,0.1); padding: 12px; border-radius: 12px; color: #fff;">
+          </div>
+          <div style="display: flex; flex-direction: column; gap: 8px;">
+            <label style="font-size: 0.85rem; color: rgba(248,249,250,0.6);">Amount (INR)</label>
+            <input type="number" id="payment-amount" placeholder="50000" style="background: rgba(10,13,18,0.5); border: 1px solid rgba(248,249,250,0.1); padding: 12px; border-radius: 12px; color: #fff;">
+          </div>
+          <div style="grid-column: 1 / -1; display: flex; flex-direction: column; gap: 8px;">
+            <label style="font-size: 0.85rem; color: rgba(248,249,250,0.6);">Payment Description</label>
+            <input type="text" id="payment-desc" placeholder="Initial Deposit / Phase 1 Milestone" style="background: rgba(10,13,18,0.5); border: 1px solid rgba(248,249,250,0.1); padding: 12px; border-radius: 12px; color: #fff;">
+          </div>
+          <div style="grid-column: 1 / -1; margin-top: 12px;">
+            <button type="button" class="button button-primary" onclick="alert('Supabase & Razorpay Link generation pending keys.')">Send Payment Request via Email</button>
+          </div>
+        </form>
+      </section>
+    </div>
   </main>
 
   <!-- Admin Modal: New Client / Activate Portal -->

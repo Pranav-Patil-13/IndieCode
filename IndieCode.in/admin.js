@@ -22,6 +22,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     await fetchLeads();
     setupToolbar();
+    setupTabNavigation();
 
     const newClientBtn = document.getElementById('new-client-btn');
     if (newClientBtn) {
@@ -54,6 +55,116 @@ async function checkAdminAccess() {
     if (!adminEmails.includes(session.user.email)) { window.location.href = 'index.html'; return false; }
     document.body.style.opacity = '1';
     return true;
+}
+
+// =========================================================================
+// TAB NAVIGATION
+// =========================================================================
+function setupTabNavigation() {
+    const navLinks = document.querySelectorAll('.portal-nav a[data-tab]');
+    navLinks.forEach(link => {
+        link.addEventListener('click', (e) => {
+            e.preventDefault();
+            const tab = link.dataset.tab;
+
+            // Update active nav
+            navLinks.forEach(l => l.classList.remove('active'));
+            link.classList.add('active');
+
+            // Show/hide panels
+            document.querySelectorAll('.admin-tab-panel').forEach(panel => {
+                panel.style.display = 'none';
+            });
+            const target = document.getElementById('tab-' + tab);
+            if (target) target.style.display = 'block';
+
+            // Lazy-load clients on first visit
+            if (tab === 'clients') fetchClients();
+        });
+    });
+}
+
+// =========================================================================
+// FETCH CLIENTS
+// =========================================================================
+let clientsFetched = false;
+
+async function fetchClients() {
+    if (clientsFetched) return;
+    const container = document.getElementById('clients-list');
+    const countEl = document.getElementById('client-count');
+    if (!container) return;
+
+    container.innerHTML = '<div style="padding: 24px; color: rgba(248,249,250,0.4); font-size: 0.9rem;">Loading clients...</div>';
+
+    try {
+        const { data: clients, error } = await window.supabaseClient
+            .from('clients')
+            .select('*')
+            .order('created_at', { ascending: false });
+
+        if (error) {
+            console.error("Clients fetch error:", error);
+            container.innerHTML = `
+                <div style="padding: 32px; text-align: center;">
+                    <h4 style="color: var(--bg-0); margin-bottom: 8px;">Clients Table Setup</h4>
+                    <p style="color: rgba(248,249,250,0.4); font-size: 0.9rem; line-height: 1.6;">
+                        Create a <code>clients</code> table in Supabase with columns:<br>
+                        <code>id</code> (uuid), <code>name</code> (text), <code>email</code> (text), <code>created_at</code> (timestamptz).<br>
+                        Then add a SELECT policy for authenticated users.
+                    </p>
+                </div>`;
+            return;
+        }
+
+        clientsFetched = true;
+
+        if (!clients || clients.length === 0) {
+            container.innerHTML = '<div style="padding: 32px; color: rgba(248,249,250,0.4); font-size: 0.9rem;">No clients yet. Activate a lead from the Inquiries tab to see them here.</div>';
+            if (countEl) countEl.textContent = '(0)';
+            return;
+        }
+
+        if (countEl) countEl.textContent = `(${clients.length})`;
+        renderClients(clients, container);
+    } catch (err) {
+        container.innerHTML = `<div style="padding: 32px; color: #ff6b6b; font-size: 0.9rem;">Error: ${err.message}</div>`;
+    }
+}
+
+function renderClients(clients, container) {
+    container.innerHTML = '';
+
+    clients.forEach((client, i) => {
+        const date = new Date(client.created_at).toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' });
+        const initials = (client.name || 'U').split(' ').map(w => w[0]).join('').toUpperCase().slice(0, 2);
+        const colors = [
+            { bg: 'rgba(99, 102, 241, 0.15)', fg: '#818cf8' },
+            { bg: 'rgba(16, 185, 129, 0.15)', fg: '#34d399' },
+            { bg: 'rgba(245, 158, 11, 0.15)', fg: '#fbbf24' },
+            { bg: 'rgba(236, 72, 153, 0.15)', fg: '#f472b6' },
+            { bg: 'rgba(155, 81, 224, 0.15)', fg: '#c084fc' },
+        ];
+        const color = colors[i % colors.length];
+
+        const row = document.createElement('div');
+        row.className = 'payment-row';
+        row.style.alignItems = 'center';
+        row.innerHTML = `
+            <div style="display: flex; align-items: center; gap: 16px;">
+                <div style="width: 40px; height: 40px; border-radius: 12px; background: ${color.bg}; color: ${color.fg}; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.8rem; flex-shrink: 0;">${initials}</div>
+                <div class="payment-info" style="padding: 0;">
+                    <strong>${client.name || 'Unknown'}</strong>
+                    <span>${client.email} • Joined ${date}</span>
+                </div>
+            </div>
+            <div class="payment-detail" style="flex-direction: row; align-items: center; gap: 10px; flex-shrink: 0;">
+                <button class="button button-secondary" style="padding: 6px 14px; font-size: 0.78rem;" onclick="navigator.clipboard.writeText('${client.email}'); this.textContent='Copied!'; this.style.color='#10b981'; setTimeout(() => { this.textContent='Copy Email'; this.style.color=''; }, 1500);">Copy Email</button>
+                <span style="font-size: 0.72rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: #34d399; background: rgba(16,185,129,0.1); padding: 4px 10px; border-radius: 6px;">Active</span>
+            </div>
+        `;
+        container.appendChild(row);
+    });
 }
 
 // =========================================================================
@@ -424,6 +535,14 @@ async function handleModalSubmit() {
             options: { data: { full_name: name } }
         });
         if (error) throw error;
+
+        // Also save to clients table for the Clients view
+        try {
+            await window.supabaseClient.from('clients').insert([{ name, email }]);
+            clientsFetched = false; // Force re-fetch on next Clients tab visit
+        } catch (dbErr) {
+            console.warn("Could not save to clients table:", dbErr);
+        }
 
         formView.style.display = 'none';
         resultView.style.display = 'block';
