@@ -40,7 +40,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 // In a real app we'd fetch the user profile here to check if Admin or Client.
                 // For now, let's look at the email to decide routing.
                 // Pranav is the admin, everyone else goes to client portal.
-                if (email === 'admin@indiecode.in' || email === 'hello@indiecode.in') {
+                const adminEmails = ['admin@indiecode.in', 'hello@indiecode.in', 'pranavpatil13.2004@gmail.com'];
+                if (adminEmails.includes(email)) {
                     window.location.href = 'admin.html';
                 } else {
                     window.location.href = 'portal.html';
