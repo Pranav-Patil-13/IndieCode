@@ -199,6 +199,52 @@ const mobileHTML3 = `
     </div>
 </div>
 `;
+const desktopHTML4 = `
+<div class="mockup-body" style="padding: 0;">
+    <div style="height: 60px; background: rgba(255,255,255,0.02); border-bottom: 1px solid rgba(255,255,255,0.05); padding: 0 30px; display: flex; align-items: center; justify-content: space-between;">
+        <div class="mockup-line" style="width: 100px;"></div>
+        <div style="display: flex; gap: 20px;">
+            <div class="mockup-line" style="width: 60px;"></div>
+            <div class="mockup-line" style="width: 60px;"></div>
+        </div>
+    </div>
+    <div style="padding: 40px; display: grid; grid-template-columns: 1fr 1fr; gap: 40px;">
+        <div class="mockup-block" style="aspect-ratio: 1; opacity: 0.1;"></div>
+        <div style="display: flex; flex-direction: column; gap: 20px; padding-top: 20px;">
+            <div class="mockup-line" style="height: 30px; width: 80%;"></div>
+            <div class="mockup-line" style="height: 20px; width: 40%; background: #e3ca8c; opacity: 0.3;"></div>
+            <div style="margin-top: 20px; display: flex; flex-direction: column; gap: 10px;">
+                <div class="mockup-line"></div>
+                <div class="mockup-line"></div>
+                <div class="mockup-line medium"></div>
+            </div>
+            <div class="mockup-block" style="height: 50px; margin-top: 20px; border-radius: 30px;"></div>
+        </div>
+    </div>
+</div>
+`;
+
+const tabletHTML4 = `
+<div class="mockup-body">
+    <div style="display: flex; flex-direction: column; gap: 20px;">
+        <div class="mockup-block" style="aspect-ratio: 1.5; opacity: 0.08;"></div>
+        <div style="display: flex; flex-direction: column; gap: 15px;">
+            <div class="mockup-line" style="height: 25px; width: 70%;"></div>
+            <div class="mockup-line" style="height: 15px; width: 30%; background: #e3ca8c; opacity: 0.2;"></div>
+            <div class="mockup-block" style="height: 45px; border-radius: 25px; margin-top: 10px;"></div>
+        </div>
+    </div>
+</div>
+`;
+
+const mobileHTML4 = `
+<div class="mockup-body">
+    <div class="mockup-block" style="aspect-ratio: 1; margin-bottom: 20px; opacity: 0.05;"></div>
+    <div class="mockup-line" style="height: 20px; width: 80%; margin-bottom: 12px;"></div>
+    <div class="mockup-line short" style="margin-bottom: 24px;"></div>
+    <div class="mockup-block" style="height: 50px; border-radius: 25px;"></div>
+</div>
+`;
 
 const productsData = {
     "corporate-intranet": {
@@ -266,5 +312,27 @@ const productsData = {
         desktopSkeleton: desktopHTML3,
         tabletSkeleton: tabletHTML3,
         mobileSkeleton: mobileHTML3
+    },
+    "puregrains": {
+        badgeText: "Ready Product",
+        badgeClass: "badge-ready",
+        title: "PureGrains Store",
+        description: "A premium direct-to-consumer e-commerce engine optimized for regional grains. Features advanced subscription management, moisture-sealed packaging logistics tracking, and wholesale bulk order capabilities.",
+        meta1Label: "Build Cycle",
+        meta1Value: "17 Days",
+        meta2Label: "Niche",
+        meta2Value: "Organic Agri-Retail",
+        meta3Label: "Core Tech",
+        meta3Value: "Next.js, Tailwind, Stripe",
+        actionText: "Buy License",
+        actionLink: "index.html#contact",
+        checkoutLink: "#",
+        glowColor: "rgba(227, 202, 140, 0.12)",
+        desktopImage: "",
+        tabletImage: "",
+        mobileImage: "",
+        desktopSkeleton: desktopHTML4,
+        tabletSkeleton: tabletHTML4,
+        mobileSkeleton: mobileHTML4
     }
 };
