@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -16,7 +17,7 @@
       flex-direction: column;
       background: #0f1318;
     }
-    
+
     .product-showcase {
       display: flex;
       width: 100%;
@@ -24,7 +25,7 @@
       opacity: 0;
       transition: opacity 0.4s ease;
     }
-    
+
     .product-showcase.loaded {
       opacity: 1;
     }
@@ -52,7 +53,7 @@
       text-transform: uppercase;
       letter-spacing: 0.05em;
     }
-    
+
     .back-btn:hover {
       color: var(--bg-0);
       transform: translateX(-4px);
@@ -81,7 +82,7 @@
       color: #b97ff0;
       border: 1px solid rgba(155, 81, 224, 0.2);
     }
-    
+
     .badge-other {
       background: rgba(248, 249, 250, 0.1);
       color: #fff;
@@ -172,7 +173,8 @@
       min-height: 0;
     }
 
-    .visual-bottom-left, .visual-bottom-right {
+    .visual-bottom-left,
+    .visual-bottom-right {
       flex: 1;
       display: flex;
       align-items: center;
@@ -185,7 +187,7 @@
       position: absolute;
       width: 600px;
       height: 600px;
-      background: radial-gradient(circle, rgba(255,255,255,0.05) 0%, transparent 70%);
+      background: radial-gradient(circle, rgba(255, 255, 255, 0.05) 0%, transparent 70%);
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
@@ -195,9 +197,9 @@
 
     /* Base Product Mockup */
     .product-mockup {
-      background: linear-gradient(145deg, rgba(255,255,255,0.05), rgba(255,255,255,0.01));
+      background: linear-gradient(145deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.01));
       border: 1px solid rgba(255, 255, 255, 0.1);
-      box-shadow: 0 30px 60px rgba(0,0,0,0.4);
+      box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4);
       z-index: 2;
       position: relative;
       display: flex;
@@ -220,16 +222,16 @@
       aspect-ratio: 4/3;
       border-radius: 16px;
     }
-    
+
     /* Mobile version constraints */
     .product-mockup.type-mobile {
       width: auto;
       aspect-ratio: 9/19;
       height: 100%;
-      background: linear-gradient(145deg, rgba(20,20,25,0.9), rgba(10,10,15,0.95));
+      background: linear-gradient(145deg, rgba(20, 20, 25, 0.9), rgba(10, 10, 15, 0.95));
       border: 4px solid #2a2e35;
       border-radius: 32px;
-      box-shadow: 0 20px 40px rgba(0,0,0,0.5), inset 0 0 20px rgba(255,255,255,0.05);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5), inset 0 0 20px rgba(255, 255, 255, 0.05);
     }
 
     .mockup-header {
@@ -261,11 +263,19 @@
       border-radius: 50%;
       background: rgba(255, 255, 255, 0.2);
     }
-    
-    .mockup-dot:nth-child(1) { background: #d95850; }
-    .mockup-dot:nth-child(2) { background: #d9a53b; }
-    .mockup-dot:nth-child(3) { background: #3fa143; }
-    
+
+    .mockup-dot:nth-child(1) {
+      background: #d95850;
+    }
+
+    .mockup-dot:nth-child(2) {
+      background: #d9a53b;
+    }
+
+    .mockup-dot:nth-child(3) {
+      background: #3fa143;
+    }
+
     .mockup-notch {
       position: absolute;
       top: 0;
@@ -292,7 +302,7 @@
       min-height: 0;
       overflow: hidden;
     }
-    
+
     .type-mobile .mockup-body {
       padding: 0;
     }
@@ -305,7 +315,7 @@
       overflow: hidden;
       min-height: 0;
     }
-    
+
     .mockup-img {
       width: 100%;
       height: 100%;
@@ -319,13 +329,19 @@
       border-radius: 6px;
       width: 100%;
     }
-    
-    .mockup-line.short { width: 40%; }
-    .mockup-line.medium { width: 70%; }
+
+    .mockup-line.short {
+      width: 40%;
+    }
+
+    .mockup-line.medium {
+      width: 70%;
+    }
+
     .mockup-block {
-        flex: 1;
-        background: rgba(255,255,255,0.03);
-        border-radius: 12px;
+      flex: 1;
+      background: rgba(255, 255, 255, 0.03);
+      border-radius: 12px;
     }
 
     /* Error Message State */
@@ -338,6 +354,7 @@
       text-align: center;
       color: rgba(248, 249, 250, 0.6);
     }
+
     .error-state h2 {
       color: var(--bg-0);
       margin-bottom: 16px;
@@ -355,19 +372,19 @@
       pointer-events: none;
       transition: opacity 0.3s ease;
     }
-    
+
     .buy-modal.is-active {
       opacity: 1;
       pointer-events: auto;
     }
-    
+
     .buy-modal-backdrop {
       position: absolute;
       inset: 0;
       background: rgba(10, 12, 16, 0.85);
       backdrop-filter: blur(12px);
     }
-    
+
     .buy-modal-content {
       position: relative;
       background: #151a21;
@@ -380,11 +397,11 @@
       transform: translateY(20px);
       transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
     }
-    
+
     .buy-modal.is-active .buy-modal-content {
       transform: translateY(0);
     }
-    
+
     .buy-modal-close {
       position: absolute;
       top: 20px;
@@ -396,11 +413,11 @@
       padding: 8px;
       transition: color 0.2s ease;
     }
-    
+
     .buy-modal-close:hover {
       color: var(--bg-0);
     }
-    
+
     .buy-modal-header h2 {
       font-size: 1.8rem;
       margin: 0 0 12px;
@@ -408,22 +425,22 @@
       font-family: "IBM Plex Serif", serif;
       letter-spacing: -0.02em;
     }
-    
+
     .buy-modal-header p {
       font-size: 0.95rem;
       color: rgba(248, 249, 250, 0.7);
       line-height: 1.6;
       margin: 0 0 32px;
     }
-    
+
     .buy-modal-header strong {
       color: var(--bg-0);
     }
-    
+
     .buy-modal-form .form-group {
       margin-bottom: 20px;
     }
-    
+
     .buy-modal-form label {
       display: block;
       font-size: 0.85rem;
@@ -433,7 +450,7 @@
       letter-spacing: 0.05em;
       font-weight: 600;
     }
-    
+
     .buy-modal-form input {
       width: 100%;
       height: 50px;
@@ -447,13 +464,13 @@
       transition: border-color 0.2s ease, background 0.2s ease;
       box-sizing: border-box;
     }
-    
+
     .buy-modal-form input:focus {
       outline: none;
       border-color: rgba(248, 249, 250, 0.3);
       background: rgba(248, 249, 250, 0.08);
     }
-    
+
     .buy-modal-secure {
       text-align: center;
       font-size: 0.75rem;
@@ -465,17 +482,21 @@
       .product-showcase {
         flex-direction: column;
       }
+
       .product-details {
         padding: 40px;
         flex: 1;
         overflow-y: auto;
       }
+
       .product-visual-container {
         display: none;
       }
+
       .product-details h1 {
         font-size: 2.5rem;
       }
+
       .back-btn {
         top: 20px;
         left: 20px;
@@ -483,8 +504,9 @@
     }
   </style>
 </head>
+
 <body>
-  
+
   <div class="error-state" id="error-state">
     <h2>Product Not Found</h2>
     <p>We couldn't locate the product details you requested.</p>
@@ -494,15 +516,19 @@
   <div class="product-showcase" id="product-showcase">
     <div class="product-details">
       <a href="index.html" class="back-btn">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"/><path d="M12 19l-7-7 7-7"/></svg>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+          stroke-linecap="round" stroke-linejoin="round">
+          <path d="M19 12H5" />
+          <path d="M12 19l-7-7 7-7" />
+        </svg>
         Back to Home
       </a>
-      
+
       <div id="p-badge" class="product-badge badge-custom">...</div>
-      
+
       <h1 id="p-title">Loading...</h1>
       <p id="p-desc">...</p>
-      
+
       <div class="product-meta">
         <div class="meta-item">
           <span id="p-meta1-label">...</span>
@@ -526,13 +552,15 @@
 
     <div class="product-visual-container">
       <div id="p-glow" class="visual-glow"></div>
-      
+
       <div class="visual-grid">
         <div class="visual-top">
           <div id="p-mockup-desktop" class="product-mockup type-desktop">
             <div class="mockup-header">
               <div class="mockup-dots">
-                <div class="mockup-dot"></div><div class="mockup-dot"></div><div class="mockup-dot"></div>
+                <div class="mockup-dot"></div>
+                <div class="mockup-dot"></div>
+                <div class="mockup-dot"></div>
               </div>
               <span class="mockup-view-name">Desktop</span>
             </div>
@@ -544,7 +572,9 @@
             <div id="p-mockup-tablet" class="product-mockup type-tablet">
               <div class="mockup-header" style="height: 30px;">
                 <div class="mockup-dots">
-                  <div class="mockup-dot"></div><div class="mockup-dot"></div><div class="mockup-dot"></div>
+                  <div class="mockup-dot"></div>
+                  <div class="mockup-dot"></div>
+                  <div class="mockup-dot"></div>
                 </div>
                 <span class="mockup-view-name">Tablet</span>
               </div>
@@ -568,18 +598,23 @@
     <div class="buy-modal-backdrop" onclick="closeBuyModal()"></div>
     <div class="buy-modal-content">
       <button class="buy-modal-close" aria-label="Close" onclick="closeBuyModal()">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+          stroke-linecap="round" stroke-linejoin="round">
+          <path d="M18 6L6 18M6 6l12 12" />
+        </svg>
       </button>
       <div class="buy-modal-header">
         <h2>Get Complete Source Code</h2>
-        <p>Purchase the production-ready code, documentation, and design assets for <strong id="buy-modal-product-name">...</strong>.</p>
+        <p>Purchase the production-ready code, documentation, and design assets for <strong
+            id="buy-modal-product-name">...</strong>.</p>
       </div>
       <form class="buy-modal-form" id="checkout-form">
         <div class="form-group">
           <label>Email Address</label>
           <input type="email" id="checkout-email" placeholder="you@company.com" required>
         </div>
-        <button type="submit" id="checkout-btn" class="button button-primary" style="width: 100%; margin-top: 10px;">Proceed to Checkout</button>
+        <button type="submit" id="checkout-btn" class="button button-primary"
+          style="width: 100%; margin-top: 10px;">Proceed to Checkout</button>
       </form>
       <p class="buy-modal-secure">Secure 256-bit SSL encrypted checkout</p>
     </div>
@@ -589,11 +624,11 @@
   <script src="products-data.js"></script>
   <script>
     // Config: Razorpay Integration
-    const RZP_KEY_ID = "rzp_test_pizC2MvT8C5iN8"; // Placeholder
+    const RZP_KEY_ID = "rzp_live_SW8Z2TVGygsVYj"; // Placeholder
     function openBuyModal() {
       document.getElementById('buy-modal').classList.add('is-active');
     }
-    
+
     function closeBuyModal() {
       document.getElementById('buy-modal').classList.remove('is-active');
     }
@@ -602,7 +637,7 @@
       // Parse URL params
       const params = new URLSearchParams(window.location.search);
       const productId = params.get("id");
-      
+
       const product = productsData[productId];
       const showcase = document.getElementById("product-showcase");
       const errorState = document.getElementById("error-state");
@@ -615,7 +650,7 @@
 
       // Populate Data
       document.title = `${product.title} | IndieCode`;
-      
+
       const badge = document.getElementById("p-badge");
       badge.textContent = product.badgeText;
       badge.className = `product-badge ${product.badgeClass}`;
@@ -626,10 +661,10 @@
 
       document.getElementById("p-meta1-label").textContent = product.meta1Label;
       document.getElementById("p-meta1-value").textContent = product.meta1Value;
-      
+
       document.getElementById("p-meta2-label").textContent = product.meta2Label;
       document.getElementById("p-meta2-value").textContent = product.meta2Value;
-      
+
       document.getElementById("p-meta3-label").textContent = product.meta3Label;
       document.getElementById("p-meta3-value").textContent = product.meta3Value;
 
@@ -639,49 +674,49 @@
         const btn = document.getElementById("checkout-btn");
         const email = document.getElementById("checkout-email").value;
         const originalText = btn.textContent;
-        
+
         if (product.checkoutLink === "razorpay") {
-            const options = {
-                "key": RZP_KEY_ID,
-                "amount": product.price, // Amount is in currency subunits. Default is paise.
-                "currency": "INR",
-                "name": "IndieCode",
-                "description": `Full Build - ${product.title}`,
-                "image": "assets/logo.png",
-                "handler": function (response) {
-                    alert(`Payment Successful! Payment ID: ${response.razorpay_payment_id}. We will contact you at ${email} with the source code access.`);
-                    closeBuyModal();
-                },
-                "prefill": {
-                    "email": email
-                },
-                "theme": {
-                    "color": "#e3ca8c"
-                }
-            };
-            const rzp1 = new Razorpay(options);
-            rzp1.on('payment.failed', function (response){
-                alert(`Payment Failed: ${response.error.description}`);
-                btn.textContent = originalText;
-                btn.style.opacity = "1";
-                btn.style.pointerEvents = "auto";
-            });
-            rzp1.open();
-            
-            btn.textContent = "Processing...";
-            btn.style.opacity = "0.7";
-            btn.style.pointerEvents = "none";
-        } else if (product.checkoutLink && product.checkoutLink !== "#") {
-            window.location.href = `${product.checkoutLink}?prefilled_email=${encodeURIComponent(email)}`;
-        } else {
-            alert("This item is not currently available for direct purchase. Please contact us.");
+          const options = {
+            "key": RZP_KEY_ID,
+            "amount": product.price, // Amount is in currency subunits. Default is paise.
+            "currency": "INR",
+            "name": "IndieCode",
+            "description": `Full Build - ${product.title}`,
+            "image": "assets/logo.png",
+            "handler": function (response) {
+              alert(`Payment Successful! Payment ID: ${response.razorpay_payment_id}. We will contact you at ${email} with the source code access.`);
+              closeBuyModal();
+            },
+            "prefill": {
+              "email": email
+            },
+            "theme": {
+              "color": "#e3ca8c"
+            }
+          };
+          const rzp1 = new Razorpay(options);
+          rzp1.on('payment.failed', function (response) {
+            alert(`Payment Failed: ${response.error.description}`);
             btn.textContent = originalText;
+            btn.style.opacity = "1";
+            btn.style.pointerEvents = "auto";
+          });
+          rzp1.open();
+
+          btn.textContent = "Processing...";
+          btn.style.opacity = "0.7";
+          btn.style.pointerEvents = "none";
+        } else if (product.checkoutLink && product.checkoutLink !== "#") {
+          window.location.href = `${product.checkoutLink}?prefilled_email=${encodeURIComponent(email)}`;
+        } else {
+          alert("This item is not currently available for direct purchase. Please contact us.");
+          btn.textContent = originalText;
         }
       });
 
       // Visuals
       document.getElementById("p-glow").style.background = `radial-gradient(circle, ${product.glowColor} 0%, transparent 70%)`;
-      
+
       const setScreenContext = (screenId, imageSrc, fallbackHtml) => {
         const screen = document.getElementById(screenId);
         if (imageSrc) {
@@ -703,4 +738,5 @@
     });
   </script>
 </body>
+
 </html>
