@@ -4725,7 +4725,8 @@ select#country_code {
     left: 0;
     width: 100%;
     height: calc(100vh - 88px) !important;
-    background: rgba(0, 0, 0, 0.85);
+    background: linear-gradient(
+0deg, #ebd399, #4c3312);
     backdrop-filter: blur(10px);
     z-index: 10001 !important;
     
@@ -4798,4 +4799,10 @@ body.modal-open {
 .modal-form textarea {
     height: auto !important;
     min-height: 120px !important;
+}
+
+/* --- Seamless Modal Transition --- */
+.modal-overlay {
+    top: 87px !important; /* Adjusted by 1px to close the hairline gap */
+    height: calc(100vh - 87px) !important;
 }
