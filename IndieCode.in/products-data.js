@@ -328,9 +328,9 @@ const productsData = {
         actionLink: "index.html#contact",
         checkoutLink: "#",
         glowColor: "rgba(227, 202, 140, 0.12)",
-        desktopImage: "",
-        tabletImage: "",
-        mobileImage: "",
+        desktopImage: "assets/puregrains-desktop.png",
+        tabletImage: "assets/puregrains-tab.png",
+        mobileImage: "assets/puregrains-mobile.png",
         desktopSkeleton: desktopHTML4,
         tabletSkeleton: tabletHTML4,
         mobileSkeleton: mobileHTML4
