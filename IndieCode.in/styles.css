@@ -4806,3 +4806,55 @@ body.modal-open {
     top: 87px !important; /* Adjusted by 1px to close the hairline gap */
     height: calc(100vh - 87px) !important;
 }
+
+/* --- Projects Horizontal Slider --- */
+.projects-slider-container {
+    width: 100vw;
+    position: relative;
+    left: 50%;
+    right: 50%;
+    margin-left: -50vw;
+    margin-right: -50vw;
+    overflow: hidden;
+    padding: 20px 0 60px;
+}
+
+.projects-slider {
+    display: flex;
+    gap: 32px;
+    overflow-x: auto;
+    padding: 0 max(40px, calc((100vw - 1400px) / 2));
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none; /* Hide scrollbar Firefox */
+    -ms-overflow-style: none; /* Hide scrollbar IE/Edge */
+}
+
+.projects-slider::-webkit-scrollbar {
+    display: none; /* Hide scrollbar Chrome/Safari */
+}
+
+.projects-slider .project-card {
+    flex: 0 0 450px;
+    scroll-snap-align: start;
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.projects-slider .project-card:hover {
+    transform: translateY(-10px) scale(1.02);
+}
+
+@media (max-width: 768px) {
+    .projects-slider .project-card {
+        flex: 0 0 85vw;
+    }
+    .projects-slider {
+        padding: 0 10vw;
+        gap: 20px;
+    }
+}
+
+.project-image-placeholder {
+    width: 100%;
+    aspect-ratio: 16/10;
+    border-radius: 16px;
+}
