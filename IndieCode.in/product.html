@@ -99,7 +99,7 @@
     .product-details h1 {
       font-size: clamp(3rem, 5vw, 4.8rem);
       line-height: 0.95;
-      margin-bottom: 28px;
+      margin-bottom: 12px;
       color: var(--bg-0);
       font-family: "IBM Plex Serif", serif;
       letter-spacing: -0.04em;
@@ -110,7 +110,7 @@
       line-height: 1.7;
       color: rgba(248, 249, 250, 0.65);
       max-width: 520px;
-      margin-bottom: 48px;
+      margin-bottom: 18px;
       font-weight: 300;
     }
 
@@ -118,7 +118,7 @@
       display: grid;
       grid-template-columns: repeat(2, 1fr);
       gap: 16px;
-      margin-bottom: 56px;
+      margin-bottom: 0px;
       max-width: 550px;
     }
 
@@ -627,12 +627,15 @@
       .request-row {
         grid-template-columns: 1fr;
       }
+
       .request-overlay {
         padding: 20px 12px;
       }
+
       .request-header {
         padding: 20px;
       }
+
       .request-form-body {
         padding: 20px;
       }
@@ -1000,9 +1003,12 @@
           <div>
             <div style="display:flex;align-items:center;gap:12px;margin-bottom:8px;">
               <span class="request-badge">Custom Build</span>
-              <h2 style="margin:0;font-size:1.5rem;font-family:'IBM Plex Serif',serif;color:var(--bg-0);">Request a Similar Build</h2>
+              <h2 style="margin:0;font-size:1.5rem;font-family:'IBM Plex Serif',serif;color:var(--bg-0);">Request a
+                Similar Build</h2>
             </div>
-            <p style="margin:0;font-size:0.85rem;color:rgba(248,249,250,0.6);">Tell us what you need and we'll craft a custom version of <strong id="request-modal-product-name" style="color:var(--bg-0);">...</strong> tailored to your brand.</p>
+            <p style="margin:0;font-size:0.85rem;color:rgba(248,249,250,0.6);">Tell us what you need and we'll craft a
+              custom version of <strong id="request-modal-product-name" style="color:var(--bg-0);">...</strong> tailored
+              to your brand.</p>
           </div>
           <button class="request-close" onclick="closeRequestModal()">&times;</button>
         </div>
@@ -1027,19 +1033,28 @@
           </div>
           <div class="request-field">
             <label>What do you need?</label>
-            <textarea id="request-message" name="message" rows="3" placeholder="Describe your requirements..." required></textarea>
+            <textarea id="request-message" name="message" rows="3" placeholder="Describe your requirements..."
+              required></textarea>
           </div>
-          <button type="submit" id="request-submit-btn" class="button button-primary" style="width:100%;margin-top:8px;">Send Inquiry</button>
-          <p style="text-align:center;font-size:0.75rem;color:rgba(248,249,250,0.4);margin-top:16px;">We typically respond within 24 hours</p>
+          <button type="submit" id="request-submit-btn" class="button button-primary"
+            style="width:100%;margin-top:8px;">Send Inquiry</button>
+          <p style="text-align:center;font-size:0.75rem;color:rgba(248,249,250,0.4);margin-top:16px;">We typically
+            respond within 24 hours</p>
         </form>
       </div>
       <div id="request-modal-success" style="display:none;text-align:center;padding:40px;">
-        <div style="width:80px;height:80px;background:rgba(16,185,129,0.1);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 24px;">
-          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+        <div
+          style="width:80px;height:80px;background:rgba(16,185,129,0.1);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 24px;">
+          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="3"
+            stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="20 6 9 17 4 12"></polyline>
+          </svg>
         </div>
         <h2 style="font-family:'IBM Plex Serif',serif;margin-bottom:12px;font-size:2rem;">Inquiry Sent!</h2>
-        <p style="color:rgba(248,249,250,0.7);line-height:1.6;margin-bottom:32px;">We've received your request. Our team will review it and reach out within 24 hours.</p>
-        <button onclick="closeRequestModal()" class="button" style="width:100%;border:1px solid rgba(255,255,255,0.1);">Back to Product</button>
+        <p style="color:rgba(248,249,250,0.7);line-height:1.6;margin-bottom:32px;">We've received your request. Our team
+          will review it and reach out within 24 hours.</p>
+        <button onclick="closeRequestModal()" class="button"
+          style="width:100%;border:1px solid rgba(255,255,255,0.1);">Back to Product</button>
       </div>
     </div>
   </div>

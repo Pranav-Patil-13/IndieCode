@@ -183,6 +183,7 @@ a {
     border-color 180ms ease,
     color 180ms ease,
     box-shadow 180ms ease;
+    cursor: pointer;
 }
 
 .header-cta {
