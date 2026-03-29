@@ -4655,3 +4655,22 @@ select#country_code {
     height: 52px !important;
     padding: 0 16px !important;
 }
+
+/* --- Force Modal Scroll Fix --- */
+.modal-form-body {
+  max-height: 100% !important;
+  overflow-y: auto !important;
+  display: block !important;
+  -ms-overflow-style: auto !important;
+  scrollbar-width: thin !important;
+  scrollbar-color: rgba(255, 255, 255, 0.2) transparent !important;
+}
+
+.modal-form-body::-webkit-scrollbar {
+  width: 6px;
+}
+
+.modal-form-body::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 10px;
+}
