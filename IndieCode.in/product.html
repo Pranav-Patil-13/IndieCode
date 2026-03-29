@@ -41,8 +41,8 @@
 
     .back-btn {
       position: absolute;
-      top: 40px;
-      left: 60px;
+      top: 16px;
+      left: 16px;
       display: inline-flex;
       align-items: center;
       gap: 8px;
@@ -61,8 +61,8 @@
 
     .product-badge {
       position: absolute;
-      top: 40px;
-      right: 80px;
+      top: 12px;
+      right: 12px;
       padding: 8px 16px;
       border-radius: 999px;
       font-size: 0.7rem;
@@ -511,16 +511,27 @@
       }
 
       .product-details {
-        padding: 80px 30px 40px;
+        padding: 40px 24px 60px;
         order: 2;
       }
 
       .product-details h1 {
-        font-size: 3rem;
+        font-size: 2.8rem;
+        margin-bottom: 20px;
+      }
+
+      .product-details p {
+        font-size: 1.05rem;
+        margin-bottom: 40px;
       }
 
       .product-meta {
         grid-template-columns: 1fr;
+        gap: 12px;
+      }
+
+      .meta-item {
+        padding: 16px;
       }
 
       .meta-item:last-child {
@@ -528,31 +539,66 @@
       }
 
       .product-visual-container {
-        height: 60vh;
+        height: 55vh;
         order: 1;
         border-left: none;
         border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-        padding: 20px;
+        padding: 60px 0 20px; /* Space for the floating header */
+      }
+
+      .visual-grid {
+        flex-direction: row;
+        overflow-x: auto;
+        padding: 0 20px;
+        gap: 16px;
+        scroll-snap-type: x mandatory;
+        -webkit-overflow-scrolling: touch;
+      }
+
+      .visual-top, .visual-bottom-left, .visual-bottom-right {
+        flex: none;
+        width: 85vw;
+        height: 100%;
+        scroll-snap-align: center;
+      }
+      
+      .visual-bottom {
+        display: contents; /* Allows children to be siblings in the flex grid */
       }
 
       .back-btn {
-        top: 30px;
-        left: 30px;
+        top: 20px;
+        left: 20px;
+        background: rgba(15, 19, 24, 0.6);
+        backdrop-filter: blur(10px);
+        padding: 8px 12px;
+        border-radius: 12px;
+        font-size: 0.75rem;
+        z-index: 100;
+        border: 1px solid rgba(255, 255, 255, 0.05);
       }
 
       .product-badge {
-        top: 30px;
-        right: 30px;
+        top: 20px;
+        right: 20px;
+        background: rgba(15, 19, 24, 0.6);
+        backdrop-filter: blur(10px);
+        z-index: 100;
+        border: 1px solid rgba(255, 255, 255, 0.05);
       }
 
       .product-actions {
         flex-direction: column;
-        gap: 16px;
+        gap: 12px;
+        padding-top: 24px;
+        margin-top: 24px;
       }
 
-      .product-actions button, .product-actions a {
+      .product-actions button,
+      .product-actions a {
         width: 100%;
         justify-content: center;
+        height: 56px;
       }
     }
   </style>
@@ -585,21 +631,32 @@
       <div class="product-meta">
         <div class="meta-item">
           <div style="display: flex; align-items: center; gap: 8px;">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="color: rgba(248, 249, 250, 0.3);"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+              stroke-linecap="round" stroke-linejoin="round" style="color: rgba(248, 249, 250, 0.3);">
+              <path
+                d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83" />
+            </svg>
             <span id="p-meta1-label">...</span>
           </div>
           <strong id="p-meta1-value">...</strong>
         </div>
         <div class="meta-item">
           <div style="display: flex; align-items: center; gap: 8px;">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="color: rgba(248, 249, 250, 0.3);"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+              stroke-linecap="round" stroke-linejoin="round" style="color: rgba(248, 249, 250, 0.3);">
+              <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+            </svg>
             <span id="p-meta2-label">...</span>
           </div>
           <strong id="p-meta2-value">...</strong>
         </div>
         <div class="meta-item">
           <div style="display: flex; align-items: center; gap: 8px;">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="color: rgba(248, 249, 250, 0.3);"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+              stroke-linecap="round" stroke-linejoin="round" style="color: rgba(248, 249, 250, 0.3);">
+              <polyline points="16 18 22 12 16 6"></polyline>
+              <polyline points="8 6 2 12 8 18"></polyline>
+            </svg>
             <span id="p-meta3-label">...</span>
           </div>
           <strong id="p-meta3-value">...</strong>
@@ -639,30 +696,30 @@
         </div>
 
         <div class="visual-bottom">
-        <div class="visual-bottom-left">
-          <div id="p-mockup-tablet" class="product-mockup type-tablet">
-            <div class="mockup-header" style="height: 30px;">
-              <div class="mockup-dots">
-                <div class="mockup-dot"></div>
-                <div class="mockup-dot"></div>
-                <div class="mockup-dot"></div>
+          <div class="visual-bottom-left">
+            <div id="p-mockup-tablet" class="product-mockup type-tablet">
+              <div class="mockup-header" style="height: 30px;">
+                <div class="mockup-dots">
+                  <div class="mockup-dot"></div>
+                  <div class="mockup-dot"></div>
+                  <div class="mockup-dot"></div>
+                </div>
+                <span class="mockup-view-name">Tablet</span>
               </div>
-              <span class="mockup-view-name">Tablet</span>
+              <div id="p-screen-tablet" class="mockup-screen"></div>
             </div>
-            <div id="p-screen-tablet" class="mockup-screen"></div>
           </div>
-        </div>
-        <div class="visual-bottom-right">
-          <div id="p-mockup-mobile" class="product-mockup type-mobile">
-            <div class="mockup-notch">
-              <span class="mockup-view-name" style="font-size: 0.55rem; color: rgba(255,255,255,0.4);">MOBILE</span>
+          <div class="visual-bottom-right">
+            <div id="p-mockup-mobile" class="product-mockup type-mobile">
+              <div class="mockup-notch">
+                <span class="mockup-view-name" style="font-size: 0.55rem; color: rgba(255,255,255,0.4);">MOBILE</span>
+              </div>
+              <div id="p-screen-mobile" class="mockup-screen"></div>
             </div>
-            <div id="p-screen-mobile" class="mockup-screen"></div>
           </div>
         </div>
       </div>
     </div>
-  </div>
   </div>
 
   <div class="buy-modal" id="buy-modal">
@@ -742,45 +799,45 @@
     let originalParent = null;
     let originalNextSibling = null;
 
-    window.toggleFullscreen = function() {
-        const mockup = document.getElementById('p-mockup-desktop');
-        const overlay = document.getElementById('p-overlay');
-        const body = document.body;
-        if (!mockup || !overlay) return;
-        
-        const isCurrentlyFull = mockup.classList.contains('is-fullscreen');
-        
-        if (!isCurrentlyFull) {
-            // Save original position
-            originalParent = mockup.parentNode;
-            originalNextSibling = mockup.nextSibling;
-            
-            // Move to body to escape stacking context
-            body.appendChild(mockup);
-            
-            // Add classes
-            mockup.classList.add('is-fullscreen');
-            overlay.classList.add('active');
-            body.classList.add('has-fullscreen');
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        } else {
-            // Remove classes
-            mockup.classList.remove('is-fullscreen');
-            overlay.classList.remove('active');
-            body.classList.remove('has-fullscreen');
-            
-            // Return to original parent
-            if (originalParent) {
-                originalParent.insertBefore(mockup, originalNextSibling);
-            }
+    window.toggleFullscreen = function () {
+      const mockup = document.getElementById('p-mockup-desktop');
+      const overlay = document.getElementById('p-overlay');
+      const body = document.body;
+      if (!mockup || !overlay) return;
+
+      const isCurrentlyFull = mockup.classList.contains('is-fullscreen');
+
+      if (!isCurrentlyFull) {
+        // Save original position
+        originalParent = mockup.parentNode;
+        originalNextSibling = mockup.nextSibling;
+
+        // Move to body to escape stacking context
+        body.appendChild(mockup);
+
+        // Add classes
+        mockup.classList.add('is-fullscreen');
+        overlay.classList.add('active');
+        body.classList.add('has-fullscreen');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      } else {
+        // Remove classes
+        mockup.classList.remove('is-fullscreen');
+        overlay.classList.remove('active');
+        body.classList.remove('has-fullscreen');
+
+        // Return to original parent
+        if (originalParent) {
+          originalParent.insertBefore(mockup, originalNextSibling);
         }
+      }
     };
 
     // Handle ESC to close
     document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && document.body.classList.contains('has-fullscreen')) {
-            toggleFullscreen();
-        }
+      if (e.key === 'Escape' && document.body.classList.contains('has-fullscreen')) {
+        toggleFullscreen();
+      }
     });
 
     function openBuyModal() {
@@ -808,7 +865,7 @@
 
       // Populate Data
       document.title = `${product.title} | Premium SaaS Build | IndieCode`;
-      
+
       // Dynamic SEO Meta
       let metaDesc = document.querySelector('meta[name="description"]');
       if (!metaDesc) {
