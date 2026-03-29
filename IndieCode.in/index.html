@@ -909,55 +909,60 @@
           <input type="hidden" name="access_key" value="3f5b29f2-794a-429c-8dd2-46f2d1c21ea4">
           <input type="hidden" name="subject" value="New Project Inquiry - IndieCode">
           
-          <div class="form-row">
-            <div class="form-group">
-              <label for="modal-name">Full Name</label>
-              <input type="text" id="modal-name" name="name" placeholder="John Doe" required>
+          <div class="modal-form-body">
+            <div class="form-grid">
+              <div class="form-group">
+                <label for="modal-name">Full Name</label>
+                <input type="text" id="modal-name" name="name" placeholder="John Doe" required>
+              </div>
+              
+              <div class="form-group">
+                <label for="modal-email">Email Address</label>
+                <input type="email" id="modal-email" name="email" placeholder="john@company.com" required>
+              </div>
+
+              <div class="form-group span-full">
+                <label for="modal-phone">Contact Number</label>
+                <div class="phone-input-group">
+                  <select name="country_code" id="modal-country_code" class="country-select">
+                    <option value="+91">+91</option>
+                    <option value="+1">+1</option>
+                    <option value="+44">+44</option>
+                    <option value="+971">+971</option>
+                    <option value="+61">+61</option>
+                    <option value="+65">+65</option>
+                  </select>
+                  <input type="tel" id="modal-phone" name="phone" placeholder="98765 43210" required 
+                         pattern="[0-9]*" oninput="this.value = this.value.replace(/[^0-9]/g, '');">
+                </div>
+              </div>
+
+              <div class="form-group span-full">
+                <label for="modal-interest">I'm interested in...</label>
+                <select id="modal-interest" name="interest">
+                  <option value="custom">Custom SaaS Development</option>
+                  <option value="ready">Ready Products</option>
+                  <option value="other">Other Inquiry</option>
+                </select>
+              </div>
+
+              <div class="form-group span-full">
+                <label for="modal-message">Project Details</label>
+                <textarea id="modal-message" name="message" rows="4"
+                  placeholder="Tell us about your project goals, timeline, and budget..." required></textarea>
+              </div>
+
+              <div class="form-group span-full">
+                <button type="submit" class="button button-primary submit-btn" id="modal-submit-btn" style="width: 100%;">
+                  <span>Send Message</span>
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                    <line x1="22" y1="2" x2="11" y2="13"></line>
+                    <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                  </svg>
+                </button>
+              </div>
             </div>
-            <div class="form-group">
-              <label for="modal-email">Email Address</label>
-              <input type="email" id="modal-email" name="email" placeholder="john@company.com" required>
-            </div>
           </div>
-
-          <div class="form-group">
-            <label for="modal-phone">Contact Number</label>
-            <div class="phone-input-group">
-              <select name="country_code" id="modal-country_code" class="country-select">
-                <option value="+91">+91</option>
-                <option value="+1">+1</option>
-                <option value="+44">+44</option>
-                <option value="+971">+971</option>
-                <option value="+61">+61</option>
-                <option value="+65">+65</option>
-              </select>
-              <input type="tel" id="modal-phone" name="phone" placeholder="98765 43210" required 
-                     pattern="[0-9]*" oninput="this.value = this.value.replace(/[^0-9]/g, '');">
-            </div>
-          </div>
-
-          <div class="form-group">
-            <label for="modal-interest">I'm interested in...</label>
-            <select id="modal-interest" name="interest">
-              <option value="custom">Custom SaaS Development</option>
-              <option value="ready">Ready Products</option>
-              <option value="other">Other Inquiry</option>
-            </select>
-          </div>
-
-          <div class="form-group">
-            <label for="modal-message">Project Details</label>
-            <textarea id="modal-message" name="message" rows="4"
-              placeholder="Tell us about your project goals, timeline, and budget..." required></textarea>
-          </div>
-
-          <button type="submit" class="button button-primary submit-btn" id="modal-submit-btn">
-            <span>Send Message</span>
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-              <line x1="22" y1="2" x2="11" y2="13"></line>
-              <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
-            </svg>
-          </button>
         </form>
       </div>
     </div>

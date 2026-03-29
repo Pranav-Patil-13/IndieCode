@@ -4537,3 +4537,60 @@ select#country_code {
     font-size: 1.8rem;
   }
 }
+
+/* --- Contact Modal Improvements --- */
+.contact-modal-container {
+  max-width: 1400px !important; /* Full site width */
+  width: 95% !important;
+  height: auto;
+  max-height: 90vh; /* Don't exceed screen height */
+  display: flex;
+  flex-direction: column;
+}
+
+.contact-modal-container .modal-inner {
+  display: flex !important;
+  flex-direction: column;
+  height: 100%;
+  padding: 0 !important; /* Move padding to header/body */
+  overflow: hidden;
+}
+
+.modal-header {
+  padding: 48px 48px 24px;
+  margin-bottom: 0 !important;
+  background: #0a0d12;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  position: sticky;
+  top: 0;
+  z-index: 5;
+}
+
+.modal-form-body {
+  padding: 40px 48px 48px;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255,255,255,0.1) transparent;
+}
+
+/* 2-column Grid for the wide form */
+.modal-form .form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px;
+}
+
+.modal-form .span-full {
+  grid-column: 1 / -1;
+}
+
+@media (max-width: 1024px) {
+  .modal-form .form-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+}
+
+.modal-form textarea {
+  min-height: 120px;
+}
