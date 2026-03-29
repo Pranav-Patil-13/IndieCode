@@ -91,6 +91,56 @@
     </section>
   </main>
 
+  <!-- Admin Modal: New Client / Activate Portal -->
+  <div id="admin-modal" class="admin-modal-overlay">
+    <div class="admin-modal-container">
+      <div class="admin-modal-inner">
+        <button class="admin-modal-close" onclick="closeAdminModal()">&times;</button>
+        <h3 id="admin-modal-title">New Client</h3>
+        <p id="admin-modal-desc" class="admin-modal-desc">Create a portal account for a new client.</p>
+        
+        <!-- Form View -->
+        <div id="admin-modal-form">
+          <div class="admin-modal-field">
+            <label for="modal-client-name">Full Name</label>
+            <input type="text" id="modal-client-name" placeholder="e.g. Rahul Sharma">
+          </div>
+          <div class="admin-modal-field">
+            <label for="modal-client-email">Email Address</label>
+            <input type="email" id="modal-client-email" placeholder="e.g. rahul@company.com">
+          </div>
+          <div class="admin-modal-actions">
+            <button class="button button-secondary admin-modal-cancel" onclick="closeAdminModal()">Cancel</button>
+            <button id="admin-modal-submit" class="button button-primary">Create Account</button>
+          </div>
+        </div>
+
+        <!-- Result View (shown after action) -->
+        <div id="admin-modal-result" style="display: none;">
+          <div id="admin-modal-result-content"></div>
+          <div class="admin-modal-actions" style="margin-top: 24px;">
+            <button class="button button-secondary" onclick="closeAdminModal()">Close</button>
+            <button id="admin-modal-copy-btn" class="button button-primary" style="display: none;">Copy Credentials</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Admin Modal: Confirm Action -->
+  <div id="confirm-modal" class="admin-modal-overlay">
+    <div class="admin-modal-container">
+      <div class="admin-modal-inner" style="max-width: 420px;">
+        <h3 id="confirm-modal-title">Confirm</h3>
+        <p id="confirm-modal-desc" class="admin-modal-desc">Are you sure?</p>
+        <div class="admin-modal-actions">
+          <button class="button button-secondary admin-modal-cancel" onclick="closeConfirmModal(false)">Cancel</button>
+          <button id="confirm-modal-ok" class="button button-primary" onclick="closeConfirmModal(true)">Confirm</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="supabase-config.js"></script>
   <script src="auth.js"></script>

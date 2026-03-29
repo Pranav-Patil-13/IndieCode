@@ -1,46 +1,49 @@
 /**
  * Admin Dashboard Logic
- * Handles lead fetching, status updates, manual account creation, and security.
+ * Uses in-site modals instead of browser popups.
  */
 
 document.addEventListener('DOMContentLoaded', async () => {
-    // Wait a beat for supabase-config.js to initialize the client
     await waitForSupabase();
 
-    // 1. Security: Only allow authorized admins
     const isAdmin = await checkAdminAccess();
     if (!isAdmin) return;
 
-    // 2. Fetch and render real leads
     fetchLeads();
 
-    // 3. Wire up the "+ New Client" button
+    // Wire up "+ New Client" button
     const newClientBtn = document.getElementById('new-client-btn');
     if (newClientBtn) {
-        newClientBtn.addEventListener('click', showNewClientModal);
+        newClientBtn.addEventListener('click', () => {
+            openAdminModal('New Client', 'Create a portal account for a new client.', null, null);
+        });
+    }
+
+    // Wire up the modal submit button
+    const submitBtn = document.getElementById('admin-modal-submit');
+    if (submitBtn) {
+        submitBtn.addEventListener('click', handleModalSubmit);
     }
 });
 
-/**
- * Waits for supabaseClient to be ready (handles script load order).
- */
+// =========================================================================
+// SUPABASE READINESS
+// =========================================================================
+
 function waitForSupabase() {
     return new Promise((resolve) => {
         if (window.supabaseClient) return resolve();
         const check = setInterval(() => {
-            if (window.supabaseClient) {
-                clearInterval(check);
-                resolve();
-            }
+            if (window.supabaseClient) { clearInterval(check); resolve(); }
         }, 100);
-        // Timeout after 5s
         setTimeout(() => { clearInterval(check); resolve(); }, 5000);
     });
 }
 
-/**
- * Ensures ONLY the authorized admin can view this page.
- */
+// =========================================================================
+// ADMIN ACCESS CONTROL
+// =========================================================================
+
 async function checkAdminAccess() {
     if (!window.supabaseClient) {
         window.location.href = 'login.html';
@@ -48,7 +51,6 @@ async function checkAdminAccess() {
     }
 
     const { data: { session } } = await window.supabaseClient.auth.getSession();
-    
     if (!session) {
         window.location.href = 'login.html';
         return false;
@@ -56,26 +58,24 @@ async function checkAdminAccess() {
 
     const adminEmails = ['hello@indiecode.in', 'pranavpatil13.2004@gmail.com', 'admin@indiecode.in'];
     if (!adminEmails.includes(session.user.email)) {
-        console.warn("Unauthorized access attempt by:", session.user.email);
         window.location.href = 'index.html';
         return false;
     }
 
-    // Show body now that we're authorized
     document.body.style.opacity = '1';
     return true;
 }
 
-/**
- * Fetches real leads from Supabase 'inquiries' table.
- * If RLS blocks read, we show a helpful setup message.
- */
+// =========================================================================
+// LEAD FETCHING
+// =========================================================================
+
 async function fetchLeads() {
     const leadsContainer = document.getElementById('leads-list');
     const leadCountEl = document.getElementById('lead-count');
     if (!leadsContainer) return;
 
-    leadsContainer.innerHTML = '<div class="loading-state" style="padding: 24px; color: rgba(248,249,250,0.4); font-size: 0.9rem;">Loading leads...</div>';
+    leadsContainer.innerHTML = '<div style="padding: 24px; color: rgba(248,249,250,0.4); font-size: 0.9rem;">Loading leads...</div>';
 
     try {
         const { data: leads, error } = await window.supabaseClient
@@ -85,26 +85,21 @@ async function fetchLeads() {
 
         if (error) {
             console.error("Supabase fetch error:", error);
-            // Distinguish between 'table does not exist' and 'permission denied'
             if (error.code === '42P01' || error.message.includes('does not exist')) {
                 leadsContainer.innerHTML = `
-                    <div class="admin-notice" style="padding: 32px; text-align: center;">
+                    <div style="padding: 32px; text-align: center;">
                         <h4 style="color: var(--bg-0); margin-bottom: 8px;">Table Setup Required</h4>
                         <p style="color: rgba(248,249,250,0.4); font-size: 0.9rem; line-height: 1.6;">
-                            The <code>inquiries</code> table doesn't exist in your Supabase project yet.<br>
-                            Go to <strong>Supabase → Table Editor → New Table</strong> and create a table called <code>inquiries</code> with columns:<br>
-                            <code>id</code> (uuid, primary key), <code>name</code> (text), <code>email</code> (text), <code>phone</code> (text), 
-                            <code>interest</code> (text), <code>message</code> (text), <code>created_at</code> (timestamptz, default now()).
+                            Create an <code>inquiries</code> table in Supabase with columns:<br>
+                            <code>id, name, email, phone, interest, message, created_at</code>
                         </p>
                     </div>`;
             } else {
                 leadsContainer.innerHTML = `
-                    <div class="admin-notice" style="padding: 32px; text-align: center;">
-                        <h4 style="color: var(--bg-0); margin-bottom: 8px;">Permission Denied (RLS)</h4>
+                    <div style="padding: 32px; text-align: center;">
+                        <h4 style="color: var(--bg-0); margin-bottom: 8px;">Permission Issue (RLS)</h4>
                         <p style="color: rgba(248,249,250,0.4); font-size: 0.9rem; line-height: 1.6;">
-                            The <code>inquiries</code> table has Row Level Security enabled but no <strong>SELECT</strong> policy for authenticated users.<br>
-                            Go to <strong>Supabase → Authentication → Policies</strong> for the <code>inquiries</code> table and add:<br>
-                            <code>CREATE POLICY "Admin can read all" ON inquiries FOR SELECT TO authenticated USING (true);</code>
+                            Add a SELECT policy for authenticated users on the <code>inquiries</code> table.
                         </p>
                     </div>`;
             }
@@ -112,36 +107,34 @@ async function fetchLeads() {
         }
 
         if (!leads || leads.length === 0) {
-            leadsContainer.innerHTML = '<div class="empty-state" style="padding: 32px; color: rgba(248,249,250,0.4); font-size: 0.9rem;">No inquiries yet. When someone fills the contact form, they will appear here.</div>';
-            if (leadCountEl) leadCountEl.textContent = '0';
+            leadsContainer.innerHTML = '<div style="padding: 32px; color: rgba(248,249,250,0.4); font-size: 0.9rem;">No inquiries yet. When someone fills the contact form, they will appear here.</div>';
+            if (leadCountEl) leadCountEl.textContent = '(0)';
             return;
         }
 
-        if (leadCountEl) leadCountEl.textContent = leads.length;
+        if (leadCountEl) leadCountEl.textContent = `(${leads.length})`;
         renderLeads(leads);
     } catch (err) {
         console.error("Error fetching leads:", err);
-        leadsContainer.innerHTML = `<div class="error-state" style="padding: 32px; color: #ff6b6b; font-size: 0.9rem;">Error: ${err.message}</div>`;
+        leadsContainer.innerHTML = `<div style="padding: 32px; color: #ff6b6b; font-size: 0.9rem;">Error: ${err.message}</div>`;
     }
 }
 
-/**
- * Dynamically builds the leads list.
- */
+// =========================================================================
+// RENDER LEADS
+// =========================================================================
+
 function renderLeads(leads) {
     const leadsContainer = document.getElementById('leads-list');
     leadsContainer.innerHTML = '';
 
     leads.forEach(lead => {
         const date = new Date(lead.created_at).toLocaleDateString('en-IN', {
-            day: '2-digit',
-            month: 'short',
-            year: 'numeric'
+            day: '2-digit', month: 'short', year: 'numeric'
         });
 
-        const escapedName = (lead.name || '').replace(/'/g, "\\'");
-        const escapedEmail = (lead.email || '').replace(/'/g, "\\'");
-        const escapedMessage = (lead.message || 'No message provided').replace(/'/g, "\\'");
+        const safeName = (lead.name || 'Unknown').replace(/"/g, '&quot;');
+        const safeEmail = (lead.email || '').replace(/"/g, '&quot;');
 
         const row = document.createElement('div');
         row.className = 'payment-row';
@@ -153,42 +146,112 @@ function renderLeads(leads) {
                 ${lead.phone ? `<span style="display: block; margin-top: 4px; font-size: 0.8rem; color: rgba(248,249,250,0.3);">📞 ${lead.phone}</span>` : ''}
             </div>
             <div class="payment-detail" style="flex-direction: row; align-items: center; gap: 12px; flex-shrink: 0;">
-                <button class="button button-secondary" style="padding: 8px 16px; font-size: 0.8rem; white-space: nowrap;" onclick="copyLeadDetails('${escapedEmail}')">Copy Email</button>
-                <button class="button button-primary" style="padding: 8px 16px; font-size: 0.8rem; white-space: nowrap;" onclick="initializeAccount('${escapedEmail}', '${escapedName}')">Activate Portal</button>
+                <button class="button button-secondary" style="padding: 8px 16px; font-size: 0.8rem; white-space: nowrap;" data-copy="${safeEmail}">Copy Email</button>
+                <button class="button button-primary" style="padding: 8px 16px; font-size: 0.8rem; white-space: nowrap;" data-activate-email="${safeEmail}" data-activate-name="${safeName}">Activate Portal</button>
             </div>
         `;
         leadsContainer.appendChild(row);
     });
+
+    // Use event delegation for button clicks
+    leadsContainer.addEventListener('click', (e) => {
+        const copyBtn = e.target.closest('[data-copy]');
+        if (copyBtn) {
+            const email = copyBtn.dataset.copy;
+            navigator.clipboard.writeText(email);
+            const original = copyBtn.textContent;
+            copyBtn.textContent = 'Copied!';
+            copyBtn.style.color = '#10b981';
+            setTimeout(() => { copyBtn.textContent = original; copyBtn.style.color = ''; }, 1500);
+            return;
+        }
+
+        const activateBtn = e.target.closest('[data-activate-email]');
+        if (activateBtn) {
+            const email = activateBtn.dataset.activateEmail;
+            const name = activateBtn.dataset.activateName;
+            openAdminModal('Activate Portal', `Create a portal account for this client.`, name, email);
+        }
+    });
 }
 
+// =========================================================================
+// IN-SITE MODAL SYSTEM (replaces all browser popups)
+// =========================================================================
+
 /**
- * Copy email to clipboard
+ * Opens the admin modal. If name/email are provided, pre-fills the form.
  */
-window.copyLeadDetails = (email) => {
-    navigator.clipboard.writeText(email).then(() => {
-        // Brief visual feedback instead of alert
-        const btn = event.target;
-        const original = btn.textContent;
-        btn.textContent = 'Copied!';
-        btn.style.color = '#10b981';
-        setTimeout(() => { btn.textContent = original; btn.style.color = ''; }, 1500);
-    });
+function openAdminModal(title, desc, name, email) {
+    const modal = document.getElementById('admin-modal');
+    const formView = document.getElementById('admin-modal-form');
+    const resultView = document.getElementById('admin-modal-result');
+    const titleEl = document.getElementById('admin-modal-title');
+    const descEl = document.getElementById('admin-modal-desc');
+    const nameInput = document.getElementById('modal-client-name');
+    const emailInput = document.getElementById('modal-client-email');
+
+    // Reset to form view
+    formView.style.display = 'block';
+    resultView.style.display = 'none';
+
+    titleEl.textContent = title;
+    descEl.textContent = desc;
+    nameInput.value = name || '';
+    emailInput.value = email || '';
+
+    modal.classList.add('is-active');
+
+    // Focus the first empty field
+    setTimeout(() => {
+        if (!nameInput.value) nameInput.focus();
+        else if (!emailInput.value) emailInput.focus();
+    }, 300);
+}
+
+window.closeAdminModal = () => {
+    const modal = document.getElementById('admin-modal');
+    modal.classList.remove('is-active');
 };
 
 /**
- * Manual Account Creation — only when you're ready to onboard a client.
+ * Handles the "Create Account" button inside the modal.
  */
-window.initializeAccount = async (email, name) => {
-    const confirmActivation = confirm(`Create a portal account for ${name} (${email})?`);
-    if (!confirmActivation) return;
+async function handleModalSubmit() {
+    const nameInput = document.getElementById('modal-client-name');
+    const emailInput = document.getElementById('modal-client-email');
+    const submitBtn = document.getElementById('admin-modal-submit');
+    const formView = document.getElementById('admin-modal-form');
+    const resultView = document.getElementById('admin-modal-result');
+    const resultContent = document.getElementById('admin-modal-result-content');
+    const copyBtn = document.getElementById('admin-modal-copy-btn');
+
+    const name = nameInput.value.trim();
+    const email = emailInput.value.trim();
+
+    if (!name || !email) {
+        // Highlight empty fields
+        if (!name) nameInput.style.borderColor = '#ef4444';
+        if (!email) emailInput.style.borderColor = '#ef4444';
+        setTimeout(() => {
+            nameInput.style.borderColor = '';
+            emailInput.style.borderColor = '';
+        }, 2000);
+        return;
+    }
+
+    // Loading state
+    const originalText = submitBtn.textContent;
+    submitBtn.textContent = 'Creating...';
+    submitBtn.disabled = true;
 
     try {
-        // Generate a secure random password
+        // Generate a secure password
         const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnpqrstuvwxyz23456789';
         let password = '';
         for (let i = 0; i < 10; i++) password += chars.charAt(Math.floor(Math.random() * chars.length));
         password += '@Indie';
-        
+
         const { data, error } = await window.supabaseClient.auth.signUp({
             email,
             password,
@@ -197,25 +260,85 @@ window.initializeAccount = async (email, name) => {
 
         if (error) throw error;
 
-        // Copy credentials to clipboard automatically
-        const credentials = `Email: ${email}\nPassword: ${password}`;
-        await navigator.clipboard.writeText(credentials);
+        // Switch to success result view
+        formView.style.display = 'none';
+        resultView.style.display = 'block';
 
-        alert(`✅ Portal account created for ${name}!\n\nCredentials copied to clipboard:\nEmail: ${email}\nPassword: ${password}\n\nShare these with the client securely.`);
+        document.getElementById('admin-modal-title').textContent = 'Account Created';
+        document.getElementById('admin-modal-desc').textContent = `Portal access is now ready for ${name}.`;
+
+        resultContent.innerHTML = `
+            <div class="admin-modal-success-icon">✓</div>
+            <div class="admin-modal-result-card">
+                <div class="result-row">
+                    <span class="result-label">Client</span>
+                    <span class="result-value">${name}</span>
+                </div>
+                <div class="result-row">
+                    <span class="result-label">Email</span>
+                    <span class="result-value">${email}</span>
+                </div>
+                <div class="result-row">
+                    <span class="result-label">Password</span>
+                    <span class="result-value">${password}</span>
+                </div>
+            </div>
+        `;
+
+        // Show and wire up the copy button
+        copyBtn.style.display = 'flex';
+        copyBtn.onclick = () => {
+            const creds = `Email: ${email}\nPassword: ${password}`;
+            navigator.clipboard.writeText(creds);
+            copyBtn.textContent = 'Copied!';
+            copyBtn.style.background = 'rgba(16, 185, 129, 0.15)';
+            copyBtn.style.borderColor = '#10b981';
+            copyBtn.style.color = '#10b981';
+            setTimeout(() => {
+                copyBtn.textContent = 'Copy Credentials';
+                copyBtn.style.background = '';
+                copyBtn.style.borderColor = '';
+                copyBtn.style.color = '';
+            }, 2000);
+        };
+
     } catch (err) {
-        alert("Activation failed: " + err.message);
+        formView.style.display = 'none';
+        resultView.style.display = 'block';
+        copyBtn.style.display = 'none';
+
+        document.getElementById('admin-modal-title').textContent = 'Activation Failed';
+        document.getElementById('admin-modal-desc').textContent = '';
+
+        resultContent.innerHTML = `
+            <div class="admin-modal-error-icon">✕</div>
+            <p style="color: rgba(248,249,250,0.5); font-size: 0.9rem; line-height: 1.6;">${err.message}</p>
+        `;
+    } finally {
+        submitBtn.textContent = originalText;
+        submitBtn.disabled = false;
+    }
+}
+
+// =========================================================================
+// CONFIRM MODAL (replaces browser confirm())
+// =========================================================================
+
+let confirmResolve = null;
+
+function showConfirm(title, desc) {
+    return new Promise((resolve) => {
+        confirmResolve = resolve;
+        document.getElementById('confirm-modal-title').textContent = title;
+        document.getElementById('confirm-modal-desc').textContent = desc;
+        document.getElementById('confirm-modal').classList.add('is-active');
+    });
+}
+
+window.closeConfirmModal = (result) => {
+    document.getElementById('confirm-modal').classList.remove('is-active');
+    if (confirmResolve) {
+        confirmResolve(result);
+        confirmResolve = null;
     }
 };
-
-/**
- * "+ New Client" Modal — creates a client account directly.
- */
-function showNewClientModal() {
-    const name = prompt("Enter client's full name:");
-    if (!name) return;
-    
-    const email = prompt("Enter client's email address:");
-    if (!email) return;
-
-    initializeAccount(email, name);
-}
