@@ -191,6 +191,13 @@ if (window.Lenis && !isMobile) {
 
       if (!targetElement) return;
       event.preventDefault();
+
+      // Special case: Contact link now opens modal
+      if (href === '#contact') {
+        openContactModal();
+        return;
+      }
+
       lenis.scrollTo(targetElement, { offset: -88, duration: 1.05 });
     });
   });
@@ -663,3 +670,59 @@ async function loadClientProject(email) {
         console.warn('Could not load project:', err);
     }
 }
+
+// =========================================================================
+// CONTACT MODAL LOGIC
+// =========================================================================
+window.openContactModal = function() {
+    const modal = document.getElementById('contact-modal');
+    if (modal) modal.classList.add('is-active');
+};
+
+window.closeContactModal = function() {
+    const modal = document.getElementById('contact-modal');
+    if (modal) modal.classList.remove('is-active');
+};
+
+// Handle Modal Form Submission
+document.addEventListener('DOMContentLoaded', () => {
+    const modalForm = document.getElementById('modal-contact-form');
+    if (modalForm) {
+        modalForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const submitBtn = document.getElementById('modal-submit-btn');
+            const btnSpan = submitBtn.querySelector('span');
+            const originalText = btnSpan.textContent;
+
+            btnSpan.textContent = 'Sending...';
+            submitBtn.disabled = true;
+
+            const formData = new FormData(modalForm);
+            
+            try {
+                const response = await fetch('https://api.web3forms.com/submit', {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    closeContactModal();
+                    // Open success modal
+                    const successModal = document.getElementById('success-modal');
+                    if (successModal) successModal.classList.add('is-active');
+                    modalForm.reset();
+                } else {
+                    alert('Error: ' + result.message);
+                }
+            } catch (err) {
+                alert('Connection error. Please try again.');
+                console.error(err);
+            } finally {
+                btnSpan.textContent = originalText;
+                submitBtn.disabled = false;
+            }
+        });
+    }
+});

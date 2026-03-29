@@ -4449,3 +4449,91 @@ select#country_code {
     justify-content: space-between;
   }
 }
+/* --- Contact Modal --- */
+.contact-modal-container {
+  max-width: 700px;
+  width: 90%;
+  padding: 0;
+  border-radius: 28px;
+  overflow: hidden;
+  background: #0a0d12;
+  border: 1px solid rgba(255,255,255,0.08);
+}
+
+.contact-modal-container .modal-inner {
+  padding: 48px;
+  position: relative;
+}
+
+.modal-header {
+  text-align: center;
+  margin-bottom: 32px;
+}
+
+.modal-header h2 {
+  font-size: 2.5rem;
+  margin-top: 12px;
+  margin-bottom: 12px;
+  background: linear-gradient(135deg, #fff 0%, rgba(255,255,255,0.4) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.modal-header p {
+  color: rgba(248, 249, 250, 0.4);
+  font-size: 1rem;
+  max-width: 450px;
+  margin: 0 auto;
+}
+
+.modal-close-icon {
+  position: absolute;
+  top: 24px;
+  right: 24px;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: white;
+  font-size: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  z-index: 10;
+  border: none;
+}
+
+.modal-close-icon:hover {
+  background: rgba(255, 255, 255, 0.1);
+  transform: rotate(90deg);
+}
+
+.modal-form {
+  background: none;
+  border: none;
+  padding: 0;
+  box-shadow: none;
+}
+
+.modal-form .form-group label {
+  color: rgba(248, 249, 250, 0.5);
+}
+
+.modal-form input, 
+.modal-form select, 
+.modal-form textarea {
+  background: rgba(255, 255, 255, 0.03);
+  border-color: rgba(255, 255, 255, 0.08);
+}
+
+@media (max-width: 768px) {
+  .contact-modal-container .modal-inner {
+    padding: 32px 20px;
+  }
+  .modal-header h2 {
+    font-size: 1.8rem;
+  }
+}
