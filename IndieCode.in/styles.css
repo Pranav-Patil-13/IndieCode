@@ -5136,3 +5136,34 @@ body.modal-open {
 body.has-fullscreen .fullscreen-close {
     display: flex;
 }
+
+/* --- Dynamic Mobile Island Update --- */
+.type-mobile .mockup-screen {
+    border-radius: 28px;
+    z-index: 1;
+}
+
+.type-mobile .mockup-notch {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 140px;
+    height: 32px;
+    background: rgba(15, 19, 24, 0.95);
+    backdrop-filter: blur(8px);
+    border-bottom-left-radius: 12px;
+    border-bottom-right-radius: 12px;
+    z-index: 50; /* Above the image */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-top: 4px; /* Move text up slightly */
+}
+
+.type-mobile .mockup-view-name {
+    font-size: 0.5rem !important;
+    opacity: 0.6;
+    letter-spacing: 0.2em;
+    font-weight: 700;
+}

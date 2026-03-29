@@ -675,6 +675,27 @@
   <script>
     // Config: Razorpay Integration
     const RZP_KEY_ID = "rzp_live_SW8Z2TVGygsVYj"; // Placeholder
+
+    // Fullscreen Toggle Logic
+    window.toggleFullscreen = function() {
+        const mockup = document.getElementById('p-mockup-desktop');
+        const overlay = document.getElementById('p-overlay');
+        const body = document.body;
+        if (!mockup || !overlay) return;
+        
+        const isFull = mockup.classList.toggle('is-fullscreen');
+        overlay.classList.toggle('active');
+        body.classList.toggle('has-fullscreen');
+        if (isFull) window.scrollTo({ top: 0, behavior: 'smooth' });
+    };
+
+    // Handle ESC to close
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && document.body.classList.contains('has-fullscreen')) {
+            toggleFullscreen();
+        }
+    });
+
     function openBuyModal() {
       document.getElementById('buy-modal').classList.add('is-active');
     }
@@ -824,7 +845,9 @@
             }, 3000);
           } else {
             // Static single image
-            screen.innerHTML = `<img src="${imgArray[0]}" class="mockup-img" alt="Product Framework View" style="object-fit: contain; object-position: top center;">`;
+            const fit = screenId === "p-screen-mobile" ? "cover" : "contain";
+            const pos = screenId === "p-screen-mobile" ? "center top" : "top center";
+            screen.innerHTML = `<img src="${imgArray[0]}" class="mockup-img" alt="Product Framework View" style="object-fit: ${fit}; object-position: ${pos};">`;
           }
         } else {
           screen.innerHTML = fallbackHtml || '';
