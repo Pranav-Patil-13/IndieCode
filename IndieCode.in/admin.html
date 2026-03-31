@@ -32,14 +32,18 @@
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
         Clients
       </a>
-      <a href="#" data-tab="projects">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
-        Projects
-      </a>
-      <a href="#" data-tab="payments">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
-        Payments
-      </a>
+       <a href="#" data-tab="projects">
+         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+         Projects
+       </a>
+       <a href="#" data-tab="products">
+         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h16l1 7H3l1-7z"/><path d="M5 12h14l-1 7H6l-1-7z"/><path d="M9 5V3h6v2"/></svg>
+         Products
+       </a>
+       <a href="#" data-tab="payments">
+         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+         Payments
+       </a>
     </nav>
     <div class="portal-user">
       <div class="portal-user-avatar" style="background: rgba(155, 81, 224, 0.2); color: #9b51e0;">PP</div>
@@ -132,6 +136,22 @@
       </section>
     </div>
 
+    <!-- TAB: Products -->
+    <div id="tab-products" class="admin-tab-panel" style="display: none;">
+      <section class="portal-card" style="padding: 0; overflow: hidden;">
+        <div class="portal-card-header" style="padding: 32px 32px 16px; display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap;">
+          <div>
+            <h3>Product Catalog <span id="product-count" style="font-size: 0.75rem; color: rgba(248,249,250,0.3); font-weight: 400;"></span></h3>
+            <p style="font-size: 0.85rem; color: rgba(248,249,250,0.4); margin-top: 4px;">Manage the ready-to-buy builds listed on the public site.</p>
+          </div>
+          <button id="new-product-btn" class="button button-primary" style="padding: 10px 20px; font-size: 0.85rem; flex-shrink: 0;">+ New Product</button>
+        </div>
+        <div id="products-list" style="padding: 0 32px 32px;">
+          <div class="loading-state">Loading products...</div>
+        </div>
+      </section>
+    </div>
+
     <!-- TAB: Payments -->
     <div id="tab-payments" class="admin-tab-panel" style="display: none;">
       <section class="portal-card">
@@ -217,6 +237,140 @@
           <div class="admin-modal-actions">
             <button class="button button-secondary admin-modal-cancel" onclick="closeProjectModal()">Cancel</button>
             <button id="project-modal-submit" class="button button-primary">Create Project</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Admin Modal: Product Create/Edit -->
+  <div id="product-modal" class="admin-modal-overlay">
+    <div class="admin-modal-container">
+      <div class="admin-modal-inner" style="max-width: 760px;">
+        <button class="admin-modal-close" onclick="closeProductModal()">&times;</button>
+        <h3 id="product-modal-title">New Product</h3>
+        <p id="product-modal-desc" class="admin-modal-desc">Publish a new build to the public catalog.</p>
+        <div id="product-modal-form">
+          <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px;">
+            <div class="admin-modal-field">
+              <label for="product-slug">Product Slug</label>
+              <input type="text" id="product-slug" placeholder="unique-slug">
+              <span style="font-size: 0.72rem; color: rgba(248,249,250,0.35);">Used in URL <code>product.html?id=slug</code>.</span>
+            </div>
+            <div class="admin-modal-field">
+              <label for="product-title">Title</label>
+              <input type="text" id="product-title" placeholder="Product Name">
+            </div>
+          </div>
+
+          <div class="admin-modal-field" style="margin-top: 12px;">
+            <label for="product-summary">Card Summary</label>
+            <textarea id="product-summary" rows="2" placeholder="Short teaser that shows on the homepage." style="resize: vertical;"></textarea>
+          </div>
+
+          <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px;">
+            <div class="admin-modal-field">
+              <label for="product-badge-text">Badge Text</label>
+              <input type="text" id="product-badge-text" placeholder="Ready Product">
+            </div>
+            <div class="admin-modal-field">
+              <label for="product-badge-variant">Badge Style</label>
+              <select id="product-badge-variant" style="background: rgba(10,13,18,0.6); border: 1px solid rgba(248,249,250,0.12); padding: 12px; border-radius: 12px; color: #fff; font-family: inherit;">
+                <option value="ready">Ready Product</option>
+                <option value="custom">Custom Build</option>
+                <option value="other">Other</option>
+              </select>
+            </div>
+            <div class="admin-modal-field">
+              <label for="product-price-label">Price Tag Text</label>
+              <input type="text" id="product-price-label" placeholder="₹6,499/mo">
+            </div>
+          </div>
+
+          <div class="admin-modal-field">
+            <label for="product-description">Detailed Description</label>
+            <textarea id="product-description" rows="3" placeholder="Full description for the product page." style="resize: vertical;"></textarea>
+          </div>
+
+          <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px;">
+            <div class="admin-modal-field">
+              <label for="product-meta1-label">Meta 1</label>
+              <input type="text" id="product-meta1-label" placeholder="Timeline" style="margin-bottom: 8px;">
+              <input type="text" id="product-meta1-value" placeholder="18 Days">
+            </div>
+            <div class="admin-modal-field">
+              <label for="product-meta2-label">Meta 2</label>
+              <input type="text" id="product-meta2-label" placeholder="Client Segment" style="margin-bottom: 8px;">
+              <input type="text" id="product-meta2-value" placeholder="Global Enterprise">
+            </div>
+            <div class="admin-modal-field">
+              <label for="product-meta3-label">Meta 3</label>
+              <input type="text" id="product-meta3-label" placeholder="Core Tech" style="margin-bottom: 8px;">
+              <input type="text" id="product-meta3-value" placeholder="Next.js + Supabase">
+            </div>
+          </div>
+
+          <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; align-items: end;">
+            <div class="admin-modal-field" style="margin: 0;">
+              <label style="display: flex; align-items: center; gap: 8px;">
+                <input type="checkbox" id="product-is-subscription" style="width: auto;"> Subscription / recurring product
+              </label>
+              <span style="font-size: 0.72rem; color: rgba(248,249,250,0.35);">Toggles checkout copy + amount handling.</span>
+            </div>
+            <div class="admin-modal-field">
+              <label for="product-subscription-text">Subscription Price Text</label>
+              <input type="text" id="product-subscription-text" placeholder="₹6,499 / month">
+            </div>
+          </div>
+
+          <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px;">
+            <div class="admin-modal-field">
+              <label for="product-checkout-btn">Checkout Button Label</label>
+              <input type="text" id="product-checkout-btn" placeholder="Buy Current Build">
+            </div>
+            <div class="admin-modal-field">
+              <label for="product-checkout-link">Checkout Link</label>
+              <input type="text" id="product-checkout-link" placeholder="razorpay or https://...">
+            </div>
+          </div>
+
+          <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px;">
+            <div class="admin-modal-field">
+              <label for="product-checkout-amount">Checkout Amount (INR)</label>
+              <input type="number" id="product-checkout-amount" placeholder="6499">
+              <span style="font-size: 0.72rem; color: rgba(248,249,250,0.35);">We convert this to paise for Razorpay.</span>
+            </div>
+            <div class="admin-modal-field">
+              <label for="product-glow">Glow / Accent Color</label>
+              <input type="text" id="product-glow" placeholder="rgba(227,202,140,0.12)">
+            </div>
+          </div>
+
+          <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px;">
+            <div class="admin-modal-field">
+              <label for="product-card-image">Homepage Card Image</label>
+              <input type="text" id="product-card-image" placeholder="https://...">
+            </div>
+            <div class="admin-modal-field">
+              <label for="product-desktop-images">Desktop Screens (comma separated)</label>
+              <textarea id="product-desktop-images" rows="2" placeholder="https://...one.png, https://...two.png" style="resize: vertical;"></textarea>
+            </div>
+          </div>
+
+          <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px;">
+            <div class="admin-modal-field">
+              <label for="product-tablet-image">Tablet Image</label>
+              <input type="text" id="product-tablet-image" placeholder="https://...">
+            </div>
+            <div class="admin-modal-field">
+              <label for="product-mobile-image">Mobile Image</label>
+              <input type="text" id="product-mobile-image" placeholder="https://...">
+            </div>
+          </div>
+
+          <div class="admin-modal-actions">
+            <button class="button button-secondary admin-modal-cancel" onclick="closeProductModal()">Cancel</button>
+            <button id="product-modal-submit" class="button button-primary">Save Product</button>
           </div>
         </div>
       </div>

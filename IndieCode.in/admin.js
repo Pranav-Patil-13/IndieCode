@@ -12,6 +12,9 @@ let currentView = 'grouped'; // 'grouped' or 'flat'
 let currentPage = 1;
 const LEADS_PER_PAGE = 6;
 
+let catalogFetched = false;
+let editingProductRecordId = null;
+
 // =========================================================================
 // INIT
 // =========================================================================
@@ -81,6 +84,7 @@ function setupTabNavigation() {
             // Lazy-load data on first visit
             if (tab === 'clients') fetchClients();
             if (tab === 'projects') fetchProjects();
+            if (tab === 'products') fetchProducts();
         });
     });
 }
@@ -944,8 +948,19 @@ function renderProjects(projects, container) {
 
 // Wire up the "New Project" button
 document.addEventListener('DOMContentLoaded', () => {
-    const btn = document.getElementById('new-project-btn');
-    if (btn) btn.addEventListener('click', () => openProjectModal());
+    const projectBtn = document.getElementById('new-project-btn');
+    if (projectBtn) projectBtn.addEventListener('click', () => openProjectModal());
+
+    const productBtn = document.getElementById('new-product-btn');
+    if (productBtn) productBtn.addEventListener('click', () => openProductModal());
+
+    const productSubmit = document.getElementById('product-modal-submit');
+    if (productSubmit) {
+        productSubmit.addEventListener('click', (e) => {
+            e.preventDefault();
+            saveProduct();
+        });
+    }
 });
 
 function openProjectModal(project) {
@@ -1065,5 +1080,304 @@ async function saveProject() {
             descEl.textContent = 'Assign a project to a client.';
             descEl.style.color = '';
         }, 3000);
+    }
+}
+
+// =========================================================================
+// PRODUCT CATALOG MANAGEMENT
+// =========================================================================
+function getBadgePalette(variant) {
+    switch (variant) {
+        case 'ready':
+            return { bg: 'rgba(155, 81, 224, 0.15)', fg: '#c084fc', label: 'Ready Product' };
+        case 'custom':
+            return { bg: 'rgba(66, 133, 244, 0.15)', fg: '#7baaf7', label: 'Custom Build' };
+        default:
+            return { bg: 'rgba(248,249,250,0.08)', fg: '#f8f9fa', label: 'Product' };
+    }
+}
+
+function parseDesktopImagesField(value) {
+    if (!value) return [];
+    if (Array.isArray(value)) return value.filter(Boolean);
+    try {
+        const parsed = JSON.parse(value);
+        if (Array.isArray(parsed)) return parsed.filter(Boolean);
+    } catch (err) {
+        // ignore JSON parse issues
+    }
+    return String(value)
+        .split(',')
+        .map(s => s.trim())
+        .filter(Boolean);
+}
+
+async function fetchProducts(force = false) {
+    if (!window.supabaseClient) return;
+    if (catalogFetched && !force) return;
+
+    const container = document.getElementById('products-list');
+    const countEl = document.getElementById('product-count');
+    if (!container) return;
+
+    container.innerHTML = '<div style="padding: 32px; color: rgba(248,249,250,0.5);">Loading products...</div>';
+
+    try {
+        const { data, error } = await window.supabaseClient
+            .from('products')
+            .select('*')
+            .order('created_at', { ascending: false });
+
+        if (error) throw error;
+
+        catalogFetched = true;
+        if (!data || data.length === 0) {
+            container.innerHTML = '<div style="padding: 32px; color: rgba(248,249,250,0.4); font-size: 0.9rem;">No products yet. Click "New Product" to publish your first listing.</div>';
+            if (countEl) countEl.textContent = '(0)';
+            return;
+        }
+
+        if (countEl) countEl.textContent = `(${data.length})`;
+        renderProducts(data, container);
+    } catch (err) {
+        console.error('Products fetch failed:', err);
+        const missingTable = err.code === '42P01' || (err.message && err.message.includes('does not exist'));
+        if (missingTable) {
+            container.innerHTML = `
+                <div style="padding: 32px; color: rgba(248,249,250,0.75);">
+                    <h4 style="margin-bottom: 8px;">Set up the <code>products</code> table</h4>
+                    <p style="font-size: 0.85rem; color: rgba(248,249,250,0.55); line-height: 1.6;">
+                        Create a table named <strong>products</strong> with columns such as <em>slug</em>, <em>title</em>,
+                        <em>card_summary</em>, <em>badge_label</em>, <em>badge_variant</em>, <em>price_label</em>,
+                        <em>description</em>, the 3 meta label/value pairs, <em>is_subscription</em>,
+                        <em>subscription_price_text</em>, <em>checkout_amount</em>, <em>checkout_button_text</em>,
+                        <em>checkout_link</em>, <em>glow_color</em>, <em>card_image</em>, <em>desktop_images</em>,
+                        <em>tablet_image</em>, and <em>mobile_image</em>.
+                    </p>
+                    <p style="font-size: 0.82rem; color: rgba(248,249,250,0.45);">Grant CRUD access to admins via RLS or disable RLS for testing.</p>
+                </div>`;
+        } else {
+            container.innerHTML = `<div style="padding: 32px; color: #ff6b6b; font-size: 0.9rem;">Error: ${err.message}</div>`;
+        }
+    }
+}
+
+function renderProducts(products, container) {
+    container.innerHTML = '';
+    window._productsCatalog = {};
+
+    products.forEach(product => {
+        window._productsCatalog[product.id] = product;
+        const badge = getBadgePalette(product.badge_variant);
+        const updatedAt = product.updated_at ? new Date(product.updated_at) : (product.created_at ? new Date(product.created_at) : null);
+        const updatedText = updatedAt ? updatedAt.toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' }) : 'Unknown';
+
+        const card = document.createElement('div');
+        card.className = 'payment-row';
+        card.style.cssText = 'flex-direction: column; align-items: stretch; gap: 16px; padding: 24px; margin-bottom: 16px;';
+        card.innerHTML = `
+            <div style="display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap;">
+                <div>
+                    <span style="font-size: 0.72rem; color: rgba(248,249,250,0.35); text-transform: uppercase; letter-spacing: 0.12em;">/${product.slug || 'slug'}</span>
+                    <h4 style="margin: 6px 0 8px; font-size: 1.1rem;">${product.title || 'Untitled Product'}</h4>
+                    <p style="margin: 0; color: rgba(248,249,250,0.5); font-size: 0.9rem; max-width: 620px;">${product.card_summary || product.description || 'Add a summary to show on the homepage.'}</p>
+                </div>
+                <div style="display: flex; flex-direction: column; gap: 8px; align-items: flex-end; min-width: 150px;">
+                    ${product.price_label ? `<span style="font-size: 0.78rem; font-weight: 600; color: rgba(248,249,250,0.9); background: rgba(248,249,250,0.1); padding: 4px 12px; border-radius: 999px;">${product.price_label}</span>` : ''}
+                    <span style="font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; background: ${badge.bg}; color: ${badge.fg}; padding: 6px 14px; border-radius: 999px;">${product.badge_label || badge.label}</span>
+                </div>
+            </div>
+            <div style="display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; align-items: center;">
+                <div style="font-size: 0.78rem; color: rgba(248,249,250,0.35);">${product.is_subscription ? 'Subscription' : 'One-time'} • Updated ${updatedText}</div>
+                <div style="display: flex; gap: 10px;">
+                    <button class="button button-secondary" style="padding: 6px 16px; font-size: 0.78rem;" data-edit-product="${product.id}">Edit</button>
+                    <button class="button button-secondary" style="padding: 6px 16px; font-size: 0.78rem; border-color: rgba(248,113,113,0.4); color: #f87171;" data-delete-product="${product.id}">Delete</button>
+                </div>
+            </div>
+        `;
+        container.appendChild(card);
+    });
+
+    if (!container.dataset.bound) {
+        container.addEventListener('click', handleProductListClick);
+        container.dataset.bound = 'true';
+    }
+}
+
+function handleProductListClick(e) {
+    const editBtn = e.target.closest('[data-edit-product]');
+    if (editBtn) {
+        const product = window._productsCatalog?.[editBtn.dataset.editProduct];
+        if (product) openProductModal(product);
+        return;
+    }
+
+    const deleteBtn = e.target.closest('[data-delete-product]');
+    if (deleteBtn) {
+        const product = window._productsCatalog?.[deleteBtn.dataset.deleteProduct];
+        if (product) deleteProduct(product);
+    }
+}
+
+function openProductModal(product) {
+    editingProductRecordId = product ? product.id : null;
+    const modal = document.getElementById('product-modal');
+    if (!modal) return;
+
+    document.getElementById('product-modal-title').textContent = product ? 'Edit Product' : 'New Product';
+    document.getElementById('product-modal-desc').textContent = product ? 'Update the live product listing.' : 'Publish a new build to the catalog.';
+
+    document.getElementById('product-slug').value = product?.slug || '';
+    document.getElementById('product-title').value = product?.title || '';
+    document.getElementById('product-summary').value = product?.card_summary || '';
+    document.getElementById('product-badge-text').value = product?.badge_label || '';
+    document.getElementById('product-badge-variant').value = product?.badge_variant || 'ready';
+    document.getElementById('product-price-label').value = product?.price_label || '';
+    document.getElementById('product-description').value = product?.description || '';
+
+    document.getElementById('product-meta1-label').value = product?.meta1_label || '';
+    document.getElementById('product-meta1-value').value = product?.meta1_value || '';
+    document.getElementById('product-meta2-label').value = product?.meta2_label || '';
+    document.getElementById('product-meta2-value').value = product?.meta2_value || '';
+    document.getElementById('product-meta3-label').value = product?.meta3_label || '';
+    document.getElementById('product-meta3-value').value = product?.meta3_value || '';
+
+    document.getElementById('product-is-subscription').checked = Boolean(product?.is_subscription);
+    document.getElementById('product-subscription-text').value = product?.subscription_price_text || '';
+    document.getElementById('product-checkout-btn').value = product?.checkout_button_text || '';
+    document.getElementById('product-checkout-link').value = product?.checkout_link || '';
+    document.getElementById('product-checkout-amount').value = product?.checkout_amount || '';
+    document.getElementById('product-glow').value = product?.glow_color || '';
+    document.getElementById('product-card-image').value = product?.card_image || '';
+
+    const desktopImages = parseDesktopImagesField(product?.desktop_images);
+    document.getElementById('product-desktop-images').value = desktopImages.join(', ');
+    document.getElementById('product-tablet-image').value = product?.tablet_image || '';
+    document.getElementById('product-mobile-image').value = product?.mobile_image || '';
+
+    document.getElementById('product-modal-submit').textContent = product ? 'Save Changes' : 'Save Product';
+
+    modal.classList.add('is-active');
+    setTimeout(() => document.getElementById('product-title').focus(), 200);
+}
+
+window.closeProductModal = () => {
+    const modal = document.getElementById('product-modal');
+    if (modal) modal.classList.remove('is-active');
+    editingProductRecordId = null;
+};
+
+async function saveProduct() {
+    if (!window.supabaseClient) return;
+
+    const slugInput = document.getElementById('product-slug');
+    const titleInput = document.getElementById('product-title');
+    const submitBtn = document.getElementById('product-modal-submit');
+
+    const slug = slugInput.value.trim();
+    const title = titleInput.value.trim();
+    if (!slug || !title) {
+        if (!slug) {
+            slugInput.style.borderColor = '#ef4444';
+            setTimeout(() => slugInput.style.borderColor = '', 2000);
+        }
+        if (!title) {
+            titleInput.style.borderColor = '#ef4444';
+            setTimeout(() => titleInput.style.borderColor = '', 2000);
+        }
+        return;
+    }
+
+    const payload = {
+        slug,
+        title,
+        card_summary: document.getElementById('product-summary').value.trim() || null,
+        badge_label: document.getElementById('product-badge-text').value.trim() || null,
+        badge_variant: document.getElementById('product-badge-variant').value,
+        price_label: document.getElementById('product-price-label').value.trim() || null,
+        description: document.getElementById('product-description').value.trim() || null,
+        meta1_label: document.getElementById('product-meta1-label').value.trim() || null,
+        meta1_value: document.getElementById('product-meta1-value').value.trim() || null,
+        meta2_label: document.getElementById('product-meta2-label').value.trim() || null,
+        meta2_value: document.getElementById('product-meta2-value').value.trim() || null,
+        meta3_label: document.getElementById('product-meta3-label').value.trim() || null,
+        meta3_value: document.getElementById('product-meta3-value').value.trim() || null,
+        is_subscription: document.getElementById('product-is-subscription').checked,
+        subscription_price_text: document.getElementById('product-subscription-text').value.trim() || null,
+        checkout_button_text: document.getElementById('product-checkout-btn').value.trim() || null,
+        checkout_link: document.getElementById('product-checkout-link').value.trim() || null,
+        glow_color: document.getElementById('product-glow').value.trim() || null,
+        card_image: document.getElementById('product-card-image').value.trim() || null,
+        tablet_image: document.getElementById('product-tablet-image').value.trim() || null,
+        mobile_image: document.getElementById('product-mobile-image').value.trim() || null
+    };
+
+    const checkoutAmount = document.getElementById('product-checkout-amount').value.trim();
+    payload.checkout_amount = checkoutAmount ? Number(checkoutAmount) : null;
+
+    const desktopRaw = document.getElementById('product-desktop-images').value;
+    const desktopArr = parseDesktopImagesField(desktopRaw);
+    payload.desktop_images = desktopArr.length ? JSON.stringify(desktopArr) : null;
+
+    submitBtn.textContent = editingProductRecordId ? 'Saving...' : 'Creating...';
+    submitBtn.disabled = true;
+
+    try {
+        let error;
+        if (editingProductRecordId) {
+            ({ error } = await window.supabaseClient
+                .from('products')
+                .update(payload)
+                .eq('id', editingProductRecordId));
+        } else {
+            ({ error } = await window.supabaseClient
+                .from('products')
+                .insert([payload]));
+        }
+
+        if (error) throw error;
+
+        submitBtn.textContent = 'Saved!';
+        submitBtn.style.background = 'rgba(16,185,129,0.15)';
+        submitBtn.style.borderColor = '#10b981';
+        submitBtn.style.color = '#10b981';
+        catalogFetched = false;
+
+        setTimeout(() => {
+            closeProductModal();
+            submitBtn.textContent = editingProductRecordId ? 'Save Changes' : 'Save Product';
+            submitBtn.style.background = '';
+            submitBtn.style.borderColor = '';
+            submitBtn.style.color = '';
+            submitBtn.disabled = false;
+            fetchProducts(true);
+        }, 1000);
+    } catch (err) {
+        console.error('Product save failed:', err);
+        submitBtn.textContent = 'Failed';
+        submitBtn.style.color = '#ef4444';
+        setTimeout(() => {
+            submitBtn.textContent = editingProductRecordId ? 'Save Changes' : 'Save Product';
+            submitBtn.style.color = '';
+            submitBtn.disabled = false;
+        }, 2500);
+    }
+}
+
+async function deleteProduct(product) {
+    if (!window.supabaseClient || !product?.id) return;
+    const confirmed = window.confirm(`Delete "${product.title || product.slug}"? This cannot be undone.`);
+    if (!confirmed) return;
+
+    try {
+        const { error } = await window.supabaseClient
+            .from('products')
+            .delete()
+            .eq('id', product.id);
+        if (error) throw error;
+        catalogFetched = false;
+        fetchProducts(true);
+    } catch (err) {
+        alert('Deletion failed: ' + err.message);
     }
 }
