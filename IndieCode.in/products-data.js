@@ -262,7 +262,7 @@ const productsData = {
         price: 649900, // INR 6,499 in paise
         isSubscription: true,
         subscriptionPriceText: "₹6,499 / month",
-        checkoutBtnText: "Setup Autopay",
+        checkoutBtnText: "Start Subscription",
         plan_id: "plan_Pw6Z7gB7p9Z3j5", // Added Razorpay Plan ID for Autopay
         actionLink: "index.html#contact",
         checkoutLink: "https://rzp.io/rzp/96f6kVDG",
@@ -289,7 +289,7 @@ const productsData = {
         price: 649900, // INR 6,499 in paise
         isSubscription: true,
         subscriptionPriceText: "₹6,499 / month",
-        checkoutBtnText: "Setup Autopay",
+        checkoutBtnText: "Start Subscription",
         plan_id: "plan_Pw6Z7gB7p9Z3j5", // Added Razorpay Plan ID for Autopay
         actionLink: "index.html#contact",
         checkoutLink: "razorpay",
