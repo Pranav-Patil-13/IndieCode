@@ -4064,12 +4064,16 @@ select#country_code {
 }
 
 .admin-modal-inner {
-  background: rgba(17, 20, 24, 0.95);
+  background: rgba(17, 20, 24, 0.98);
   border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 28px;
   padding: 48px 40px 40px;
   position: relative;
   box-shadow: 0 40px 100px rgba(0, 0, 0, 0.6);
+  max-height: 90vh;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.1) transparent;
 }
 
 .admin-modal-close {
@@ -4120,22 +4124,27 @@ select#country_code {
   margin-bottom: 8px;
 }
 
-.admin-modal-field input {
+.admin-modal-field input,
+.admin-modal-field textarea,
+.admin-modal-field select {
   width: 100%;
   padding: 14px 16px;
   background: rgba(255, 255, 255, 0.04);
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 14px;
   color: var(--bg-0);
-  font-size: 0.95rem;
+  font-size: 0.92rem;
   font-family: inherit;
-  transition: border-color 0.2s ease;
+  transition: all 0.2s ease;
   box-sizing: border-box;
 }
 
-.admin-modal-field input:focus {
+.admin-modal-field input:focus,
+.admin-modal-field textarea:focus,
+.admin-modal-field select:focus {
   outline: none;
-  border-color: rgba(255, 255, 255, 0.25);
+  border-color: rgba(66, 133, 244, 0.4);
+  background: rgba(255, 255, 255, 0.06);
 }
 
 .admin-modal-field input::placeholder {
