@@ -260,6 +260,9 @@ const productsData = {
         meta3Value: "Next.js, Node.js, PostgreSQL",
         actionText: "Request Similar Project",
         price: 649900, // INR 6,499 in paise
+        isSubscription: true,
+        subscriptionPriceText: "₹6,499 / month",
+        checkoutBtnText: "Setup Autopay",
         actionLink: "index.html#contact",
         checkoutLink: "razorpay", 
         glowColor: "rgba(66, 133, 244, 0.15)",
@@ -283,6 +286,9 @@ const productsData = {
         meta3Value: "React, Node.js, AWS",
         actionText: "Buy & Brand Now",
         price: 649900, // INR 6,499 in paise
+        isSubscription: true,
+        subscriptionPriceText: "₹6,499 / month",
+        checkoutBtnText: "Setup Autopay",
         actionLink: "index.html#contact",
         checkoutLink: "razorpay", 
         glowColor: "rgba(155, 81, 224, 0.15)",
