@@ -1228,7 +1228,7 @@
       document.getElementById("request-product-ref").value = product.title;
 
       if (product.isSubscription) {
-        document.getElementById("p-buy-btn").textContent = product.checkoutBtnText || "Setup Autopay";
+        document.getElementById("p-buy-btn").textContent = product.checkoutBtnText || "Start Subscription";
         document.getElementById("buy-modal-title").textContent = "Subscribe & Access";
         document.getElementById("buy-modal-desc").innerHTML = `Set up Autopay (${product.subscriptionPriceText}) to get continuous access and updates for <strong id="buy-modal-product-name">${product.title}</strong>.`;
       } else {
@@ -1311,10 +1311,10 @@
               // Same success logic
               if (window.supabaseClient) {
                 try {
-                  const messageRaw = product.isSubscription 
-                    ? `AUTOPAY SUCCESS. Subscription ID: ${response.razorpay_subscription_id}. Payment ID: ${response.razorpay_payment_id}` 
+                  const messageRaw = product.isSubscription
+                    ? `AUTOPAY SUCCESS. Subscription ID: ${response.razorpay_subscription_id}. Payment ID: ${response.razorpay_payment_id}`
                     : `PAID PURCHASE. Payment ID: ${response.razorpay_payment_id}. Amount: ₹${product.price / 100}`;
-                  
+
                   await window.supabaseClient.from('leads').insert([{
                     full_name: "Customer (Product Purchase)",
                     email: email,
@@ -1337,8 +1337,8 @@
           // but tag the description so you can handle the recurring setup manually 
           // or via backend hooks later. Razorpay requires a real subscription_id 
           // generated via API to use the 'subscription_id' field.
-          options.amount = product.price; 
-          
+          options.amount = product.price;
+
           if (product.isSubscription) {
             options.description = `Subscription: ${product.title} (Autopay)`;
             // options.subscription_id = "sub_..." // Uncomment when you have real backend IDs
