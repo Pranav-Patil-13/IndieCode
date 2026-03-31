@@ -4053,9 +4053,9 @@ select#country_code {
 
 .admin-modal-container {
   width: 100%;
-  max-width: 480px;
+  max-width: 1200px; /* Full wide experience */
   padding: 24px;
-  transform: translateY(30px) scale(0.96);
+  transform: translateY(30px) scale(0.98);
   transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
@@ -4111,7 +4111,40 @@ select#country_code {
 }
 
 .admin-modal-field {
-  margin-bottom: 20px;
+  margin-bottom: 24px;
+}
+
+/* Section Grouping Labels */
+.modal-section-label {
+    grid-column: 1 / -1;
+    font-family: inherit;
+    font-size: 0.72rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: rgba(66, 133, 244, 0.8);
+    margin: 40px 0 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.modal-section-label::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(to right, rgba(66, 133, 244, 0.2), transparent);
+}
+
+.modal-section-label:first-child {
+    margin-top: 0;
+}
+
+/* Grid Layout for Wide Forms */
+.modal-grid-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 32px;
 }
 
 .admin-modal-field label {
