@@ -4052,13 +4052,11 @@ select#country_code {
 }
 
 .admin-modal-container {
-  width: 95%; /* True full width for editing */
-  max-width: 1400px;
-  padding: 0;
-  transform: translateY(30px) scale(0.99);
+  width: 100%;
+  max-width: 480px;
+  padding: 24px;
+  transform: translateY(30px) scale(0.96);
   transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-  display: flex;
-  justify-content: center;
 }
 
 .admin-modal-overlay.is-active .admin-modal-container {
@@ -4066,17 +4064,12 @@ select#country_code {
 }
 
 .admin-modal-inner {
-  background: rgba(17, 20, 24, 0.99);
+  background: rgba(17, 20, 24, 0.95);
   border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 28px;
-  padding: 56px 64px 64px; /* Increased padding for wide airy look */
+  padding: 48px 40px 40px;
   position: relative;
   box-shadow: 0 40px 100px rgba(0, 0, 0, 0.6);
-  max-height: 90vh;
-  width: 100%; /* Fill the container */
-  overflow-y: auto;
-  scrollbar-width: thin;
-  scrollbar-color: rgba(255, 255, 255, 0.1) transparent;
 }
 
 .admin-modal-close {
@@ -4114,40 +4107,7 @@ select#country_code {
 }
 
 .admin-modal-field {
-  margin-bottom: 24px;
-}
-
-/* Section Grouping Labels */
-.modal-section-label {
-    grid-column: 1 / -1;
-    font-family: inherit;
-    font-size: 0.72rem;
-    font-weight: 800;
-    text-transform: uppercase;
-    letter-spacing: 0.15em;
-    color: rgba(66, 133, 244, 0.8);
-    margin: 40px 0 16px;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-}
-
-.modal-section-label::after {
-    content: "";
-    flex: 1;
-    height: 1px;
-    background: linear-gradient(to right, rgba(66, 133, 244, 0.2), transparent);
-}
-
-.modal-section-label:first-child {
-    margin-top: 0;
-}
-
-/* Grid Layout for Wide Forms */
-.modal-grid-row {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 32px;
+  margin-bottom: 20px;
 }
 
 .admin-modal-field label {
@@ -4160,27 +4120,22 @@ select#country_code {
   margin-bottom: 8px;
 }
 
-.admin-modal-field input,
-.admin-modal-field textarea,
-.admin-modal-field select {
+.admin-modal-field input {
   width: 100%;
   padding: 14px 16px;
   background: rgba(255, 255, 255, 0.04);
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 14px;
   color: var(--bg-0);
-  font-size: 0.92rem;
+  font-size: 0.95rem;
   font-family: inherit;
-  transition: all 0.2s ease;
+  transition: border-color 0.2s ease;
   box-sizing: border-box;
 }
 
-.admin-modal-field input:focus,
-.admin-modal-field textarea:focus,
-.admin-modal-field select:focus {
+.admin-modal-field input:focus {
   outline: none;
-  border-color: rgba(66, 133, 244, 0.4);
-  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(255, 255, 255, 0.25);
 }
 
 .admin-modal-field input::placeholder {
