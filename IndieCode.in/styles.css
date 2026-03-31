@@ -4052,11 +4052,13 @@ select#country_code {
 }
 
 .admin-modal-container {
-  width: 100%;
-  max-width: 1200px; /* Full wide experience */
-  padding: 24px;
-  transform: translateY(30px) scale(0.98);
+  width: 95%; /* True full width for editing */
+  max-width: 1400px;
+  padding: 0;
+  transform: translateY(30px) scale(0.99);
   transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  display: flex;
+  justify-content: center;
 }
 
 .admin-modal-overlay.is-active .admin-modal-container {
@@ -4064,13 +4066,14 @@ select#country_code {
 }
 
 .admin-modal-inner {
-  background: rgba(17, 20, 24, 0.98);
+  background: rgba(17, 20, 24, 0.99);
   border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 28px;
-  padding: 48px 40px 40px;
+  padding: 56px 64px 64px; /* Increased padding for wide airy look */
   position: relative;
   box-shadow: 0 40px 100px rgba(0, 0, 0, 0.6);
   max-height: 90vh;
+  width: 100%; /* Fill the container */
   overflow-y: auto;
   scrollbar-width: thin;
   scrollbar-color: rgba(255, 255, 255, 0.1) transparent;
