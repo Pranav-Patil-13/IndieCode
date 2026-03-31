@@ -265,7 +265,7 @@ const productsData = {
         checkoutBtnText: "Setup Autopay",
         plan_id: "plan_Pw6Z7gB7p9Z3j5", // Added Razorpay Plan ID for Autopay
         actionLink: "index.html#contact",
-        checkoutLink: "razorpay", 
+        checkoutLink: "https://rzp.io/rzp/96f6kVDG",
         glowColor: "rgba(66, 133, 244, 0.15)",
         desktopImage: "assets/intranet-desktop.png",
         tabletImage: "",
@@ -292,7 +292,7 @@ const productsData = {
         checkoutBtnText: "Setup Autopay",
         plan_id: "plan_Pw6Z7gB7p9Z3j5", // Added Razorpay Plan ID for Autopay
         actionLink: "index.html#contact",
-        checkoutLink: "razorpay", 
+        checkoutLink: "razorpay",
         glowColor: "rgba(155, 81, 224, 0.15)",
         desktopImage: "assets/lms-desktop.png",
         tabletImage: "assets/lms-tablet.png",
@@ -337,7 +337,7 @@ const productsData = {
         actionText: "Buy License",
         price: 649900, // INR 6,499 in paise
         actionLink: "index.html#contact",
-        checkoutLink: "razorpay", 
+        checkoutLink: "razorpay",
         glowColor: "rgba(227, 202, 140, 0.12)",
         desktopImages: [
             "assets/puregrains-desktop.png",
