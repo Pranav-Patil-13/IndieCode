@@ -263,6 +263,7 @@ const productsData = {
         isSubscription: true,
         subscriptionPriceText: "₹6,499 / month",
         checkoutBtnText: "Setup Autopay",
+        plan_id: "plan_Pw6Z7gB7p9Z3j5", // Added Razorpay Plan ID for Autopay
         actionLink: "index.html#contact",
         checkoutLink: "razorpay", 
         glowColor: "rgba(66, 133, 244, 0.15)",
@@ -289,6 +290,7 @@ const productsData = {
         isSubscription: true,
         subscriptionPriceText: "₹6,499 / month",
         checkoutBtnText: "Setup Autopay",
+        plan_id: "plan_Pw6Z7gB7p9Z3j5", // Added Razorpay Plan ID for Autopay
         actionLink: "index.html#contact",
         checkoutLink: "razorpay", 
         glowColor: "rgba(155, 81, 224, 0.15)",

@@ -1297,45 +1297,50 @@
         if (product.checkoutLink === "razorpay") {
           const options = {
             "key": RZP_KEY_ID,
-            // standard amount to support frontend demo, if real autopay replace with 'subscription_id' from backend
-            "amount": product.price, // Amount is in currency subunits. Default is paise.
             "currency": "INR",
             "name": "IndieCode",
             "description": product.isSubscription ? `Autopay Setup - ${product.title}` : `Full Build - ${product.title}`,
             "image": "assets/logo.png",
-            "handler": async function (response) {
-              // 1. Log to Supabase immediately
-              if (window.supabaseClient) {
-                try {
-                  const messageRaw = product.isSubscription 
-                    ? `AUTOPAY SETUP. Razorpay ID: ${response.razorpay_payment_id}. Plan: ${product.subscriptionPriceText}` 
-                    : `PAID PURCHASE. Razorpay ID: ${response.razorpay_payment_id}. Amount: ₹${product.price / 100}`;
-                  await window.supabaseClient
-                    .from('leads')
-                    .insert([{
-                      full_name: "Customer (Product Purchase)",
-                      email: email,
-                      project_type: product.title,
-                      message: messageRaw,
-                      source: "Order"
-                    }]);
-                } catch (err) {
-                  console.error("Database log failed:", err);
-                }
-              }
-
-              // 2. Show Success State
-              document.getElementById("buy-modal-initial").style.display = "none";
-              document.getElementById("buy-modal-success").style.display = "block";
-              document.getElementById("success-ref-id").textContent = `#PAY-${response.razorpay_payment_id.slice(-8).toUpperCase()}`;
-            },
             "prefill": {
               "email": email
             },
             "theme": {
               "color": "#e3ca8c"
+            },
+            "handler": async function (response) {
+              // Same success logic
+              if (window.supabaseClient) {
+                try {
+                  const messageRaw = product.isSubscription 
+                    ? `AUTOPAY SUCCESS. Subscription ID: ${response.razorpay_subscription_id}. Payment ID: ${response.razorpay_payment_id}` 
+                    : `PAID PURCHASE. Payment ID: ${response.razorpay_payment_id}. Amount: ₹${product.price / 100}`;
+                  
+                  await window.supabaseClient.from('leads').insert([{
+                    full_name: "Customer (Product Purchase)",
+                    email: email,
+                    project_type: product.title,
+                    message: messageRaw,
+                    source: "Order"
+                  }]);
+                } catch (err) { console.error("DB log failed:", err); }
+              }
+
+              document.getElementById("buy-modal-initial").style.display = "none";
+              document.getElementById("buy-modal-success").style.display = "block";
+              // Use subscription ID if available, else payment ID
+              const refId = response.razorpay_subscription_id || response.razorpay_payment_id;
+              document.getElementById("success-ref-id").textContent = `#${refId.slice(-8).toUpperCase()}`;
             }
           };
+
+          // CRITICAL: For Subscriptions, we MUST NOT pass 'amount'. 
+          // We must pass 'subscription_id'.
+          if (product.isSubscription) {
+            options.subscription_id = "sub_demo_" + Math.random().toString(36).substring(7); 
+          } else {
+            options.amount = product.price;
+          }
+
           const rzp1 = new Razorpay(options);
           rzp1.on('payment.failed', function (response) {
             alert(`Payment Failed: ${response.error.description}`);
