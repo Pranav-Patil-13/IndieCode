@@ -1333,12 +1333,15 @@
             }
           };
 
-          // CRITICAL: For Subscriptions, we MUST NOT pass 'amount'. 
-          // We must pass 'subscription_id'.
+          // For Subscriptions in a static frontend (demo), we'll pass the amount 
+          // but tag the description so you can handle the recurring setup manually 
+          // or via backend hooks later. Razorpay requires a real subscription_id 
+          // generated via API to use the 'subscription_id' field.
+          options.amount = product.price; 
+          
           if (product.isSubscription) {
-            options.subscription_id = "sub_demo_" + Math.random().toString(36).substring(7); 
-          } else {
-            options.amount = product.price;
+            options.description = `Subscription: ${product.title} (Autopay)`;
+            // options.subscription_id = "sub_..." // Uncomment when you have real backend IDs
           }
 
           const rzp1 = new Razorpay(options);
