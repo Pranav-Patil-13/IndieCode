@@ -1074,6 +1074,110 @@
     // Config: Razorpay Integration
     const RZP_KEY_ID = "rzp_live_SW8Z2TVGygsVYj"; // Placeholder
 
+    const DEFAULT_SKELETONS = {
+      desktop: '<div class="mockup-body"><div class="mockup-block" style="flex:1;"></div></div>',
+      tablet: '<div class="mockup-body"><div class="mockup-block" style="flex:1;"></div></div>',
+      mobile: '<div class="mockup-body"><div class="mockup-block" style="flex:1;"></div></div>'
+    };
+
+    const BADGE_CLASS_MAP = {
+      ready: 'badge-ready',
+      custom: 'badge-custom',
+      other: 'badge-other'
+    };
+
+    function mapBadgeClass(variant) {
+      return BADGE_CLASS_MAP[variant] || BADGE_CLASS_MAP.other;
+    }
+
+    function parseImageList(value) {
+      if (!value) return [];
+      if (Array.isArray(value)) return value.filter(Boolean);
+      try {
+        const parsed = JSON.parse(value);
+        if (Array.isArray(parsed)) return parsed.filter(Boolean);
+      } catch (_) {
+        // ignore malformed JSON
+      }
+      return String(value)
+        .split(',')
+        .map((v) => v.trim())
+        .filter(Boolean);
+    }
+
+    async function fetchProductFromSupabase(slug) {
+      if (!window.supabaseClient || !slug) return null;
+      try {
+        const { data, error } = await window.supabaseClient
+          .from('products')
+          .select('*')
+          .eq('slug', slug)
+          .maybeSingle();
+        if (error) throw error;
+        if (!data) return null;
+        return normalizeSupabaseRecord(data);
+      } catch (err) {
+        console.warn('Product fetch failed:', err);
+        return null;
+      }
+    }
+
+    function normalizeSupabaseRecord(record) {
+      const variant = record.badge_variant || 'other';
+      const desktopImages = parseImageList(record.desktop_images);
+      const desktopImage = desktopImages.length === 1 ? desktopImages[0] : (desktopImages[0] || record.card_image || null);
+      return {
+        badgeText: record.badge_label || (variant === 'ready' ? 'Ready Product' : variant === 'custom' ? 'Custom Build' : 'Product'),
+        badgeClass: mapBadgeClass(variant),
+        title: record.title || 'Product',
+        description: record.description || record.card_summary || '',
+        meta1Label: record.meta1_label || 'Timeline',
+        meta1Value: record.meta1_value || 'TBD',
+        meta2Label: record.meta2_label || 'Client Segment',
+        meta2Value: record.meta2_value || 'TBD',
+        meta3Label: record.meta3_label || 'Core Tech',
+        meta3Value: record.meta3_value || 'TBD',
+        actionText: 'Request Similar Project',
+        price: record.checkout_amount ? Math.round(Number(record.checkout_amount) * 100) : 0,
+        isSubscription: Boolean(record.is_subscription),
+        subscriptionPriceText: record.subscription_price_text || record.price_label || '',
+        checkoutBtnText: record.checkout_button_text || (record.is_subscription ? 'Start Subscription' : 'Buy Current Build'),
+        actionLink: '#',
+        checkoutLink: record.checkout_link || 'razorpay',
+        glowColor: record.glow_color || 'rgba(227,202,140,0.12)',
+        desktopImages: desktopImages.length > 1 ? desktopImages : null,
+        desktopImage,
+        tabletImage: record.tablet_image || null,
+        mobileImage: record.mobile_image || null,
+        desktopSkeleton: DEFAULT_SKELETONS.desktop,
+        tabletSkeleton: DEFAULT_SKELETONS.tablet,
+        mobileSkeleton: DEFAULT_SKELETONS.mobile
+      };
+    }
+
+    function normalizeLegacyProduct(slug) {
+      if (!window.productsData) return null;
+      const legacy = window.productsData[slug];
+      if (!legacy) return null;
+      const variant = legacy.badgeClass?.includes('ready') ? 'ready' : legacy.badgeClass?.includes('custom') ? 'custom' : 'other';
+      return {
+        ...legacy,
+        badgeClass: legacy.badgeClass || mapBadgeClass(variant),
+        price: legacy.price || 0,
+        desktopImages: legacy.desktopImages || null,
+        desktopSkeleton: legacy.desktopSkeleton || DEFAULT_SKELETONS.desktop,
+        tabletSkeleton: legacy.tabletSkeleton || DEFAULT_SKELETONS.tablet,
+        mobileSkeleton: legacy.mobileSkeleton || DEFAULT_SKELETONS.mobile
+      };
+    }
+
+    async function resolveProduct(productId) {
+      if (!productId) return null;
+      const supabaseProduct = await fetchProductFromSupabase(productId);
+      if (supabaseProduct) return supabaseProduct;
+      return normalizeLegacyProduct(productId);
+    }
+
     // Fullscreen Toggle Logic
     let originalParent = null;
     let originalNextSibling = null;
@@ -1141,12 +1245,12 @@
       }, 300);
     }
 
-    document.addEventListener("DOMContentLoaded", () => {
+    document.addEventListener("DOMContentLoaded", async () => {
       // Parse URL params
       const params = new URLSearchParams(window.location.search);
       const productId = params.get("id");
 
-      const product = productsData[productId];
+      const product = await resolveProduct(productId);
       const showcase = document.getElementById("product-showcase");
       const errorState = document.getElementById("error-state");
 
