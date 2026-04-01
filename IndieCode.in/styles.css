@@ -5275,122 +5275,66 @@ body.has-fullscreen .fullscreen-close {
 }
 
 /* --- Aesthetic Page Preloader --- */
-.preloader {
+.loader {
     position: fixed;
     inset: 0;
     background: #0a0d12;
     z-index: 10000;
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
-    transition: opacity 0.8s cubic-bezier(0.65, 0, 0.35, 1), 
-                visibility 0.8s cubic-bezier(0.65, 0, 0.35, 1);
 }
 
-.preloader.fade-out {
-    opacity: 0;
-    visibility: hidden;
-    pointer-events: none;
+.lottie-animation-9 {
+    width: 260px;
+    height: 260px;
+    margin-bottom: 2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
-.preloader-inner {
+.div-block-101 {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 32px;
-}
-
-.loader-logo {
-    position: relative;
-    width: 80px;
-    height: 80px;
-    animation: loader-pulse 2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
-}
-
-.loader-logo img {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-    position: relative;
-    z-index: 2;
-}
-
-.loader-logo-glow {
-    position: absolute;
-    inset: -20px;
-    background: radial-gradient(circle, rgba(227, 202, 140, 0.3) 0%, transparent 70%);
-    filter: blur(10px);
-    z-index: 1;
-    animation: loader-glow 2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
-}
-
-.loader-content {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 16px;
     width: 200px;
 }
 
-.loader-brand {
-    font-family: "IBM Plex Serif", serif;
-    font-size: 1.4rem;
-    font-weight: 700;
-    letter-spacing: 0.1em;
-    color: var(--bg-0);
-    opacity: 0;
-    transform: translateY(10px);
-    animation: loader-slide-up 0.8s cubic-bezier(0.2, 0, 0.2, 1) forwards 0.3s;
+.div-block-162 {
+    display: flex;
+    justify-content: center;
+    align-items: baseline;
+    margin-bottom: 12px;
 }
 
-.loader-progress-track {
+.loader_number, .loader_number-copy {
+    font-size: 3.5rem;
+    font-weight: 700;
+    font-family: inherit;
+    color: #fff;
+    margin: 0;
+    line-height: 1;
+}
+
+.loader_number-copy {
+    font-size: 2rem;
+    margin-left: 4px;
+}
+
+.div-block-161 {
     width: 100%;
     height: 2px;
-    background: rgba(248, 249, 250, 0.05);
+    background: rgba(255, 255, 255, 0.15);
     border-radius: 4px;
     overflow: hidden;
-    opacity: 0;
-    animation: loader-fade-in 0.5s ease forwards 0.6s;
 }
 
-.loader-progress-bar {
+.loader_progress {
     width: 0%;
     height: 100%;
-    background: linear-gradient(90deg, transparent, #e3ca8c, transparent);
-    animation: loader-progress 1.8s cubic-bezier(0.65, 0, 0.35, 1) forwards;
-}
-
-.loader-status {
-    font-size: 0.7rem;
-    text-transform: uppercase;
-    letter-spacing: 0.2em;
-    color: rgba(248, 249, 250, 0.3);
-    opacity: 0;
-    animation: loader-fade-in 0.5s ease forwards 0.9s;
-}
-
-@keyframes loader-pulse {
-    0%, 100% { transform: scale(1); }
-    50% { transform: scale(1.05); }
-}
-
-@keyframes loader-glow {
-    0%, 100% { opacity: 0.5; transform: scale(1); }
-    50% { opacity: 1; transform: scale(1.2); }
-}
-
-@keyframes loader-slide-up {
-    to { opacity: 1; transform: translateY(0); }
-}
-
-@keyframes loader-fade-in {
-    to { opacity: 1; }
-}
-
-@keyframes loader-progress {
-    0% { width: 0%; transform: translateX(-100%); }
-    50% { width: 50%; transform: translateX(0); }
-    100% { width: 100%; transform: translateX(100%); }
+    background: #e3ca8c;
 }
 
 /* Page reveal effect when loaded */
