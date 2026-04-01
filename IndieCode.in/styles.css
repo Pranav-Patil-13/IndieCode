@@ -1578,44 +1578,59 @@ h1 span {
 }
 
 /* About Us Section */
+/* About Us Section - Full Width Redesign */
 .about {
-  padding: 120px 0;
-  background: #0f1318;
+  padding: 160px 0;
+  background: #0a0d12;
   position: relative;
   z-index: 2;
-  border-top: 1px solid rgba(248, 249, 250, 0.05);
+  overflow: hidden;
+}
+
+.about::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle at 80% 20%, rgba(66, 133, 244, 0.08) 0%, transparent 50%),
+              radial-gradient(circle at 20% 80%, rgba(155, 81, 224, 0.08) 0%, transparent 50%);
+  pointer-events: none;
 }
 
 .about-inner {
   width: var(--container);
   margin: 0 auto;
   display: flex;
-  justify-content: center;
+  align-items: center;
+  gap: 80px;
 }
 
 .about-content {
-  max-width: 800px;
-  text-align: center;
-  background: rgba(248, 249, 250, 0.02);
-  border: 1px solid rgba(248, 249, 250, 0.06);
-  padding: 80px 60px;
-  border-radius: 40px;
-  box-shadow: 0 40px 100px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.05);
-  backdrop-filter: blur(12px);
-  position: relative;
-  overflow: hidden;
+  flex: 1;
+  text-align: left;
+  z-index: 2;
 }
 
-.about-content::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 2px;
-  background: linear-gradient(90deg, transparent, rgba(66, 133, 244, 0.5), transparent);
-  opacity: 0.6;
+.about-visual {
+  flex: 1;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
+
+.about-visual-glow {
+  position: absolute;
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, rgba(66, 133, 244, 0.15) 0%, transparent 70%);
+  border-radius: 50%;
+  filter: blur(40px);
+}
+
+
 
 .about-tagline {
   display: inline-block;
@@ -1630,34 +1645,36 @@ h1 span {
 
 .about-content h2 {
   font-family: "IBM Plex Serif", serif;
-  font-size: clamp(2.5rem, 4vw, 3.4rem);
+  font-size: clamp(3rem, 5vw, 4.5rem);
   color: var(--bg-0);
-  margin: 0 0 24px;
-  line-height: 1.1;
-  letter-spacing: -0.03em;
+  margin: 0 0 32px;
+  line-height: 1;
+  letter-spacing: -0.04em;
   font-weight: 600;
 }
 
 .about-content p {
   color: rgba(248, 249, 250, 0.6);
-  font-size: 1.15rem;
+  font-size: 1.25rem;
   line-height: 1.6;
-  margin: 0 auto 48px;
-  max-width: 600px;
+  margin: 0 0 48px;
+  max-width: 580px;
 }
 
 .about-metrics {
-  display: flex;
-  justify-content: center;
-  gap: 64px;
-  padding-top: 40px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 32px;
+  margin-bottom: 64px;
   border-top: 1px solid rgba(248, 249, 250, 0.08);
+  padding-top: 48px;
+  max-width: 500px;
 }
 
 .metric {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-start;
   gap: 8px;
 }
 
@@ -1680,7 +1697,7 @@ h1 span {
   display: inline-flex;
   align-items: center;
   gap: 12px;
-  margin-top: 56px;
+  margin-top: 32px;
   color: var(--bg-0);
   font-weight: 600;
   font-size: 1.1rem;
