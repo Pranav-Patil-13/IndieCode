@@ -1178,12 +1178,12 @@ h1 span {
 .projects-tagline {
   display: inline-block;
   margin-bottom: 24px;
-  font-size: 0.8rem;
-  font-weight: 800;
-  color: var(--bg-0);
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #60a5fa; /* Soft Blue Accent */
   text-transform: uppercase;
-  letter-spacing: 0.3em;
-  opacity: 0.44;
+  letter-spacing: 0.4em;
+  opacity: 0.9;
 }
 
 .projects-header h2 {
@@ -1635,12 +1635,12 @@ h1 span {
 .about-tagline {
   display: inline-block;
   margin-bottom: 24px;
-  font-size: 0.8rem;
-  font-weight: 800;
-  color: var(--bg-0);
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #34d399; /* Soft Emerald Accent */
   text-transform: uppercase;
-  letter-spacing: 0.3em;
-  opacity: 0.44;
+  letter-spacing: 0.4em;
+  opacity: 0.9;
 }
 
 .about-content h2 {
@@ -1767,12 +1767,12 @@ h1 span {
 .contact-tagline {
   display: inline-block;
   margin-bottom: 24px;
-  font-size: 0.8rem;
-  font-weight: 800;
-  color: var(--bg-0);
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #fb923c; /* Soft Orange Accent */
   text-transform: uppercase;
-  letter-spacing: 0.3em;
-  opacity: 0.44;
+  letter-spacing: 0.4em;
+  opacity: 0.9;
 }
 
 .contact-header h2 {
@@ -2574,15 +2574,15 @@ main {
   margin: 0 auto 80px;
 }
 
-.ready-products-tagline {
+.ready-products.value-tagline {
   display: inline-block;
   margin-bottom: 24px;
-  font-size: 0.8rem;
-  font-weight: 800;
-  color: var(--bg-0);
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #a78bfa; /* Soft Purple Accent */
   text-transform: uppercase;
-  letter-spacing: 0.3em;
-  opacity: 0.44;
+  letter-spacing: 0.4em;
+  opacity: 0.9;
 }
 
 .ready-products-header h2 {
