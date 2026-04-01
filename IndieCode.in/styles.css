@@ -5198,3 +5198,78 @@ body.has-fullscreen .fullscreen-close {
 .is-fullscreen .mockup-screen {
     background: #0d1117 !important;
 }
+
+/* Mobile Responsive - About Us Full Width Section */
+@media (max-width: 992px) {
+  .about {
+      padding: 100px 0;
+  }
+  
+  .about-inner {
+      flex-direction: column;
+      text-align: center;
+      gap: 60px;
+  }
+  
+  .about-content {
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+  }
+  
+  .about-content p {
+      margin: 0 auto 32px;
+  }
+  
+  .about-metrics {
+      margin: 0 auto 48px;
+  }
+  
+  .about-visual {
+      width: 100%;
+      height: 450px;
+      margin-top: 20px;
+  }
+  
+  .mockup-stack {
+      height: 400px !important;
+  }
+  
+  .mockup-item {
+      width: 280px !important; /* Scale down for tablet/large mobile */
+  }
+}
+
+@media (max-width: 576px) {
+  .about {
+      padding: 80px 0;
+      border-top: 1px solid rgba(255,255,255,0.05);
+  }
+  
+  .about-content h2 {
+      font-size: 2.8rem;
+  }
+  
+  .about-content p {
+      font-size: 1.1rem;
+      padding: 0 10px;
+  }
+  
+  .about-visual {
+      height: 350px;
+  }
+  
+  .mockup-stack {
+      height: 320px !important;
+  }
+  
+  .mockup-item {
+      width: 220px !important; /* Scale down for small mobile */
+  }
+  
+  .mockup-item:nth-child(1) { top: 0; right: -20px; }
+  .mockup-item:nth-child(2) { top: 60px; right: 10px; }
+  .mockup-item:nth-child(3) { bottom: 40px; left: -10px; }
+  .mockup-item:nth-child(4) { bottom: 0; right: 0; }
+}
