@@ -292,7 +292,7 @@ const productsData = {
         checkoutBtnText: "Start Subscription",
         plan_id: "plan_Pw6Z7gB7p9Z3j5", // Added Razorpay Plan ID for Autopay
         actionLink: "index.html#contact",
-        checkoutLink: "razorpay",
+        checkoutLink: "https://rzp.io/rzp/96f6kVDG",
         glowColor: "rgba(155, 81, 224, 0.15)",
         desktopImage: "assets/lms-desktop.png",
         tabletImage: "assets/lms-tablet.png",
