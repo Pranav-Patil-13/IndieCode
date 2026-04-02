@@ -5286,13 +5286,29 @@ body.has-fullscreen .fullscreen-close {
     justify-content: center;
 }
 
-.lottie-animation-9 {
-    width: 260px;
-    height: 260px;
-    margin-bottom: 2rem;
+.loader_logo_container {
+    width: 100px;
+    height: 100px;
+    margin-bottom: 1.5rem;
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+.loader_logo_img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.loader_brand_text {
+    font-family: inherit;
+    font-size: 1.2rem;
+    color: #e3ca8c;
+    text-transform: lowercase;
+    letter-spacing: 0.15em;
+    margin-bottom: 2rem;
+    font-weight: 600;
 }
 
 .div-block-101 {
