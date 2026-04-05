@@ -319,7 +319,7 @@ const productsData = {
         checkoutBtnText: "Start Subscription",
         plan_id: "plan_Pw6Z7gB7p9Z3j5",
         actionLink: "index.html#contact",
-        checkoutLink: "https://rzp.io/rzp/96f6kVDG",
+        checkoutLink: "https://rzp.io/rzp/zNxW6YM1",
         glowColor: "rgba(155, 81, 224, 0.15)",
         desktopImages: [
             "https://res.cloudinary.com/djip4oevy/image/upload/q_auto/f_auto/v1775362978/Screenshot_2026-04-05_at_9.36.07_AM_wl2hlc.png",
