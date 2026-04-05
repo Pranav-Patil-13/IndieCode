@@ -4500,6 +4500,7 @@ select#country_code {
   margin-bottom: 12px;
   background: linear-gradient(135deg, #fff 0%, rgba(255,255,255,0.4) 100%);
   -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
@@ -4840,7 +4841,6 @@ body.modal-open {
     margin-left: -50vw;
     margin-right: -50vw;
     overflow: hidden;
-    padding: 20px 0 60px;
 }
 
 .projects-slider {
@@ -4886,16 +4886,17 @@ body.modal-open {
 /* --- Slider Navigation Styles --- */
 .projects-header-group {
     display: flex;
-    justify-content: space-between;
-    align-items: flex-end;
-    margin-bottom: 32px;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    margin-bottom: 48px;
 }
 
 .slider-controls {
     display: flex;
     align-items: center;
-    gap: 24px;
-    margin-bottom: 24px;
+    justify-content: center;
+    gap: 32px;
 }
 
 .slider-track-pill {
@@ -4949,13 +4950,7 @@ body.modal-open {
 
 @media (max-width: 900px) {
     .projects-header-group {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 24px;
-    }
-    .slider-controls {
-        width: 100%;
-        justify-content: space-between;
+        margin-bottom: 32px;
     }
 }
 

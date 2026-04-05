@@ -286,7 +286,7 @@ const productsData = {
         meta3Label: "Core Tech",
         meta3Value: "React, Node.js, AWS",
         actionText: "Buy & Brand Now",
-        price: 649900, // INR 6,499 in paise
+        price: 649900,
         isSubscription: true,
         subscriptionPriceText: "₹6,499 / month",
         checkoutBtnText: "Start Subscription",
@@ -300,6 +300,37 @@ const productsData = {
         desktopSkeleton: desktopHTML2,
         tabletSkeleton: tabletHTML2,
         mobileSkeleton: mobileHTML2
+    },
+    "SearchMyCode": {
+        badgeText: "Ready Product",
+        badgeClass: "badge-ready",
+        title: "SearchMyCode",
+        description: "Search any word across your codebase instantly. Connect GitHub or upload your project, then find words, functions, classes, strings, and variables across every file in seconds",
+        meta1Label: "Build Cycle",
+        meta1Value: "17 Days",
+        meta2Label: "Niche",
+        meta2Value: "Developer Tool",
+        meta3Label: "Core Tech",
+        meta3Value: "React, Next.js, Tailwind, Stripe",
+        actionText: "Start Subscription",
+        price: 649900,
+        isSubscription: true,
+        subscriptionPriceText: "₹6,499 / month",
+        checkoutBtnText: "Start Subscription",
+        plan_id: "plan_Pw6Z7gB7p9Z3j5",
+        actionLink: "index.html#contact",
+        checkoutLink: "https://rzp.io/rzp/96f6kVDG",
+        glowColor: "rgba(155, 81, 224, 0.15)",
+        desktopImages: [
+            "https://res.cloudinary.com/djip4oevy/image/upload/q_auto/f_auto/v1775362978/Screenshot_2026-04-05_at_9.36.07_AM_wl2hlc.png",
+            "https://res.cloudinary.com/djip4oevy/image/upload/q_auto/f_auto/v1775362978/Screenshot_2026-04-05_at_9.37.46_AM_bykzuy.png",
+            "https://res.cloudinary.com/djip4oevy/image/upload/q_auto/f_auto/v1775362978/Screenshot_2026-04-05_at_9.38.53_AM_efk9uz.png",
+        ],
+        tabletImage: "https://res.cloudinary.com/djip4oevy/image/upload/q_auto/f_auto/v1775362978/Screenshot_2026-04-05_at_9.36.07_AM_wl2hlc.png",
+        mobileImage: "https://res.cloudinary.com/djip4oevy/image/upload/q_auto/f_auto/v1775362978/Screenshot_2026-04-05_at_9.36.07_AM_wl2hlc.png",
+        desktopSkeleton: desktopHTML4,
+        tabletSkeleton: tabletHTML4,
+        mobileSkeleton: mobileHTML4
     },
     "train-navigation-app": {
         badgeText: "Custom Build",
@@ -350,5 +381,5 @@ const productsData = {
         desktopSkeleton: desktopHTML4,
         tabletSkeleton: tabletHTML4,
         mobileSkeleton: mobileHTML4
-    }
+    },
 };
