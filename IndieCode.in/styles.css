@@ -261,8 +261,7 @@ a {
   cursor: pointer;
   background:
     linear-gradient(180deg, rgba(248, 249, 250, 0.08), rgba(248, 249, 250, 0.03)),
-    rgba(19, 23, 28, 0.72);
-  backdrop-filter: blur(16px);
+    rgba(19, 23, 28, 0.92);
   box-shadow:
     0 18px 50px rgba(5, 8, 12, 0.2),
     inset 0 1px 0 rgba(255, 255, 255, 0.03);
@@ -556,7 +555,6 @@ h1 span {
   color: var(--bg-0);
   border: 1px solid rgba(248, 249, 250, 0.18);
   background: rgba(248, 249, 250, 0.04);
-  backdrop-filter: blur(12px);
 }
 
 .hero-visual {
@@ -1262,7 +1260,6 @@ h1 span {
   letter-spacing: 0.06em;
   text-transform: uppercase;
   z-index: 2;
-  backdrop-filter: blur(8px);
 }
 
 .project-badge-custom, .project-badge-ready {
@@ -1272,8 +1269,7 @@ h1 span {
 }
 
 .project-price-tag {
-  background: rgba(15, 19, 24, 0.7);
-  backdrop-filter: blur(8px);
+  background: rgba(15, 19, 24, 0.88);
   border: 1px solid rgba(248, 249, 250, 0.1);
   padding: 6px 12px;
   border-radius: 999px;
@@ -1852,7 +1848,6 @@ h1 span {
   box-shadow: 
     0 40px 100px rgba(5, 8, 12, 0.5),
     inset 0 1px 0 rgba(255, 255, 255, 0.05);
-  backdrop-filter: blur(24px);
   z-index: 1;
 }
 
@@ -2504,8 +2499,7 @@ main {
 .cube-text-card {
   max-width: 440px;
   padding: 40px;
-  background: rgba(15, 19, 24, 0.85);
-  backdrop-filter: blur(20px);
+  background: rgba(15, 19, 24, 0.95);
   border-left: 1px solid var(--cube-accent);
   opacity: 0;
   transform: translateX(-30px);
@@ -3033,7 +3027,6 @@ main {
   box-shadow: 
     0 40px 100px rgba(5, 8, 12, 0.7),
     inset 0 1px 0 rgba(255, 255, 255, 0.05);
-  backdrop-filter: blur(48px);
   display: flex;
   flex-direction: column;
 }
@@ -3704,8 +3697,7 @@ main {
 }
 
 .portal-card {
-  background: rgba(255, 255, 255, 0.03); /* Slightly more opaque */
-  backdrop-filter: blur(24px); /* Strong glass effect */
+  background: rgba(255, 255, 255, 0.05);
   border: 1px solid rgba(255, 255, 255, 0.06);
   border-radius: 32px;
   padding: 40px;
@@ -4787,7 +4779,6 @@ select#country_code {
     height: calc(100vh - 88px) !important;
     background: linear-gradient(
 0deg, #ebd399, #4c3312);
-    backdrop-filter: blur(10px);
     z-index: 10001 !important;
     
     /* Crucial: Make the whole background scrollable */
@@ -5139,8 +5130,7 @@ body.modal-open {
 .fullscreen-overlay {
     position: fixed;
     inset: 0;
-    background: rgba(10, 15, 20, 0.95);
-    backdrop-filter: blur(20px);
+    background: rgba(10, 15, 20, 0.97);
     z-index: 10000;
     opacity: 0;
     pointer-events: none;
@@ -5205,7 +5195,6 @@ body.has-fullscreen .fullscreen-close {
     width: 140px;
     height: 32px;
     background: rgb(41 45 47);
-    backdrop-filter: blur(8px);
     z-index: 50; /* Above the image */
     display: flex;
     align-items: center;
@@ -5585,7 +5574,6 @@ body.is-loaded .site-header {
   border-radius: 20px;
   background: rgba(248, 249, 250, 0.03);
   border: 1px solid rgba(248, 249, 250, 0.07);
-  backdrop-filter: blur(12px);
 }
 
 .legal-toc h3 {
