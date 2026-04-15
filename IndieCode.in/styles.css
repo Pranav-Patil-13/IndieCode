@@ -2124,16 +2124,51 @@ main {
 
 .footer-socials {
   display: flex;
-  gap: 24px;
+  gap: 20px;
 }
 
 .footer-socials a {
-  font-size: 1.1rem;
-  transition: color 180ms ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: rgba(248, 249, 250, 0.05);
+  border: 1px solid rgba(248, 249, 250, 0.08);
+  color: rgba(248, 249, 250, 0.4);
+  transition: color 250ms ease, background 250ms ease, border-color 250ms ease, box-shadow 250ms ease, transform 250ms ease;
 }
 
 .footer-socials a:hover {
   color: var(--bg-0);
+  background: rgba(248, 249, 250, 0.1);
+  border-color: rgba(248, 249, 250, 0.2);
+  transform: translateY(-2px);
+  box-shadow: 0 0 18px rgba(248, 249, 250, 0.15), 0 0 40px rgba(248, 249, 250, 0.06);
+}
+
+/* Platform-specific glow colors */
+.footer-socials a[aria-label="X (Twitter)"]:hover {
+  box-shadow: 0 0 18px rgba(248, 249, 250, 0.2), 0 0 40px rgba(248, 249, 250, 0.08);
+}
+
+.footer-socials a[aria-label="Instagram"]:hover {
+  color: #e1306c;
+  border-color: rgba(225, 48, 108, 0.3);
+  box-shadow: 0 0 18px rgba(225, 48, 108, 0.25), 0 0 40px rgba(225, 48, 108, 0.08);
+}
+
+.footer-socials a[aria-label="Facebook"]:hover {
+  color: #1877f2;
+  border-color: rgba(24, 119, 242, 0.3);
+  box-shadow: 0 0 18px rgba(24, 119, 242, 0.25), 0 0 40px rgba(24, 119, 242, 0.08);
+}
+
+.footer-socials a[aria-label="LinkedIn"]:hover {
+  color: #0a66c2;
+  border-color: rgba(10, 102, 194, 0.3);
+  box-shadow: 0 0 18px rgba(10, 102, 194, 0.25), 0 0 40px rgba(10, 102, 194, 0.08);
 }
 
 .cta-final::before {
