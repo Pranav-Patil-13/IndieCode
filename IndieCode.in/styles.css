@@ -5636,6 +5636,7 @@ body.is-loaded .site-header {
   position: relative;
   padding: 40px 0;
   border-bottom: 1px solid rgba(248, 249, 250, 0.05);
+  scroll-margin-top: calc(var(--header-height) + 24px);
 }
 
 .legal-section:last-child {
@@ -5649,7 +5650,7 @@ body.is-loaded .site-header {
   font-family: "IBM Plex Serif", serif;
   font-size: 4rem;
   font-weight: 700;
-  color: rgba(248, 249, 250, 0.03);
+  color: rgba(248, 249, 250, 25%);
   line-height: 1;
   letter-spacing: -0.04em;
   user-select: none;
