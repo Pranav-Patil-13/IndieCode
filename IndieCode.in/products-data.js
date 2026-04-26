@@ -383,7 +383,7 @@ const productsData = {
         mobileSkeleton: mobileHTML4
     },
     "cricket-turf-booking": {
-        badgeText: "Custom Build",
+        badgeText: "Subscription",
         badgeClass: "badge-custom",
         title: "Cricza — Cricket Turf Booking",
         keywords: "Cricza, Cricza app, Cricza cricket, cricket turf booking, book cricket turf online, cricket ground booking, turf reservation, cricket pitch booking, sports booking app, cricket turf near me",
@@ -394,9 +394,14 @@ const productsData = {
         meta2Value: "Sports & Recreation",
         meta3Label: "Core Tech",
         meta3Value: "React, Node.js, Supabase",
-        actionText: "Request Similar Project",
+        actionText: "Start Subscription",
+        price: 649900, // INR 6,499 in paise
+        isSubscription: true,
+        subscriptionPriceText: "₹6,499 / month",
+        checkoutBtnText: "Start Subscription",
+        plan_id: "plan_Pw6Z7gB7p9Z3j5",
         actionLink: "index.html#contact",
-        checkoutLink: "#",
+        checkoutLink: "https://rzp.io/rzp/96f6kVDG",
         glowColor: "rgba(52, 211, 153, 0.12)",
         desktopImages: [
             "https://res.cloudinary.com/djip4oevy/image/upload/v1777224318/Screenshot_2026-04-26_at_10.47.37_PM_wh9r6j.png",
