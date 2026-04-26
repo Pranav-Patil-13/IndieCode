@@ -382,4 +382,30 @@ const productsData = {
         tabletSkeleton: tabletHTML4,
         mobileSkeleton: mobileHTML4
     },
+    "cricket-turf-booking": {
+        badgeText: "Custom Build",
+        badgeClass: "badge-custom",
+        title: "Cricket Turf Booking",
+        description: "A seamless turf booking platform for cricket enthusiasts to discover, compare, and reserve cricket turfs in real-time. Features live slot availability, instant booking confirmations, and venue management tools for turf owners.",
+        meta1Label: "Timeline",
+        meta1Value: "21 Days",
+        meta2Label: "Target Audience",
+        meta2Value: "Sports & Recreation",
+        meta3Label: "Core Tech",
+        meta3Value: "React, Node.js, Supabase",
+        actionText: "Request Similar Project",
+        actionLink: "index.html#contact",
+        checkoutLink: "#",
+        glowColor: "rgba(52, 211, 153, 0.12)",
+        desktopImages: [
+            "https://res.cloudinary.com/djip4oevy/image/upload/v1777224318/Screenshot_2026-04-26_at_10.47.37_PM_wh9r6j.png",
+            "https://res.cloudinary.com/djip4oevy/image/upload/v1777224368/Screenshot_2026-04-26_at_10.52.37_PM_owqfy8.png",
+            "https://res.cloudinary.com/djip4oevy/image/upload/v1777224394/Screenshot_2026-04-26_at_10.54.38_PM_snsiew.png"
+        ],
+        tabletImage: "https://res.cloudinary.com/djip4oevy/image/upload/v1777225088/Screenshot_2026-04-26_at_11.07.34_PM_kbfdvu.png",
+        mobileImage: "https://res.cloudinary.com/djip4oevy/image/upload/v1777225197/Screenshot_2026-04-26_at_11.09.08_PM_t1fsgz.png",
+        desktopSkeleton: desktopHTML4,
+        tabletSkeleton: tabletHTML4,
+        mobileSkeleton: mobileHTML4
+    },
 };
