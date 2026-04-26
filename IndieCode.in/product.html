@@ -1168,6 +1168,41 @@
       }
       metaDesc.content = `Purchase the complete source code for ${product.title}. ${product.description.slice(0, 150)}...`;
 
+      // Dynamic Keywords Meta
+      let metaKeywords = document.querySelector('meta[name="keywords"]');
+      if (!metaKeywords) {
+        metaKeywords = document.createElement('meta');
+        metaKeywords.name = "keywords";
+        document.head.appendChild(metaKeywords);
+      }
+      metaKeywords.content = product.keywords || `${product.title}, IndieCode, custom software, SaaS`;
+
+      // JSON-LD Structured Data
+      const jsonLd = document.createElement('script');
+      jsonLd.type = 'application/ld+json';
+      jsonLd.textContent = JSON.stringify({
+        "@context": "https://schema.org",
+        "@type": "SoftwareApplication",
+        "name": product.title,
+        "description": product.description,
+        "applicationCategory": "BusinessApplication",
+        "operatingSystem": "Web",
+        "url": window.location.href,
+        "image": product.desktopImages ? product.desktopImages[0] : product.desktopImage,
+        "author": {
+          "@type": "Organization",
+          "name": "IndieCode",
+          "url": "https://indiecode.in"
+        },
+        "offers": product.price ? {
+          "@type": "Offer",
+          "priceCurrency": "INR",
+          "price": (product.price / 100).toFixed(2),
+          "availability": "https://schema.org/InStock"
+        } : undefined
+      });
+      document.head.appendChild(jsonLd);
+
       // --- Mobile Slider Logic ---
       const mobileTrack = document.getElementById("mobile-track");
       const mobileDots = document.getElementById("slider-dots");

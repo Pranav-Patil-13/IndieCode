@@ -385,8 +385,9 @@ const productsData = {
     "cricket-turf-booking": {
         badgeText: "Custom Build",
         badgeClass: "badge-custom",
-        title: "Cricket Turf Booking",
-        description: "A seamless turf booking platform for cricket enthusiasts to discover, compare, and reserve cricket turfs in real-time. Features live slot availability, instant booking confirmations, and venue management tools for turf owners.",
+        title: "Cricza — Cricket Turf Booking",
+        keywords: "Cricza, Cricza app, Cricza cricket, cricket turf booking, book cricket turf online, cricket ground booking, turf reservation, cricket pitch booking, sports booking app, cricket turf near me",
+        description: "Cricza is the ultimate cricket turf booking platform — discover nearby turfs, check live slot availability, compare pricing, and reserve your ground in real-time. Built for cricket enthusiasts and turf owners alike, Cricza features instant booking confirmations, smart venue management tools, and a seamless mobile-first experience.",
         meta1Label: "Timeline",
         meta1Value: "21 Days",
         meta2Label: "Target Audience",
