@@ -194,7 +194,7 @@ if (window.Lenis && !isMobile) {
 
       // Special case: Contact link now opens modal
       if (href === '#contact') {
-        openContactModal();
+        openBookingModal();
         return;
       }
 
@@ -439,25 +439,14 @@ window.closeModal = () => {
 };
 
 if (contactForm) {
-    // ALWAYS attach the listener immediately so we can block the page reload (?) refresh behavior.
-    // Even if Supabase is still loading, we MUST preventDefault.
     contactForm.onsubmit = async (e) => {
         e.preventDefault();
         
-        // Log to console so you can see if something is blocking initialization
-        console.log("Inquiry Form Submitted. Zero-Redirect Active.");
-
         const submitBtn = document.getElementById('submit-btn');
         const submitBtnText = submitBtn ? submitBtn.querySelector('span') : null;
 
-        // Check if initialization was successful
-        if (!window.supabaseClient) {
-            console.error("Supabase Client missing at submission time.");
-            alert("Database Connection Error. Please refresh the page and try again.");
-            return;
-        }
+        if (!window.supabaseClient) return;
 
-        // UI Loading
         submitBtn.disabled = true;
         submitBtn.classList.add('is-loading');
         if (submitBtnText) submitBtnText.textContent = 'Syncing...';
@@ -471,53 +460,29 @@ if (contactForm) {
         const message = formData.get('message');
 
         try {
-            // 1. SAVE INQUIRY (Database)
+            // 1. Save to DB
             const { error: dbError } = await window.supabaseClient
                 .from('inquiries')
-                .insert([
-                    { 
-                        name, 
-                        email, 
-                        phone: `${countryCode} ${phone}`,
-                        interest, 
-                        message 
-                    }
-                ]);
+                .insert([{ name, email, phone: `${countryCode} ${phone}`, interest, message }]);
 
-            if (dbError) {
-                console.warn("DB Insert failed: Table 'inquiries' probably not created yet or RLS blocked it.", dbError);
-            }
+            // 2. Email Relay
+            fetch("https://api.web3forms.com/submit", {
+                method: "POST",
+                body: formData
+            }).catch(e => console.error("Relay Error:", e));
 
-            // 2. SEND NOTIFICATION EMAIL (Web3Forms)
-            try {
-                const web3formData = new FormData(contactForm);
-                web3formData.append('Full Phone', `${countryCode} ${phone}`);
-                
-                fetch("https://api.web3forms.com/submit", {
-                    method: "POST",
-                    body: web3formData
-                }).then(res => res.json())
-                  .then(data => console.log("Web3Forms Response:", data))
-                  .catch(e => console.error("Web3Forms Relay Error:", e));
-            } catch (emailErr) {
-                console.warn("Notification Email Relay failed, but lead saved to DB.", emailErr);
-            }
-
-            // 3. Update Modal Dynamically
+            // 3. Show Success Modal
             const titleEl = document.getElementById('modal-title');
             const descEl = document.getElementById('modal-description');
-            const badgeEl = document.getElementById('modal-badge-status');
-            
             if (titleEl) titleEl.innerText = "Inquiry Received";
-            if (descEl) descEl.innerHTML = "Thanks for reaching out! We've received your project details and will be in touch within **24 hours** to discuss the next steps.";
-            if (badgeEl) badgeEl.innerText = "Success";
-
+            if (descEl) descEl.innerHTML = "Thanks for reaching out! We've received your details and will be in touch within **24 hours**.";
+            
             if (successModal) successModal.classList.add('is-active');
             contactForm.reset();
 
         } catch (err) {
             console.error(err);
-            alert("Inquiry Error: " + err.message);
+            alert("Error: " + err.message);
         } finally {
             submitBtn.disabled = false;
             submitBtn.classList.remove('is-loading');
@@ -525,8 +490,6 @@ if (contactForm) {
         }
     };
 }
-
-// ==========================================================================
 // LOGIN FORM HANDLER (login.html)
 // ==========================================================================
 const loginForm = document.getElementById('login-form');
@@ -671,74 +634,9 @@ async function loadClientProject(email) {
     }
 }
 
-// =========================================================================
-// CONTACT MODAL LOGIC
-// =========================================================================
-window.openContactModal = function() {
-    const modal = document.getElementById('contact-modal');
-    if (modal) {
-        modal.classList.add('is-active');
-        // No body overflow: hidden here — we want to let the overlay scroll!
-    }
-};
 
-window.closeContactModal = function() {
-    const modal = document.getElementById('contact-modal');
-    if (modal) {
-        modal.classList.remove('is-active');
-    }
-};
 
-// Ensure Lenis doesn't stop the overlay scroll
-document.addEventListener('DOMContentLoaded', () => {
-  const overlay = document.getElementById('contact-modal');
-  if (overlay) {
-    overlay.setAttribute('data-lenis-prevent', '');
-  }
-});
 
-// Handle Modal Form Submission
-document.addEventListener('DOMContentLoaded', () => {
-    const modalForm = document.getElementById('modal-contact-form');
-    if (modalForm) {
-        modalForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const submitBtn = document.getElementById('modal-submit-btn');
-            const btnSpan = submitBtn.querySelector('span');
-            const originalText = btnSpan.textContent;
-
-            btnSpan.textContent = 'Sending...';
-            submitBtn.disabled = true;
-
-            const formData = new FormData(modalForm);
-            
-            try {
-                const response = await fetch('https://api.web3forms.com/submit', {
-                    method: 'POST',
-                    body: formData
-                });
-                
-                const result = await response.json();
-                
-                if (result.success) {
-                    closeContactModal();
-                    // Open success modal
-                    const successModal = document.getElementById('success-modal');
-                    if (successModal) successModal.classList.add('is-active');
-                    modalForm.reset();
-                } else {
-                    alert('Error: ' + result.message);
-                }
-            } catch (err) {
-                alert('Connection error. Please try again.');
-                console.error(err);
-            } finally {
-                btnSpan.textContent = originalText;
-                submitBtn.disabled = false;
-            }
-        });
-    }
-});
 
 /* --- Projects Slider Navigation --- */
 window.scrollSlider = function(direction) {
@@ -792,4 +690,209 @@ document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape' && document.body.classList.contains('has-fullscreen')) {
         toggleFullscreen();
     }
+    // Also close booking modal on ESC
+    if (e.key === 'Escape') {
+        const bookingModal = document.getElementById('booking-modal');
+        if (bookingModal && bookingModal.classList.contains('is-active')) {
+            closeBookingModal();
+        }
+    }
+});
+
+// ==========================================================================
+// BOOKING STRATEGY CALL MODAL (Heizen-Inspired Two-Track)
+// ==========================================================================
+
+window.openBookingModal = function() {
+    const modal = document.getElementById('booking-modal');
+    if (modal) {
+        modal.classList.add('is-active');
+        document.body.style.overflow = 'hidden';
+    }
+};
+
+window.closeBookingModal = function() {
+    const modal = document.getElementById('booking-modal');
+    if (modal) {
+        modal.classList.remove('is-active');
+        document.body.style.overflow = '';
+    }
+};
+
+// Close booking modal on overlay click (outside the form)
+document.addEventListener('click', (e) => {
+    const modal = document.getElementById('booking-modal');
+    if (modal && e.target === modal) {
+        closeBookingModal();
+    }
+});
+
+// Toggle between Business <-> Startup views
+window.toggleBookingTrack = function(event, track) {
+    event.preventDefault();
+    
+    const bizForm = document.getElementById('booking-form-business');
+    const suForm = document.getElementById('booking-form-startup');
+    const bizLeft = document.getElementById('booking-left-business');
+    const suLeft = document.getElementById('booking-left-startup');
+    
+    if (track === 'startup') {
+        if (bizForm) bizForm.style.display = 'none';
+        if (suForm) { suForm.style.display = 'block'; suForm.style.animation = 'none'; suForm.offsetHeight; suForm.style.animation = ''; }
+        if (bizLeft) bizLeft.style.display = 'none';
+        if (suLeft) suLeft.style.display = 'flex';
+    } else {
+        if (suForm) suForm.style.display = 'none';
+        if (bizForm) { bizForm.style.display = 'block'; bizForm.style.animation = 'none'; bizForm.offsetHeight; bizForm.style.animation = ''; }
+        if (suLeft) suLeft.style.display = 'none';
+        if (bizLeft) bizLeft.style.display = 'flex';
+    }
+    
+    // Scroll form panel back to top
+    const rightPanel = document.querySelector('.booking-right');
+    if (rightPanel) rightPanel.scrollTop = 0;
+};
+
+// Character Counter for Business context textarea
+document.addEventListener('DOMContentLoaded', () => {
+    const bizContext = document.getElementById('bk-biz-context');
+    const bizCounter = document.getElementById('bk-biz-counter');
+    
+    if (bizContext && bizCounter) {
+        bizContext.addEventListener('input', () => {
+            const len = bizContext.value.length;
+            bizCounter.textContent = `${len}/200 characters`;
+        });
+    }
+});
+
+// Booking Form Submission Handler (both forms)
+document.addEventListener('DOMContentLoaded', () => {
+    const forms = [
+        { formId: 'booking-business-form', btnId: 'bk-biz-submit', type: 'Business' },
+        { formId: 'booking-startup-form', btnId: 'bk-su-submit', type: 'Startup' }
+    ];
+
+    forms.forEach(({ formId, btnId, type }) => {
+        const form = document.getElementById(formId);
+        if (!form) return;
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const submitBtn = document.getElementById(btnId);
+            const btnSpan = submitBtn ? submitBtn.querySelector('span') : null;
+            const originalText = btnSpan ? btnSpan.textContent : '';
+
+            // Loading state
+            if (submitBtn) { submitBtn.classList.add('is-loading'); submitBtn.disabled = true; }
+            if (btnSpan) btnSpan.textContent = 'Sending...';
+
+            const formData = new FormData(form);
+            
+            try {
+                // 1. Submit via Web3Forms
+                const response = await fetch('https://api.web3forms.com/submit', {
+                    method: 'POST',
+                    body: formData
+                });
+                const result = await response.json();
+
+                // 2. Also save to Supabase (if available)
+                if (window.supabaseClient) {
+                    try {
+                        const data = {};
+                        formData.forEach((val, key) => {
+                            if (key !== 'access_key' && key !== 'subject' && key !== 'from_name' && key !== 'botcheck') {
+                                data[key] = val;
+                            }
+                        });
+
+                        // Combine phone fields for both tracks
+                        if (data.country_code && data.phone) {
+                            data.phone = `${data.country_code} ${data.phone}`;
+                            delete data.country_code;
+                        }
+
+                        // 2. Also save to Supabase (if available)
+                        if (window.supabaseClient) {
+                            const leadData = {
+                                name: data.name || '',
+                                email: data.email || '',
+                                phone: data.phone || '',
+                                interest: 'other', 
+                                message: `BOOKING: Strategy Call (${type})\nCompany: ${data.company_name || ''}\nRole: ${data.role || ''}\nBudget: ${data.project_budget || ''}\nStage: ${data.company_stage || ''}\nLinkedIn: ${data.linkedin || ''}\nContext: ${data.context || ''}`
+                            };
+
+                            const { error: dbError } = await window.supabaseClient
+                                .from('inquiries')
+                                .insert([leadData]);
+
+                            if (dbError) {
+                                console.error('Supabase 400 Error Details:', {
+                                    message: dbError.message,
+                                    details: dbError.details,
+                                    hint: dbError.hint,
+                                    code: dbError.code
+                                });
+                            } else {
+                                console.log('Lead successfully saved to Supabase.');
+                            }
+                        }
+                    } catch (dbErr) {
+                        console.warn('Supabase insert failed (non-blocking):', dbErr);
+                    }
+                }
+
+                if (result.success) {
+                    closeBookingModal();
+                    form.reset();
+                    
+                    // Update & show success modal
+                    const titleEl = document.getElementById('modal-title');
+                    const descEl = document.getElementById('modal-description');
+                    const badgeEl = document.getElementById('modal-badge-status');
+
+                    if (type === 'Startup') {
+                        if (titleEl) titleEl.innerText = 'Sprint Plan Requested!';
+                        if (descEl) descEl.innerHTML = "We've received your details. Our team will reach out within <strong>24 hours</strong> with a personalized sprint plan and Zoom meeting invite.";
+                        if (badgeEl) badgeEl.innerText = 'Success';
+                    } else {
+                        if (titleEl) titleEl.innerText = 'Strategy Call Booked!';
+                        if (descEl) descEl.innerHTML = "We've received your project details. An expert from our team will reach out within <strong>24 hours</strong> to schedule your Zoom strategy call.";
+                        if (badgeEl) badgeEl.innerText = 'Success';
+                    }
+
+                    const successModal = document.getElementById('success-modal');
+                    if (successModal) successModal.classList.add('is-active');
+                    
+                    // Reset character counter
+                    const counter = document.getElementById('bk-biz-counter');
+                    if (counter) counter.textContent = '0/200 characters';
+                } else {
+                    alert('Error: ' + (result.message || 'Something went wrong'));
+                }
+            } catch (err) {
+                console.error('Booking form error:', err);
+                alert('Connection error. Please try again.');
+            } finally {
+                if (submitBtn) { submitBtn.classList.remove('is-loading'); submitBtn.disabled = false; }
+                if (btnSpan) btnSpan.textContent = originalText;
+            }
+        });
+    });
+});
+
+// Override ALL #contact link clicks to open booking modal instead
+document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('a[href="#contact"]').forEach(link => {
+        // Don't override if it's inside the booking modal itself
+        if (link.closest('#booking-modal')) return;
+        
+        link.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            openBookingModal();
+        });
+    });
 });
