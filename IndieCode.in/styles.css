@@ -6405,8 +6405,10 @@ body.is-loaded .site-header {
 
 @media (max-width: 900px) {
   .booking-modal-container {
-    grid-template-columns: 1fr;
-    overflow-y: auto;
+    display: block !important;
+    height: 100%;
+    overflow-y: auto !important;
+    -webkit-overflow-scrolling: touch;
   }
 
   .booking-left {
@@ -6414,41 +6416,40 @@ body.is-loaded .site-header {
   }
 
   .booking-right {
-    padding: 32px 24px 48px;
-    min-height: 100vh;
+    padding: 60px 24px 80px;
+    min-height: 100%;
+    height: auto;
+    width: 100%;
+    background: #fff;
     overflow-y: visible;
   }
 
   .booking-close-btn {
-    top: 16px;
-    right: 16px;
-    background: rgba(0, 0, 0, 0.05);
-    border-color: rgba(0, 0, 0, 0.1);
-    color: #343a40;
-  }
-
-  .booking-close-btn:hover {
-    background: rgba(0, 0, 0, 0.1);
-    color: #111;
+    position: fixed !important;
+    top: 20px;
+    right: 20px;
+    background: #f8f9fa;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    z-index: 100;
   }
 }
 
 @media (max-width: 600px) {
   .booking-right {
-    padding: 24px 18px 40px;
-  }
-
-  .booking-form-grid {
-    grid-template-columns: 1fr;
+    padding: 60px 16px 60px;
   }
 
   .booking-form-header h3 {
-    font-size: 1.3rem;
+    font-size: 1.25rem;
+  }
+
+  .booking-field label {
+    font-size: 0.85rem;
   }
 
   .booking-submit-btn {
-    padding: 14px 20px;
-    font-size: 0.92rem;
+    padding: 16px 20px;
+    font-size: 0.95rem;
   }
 }
 
