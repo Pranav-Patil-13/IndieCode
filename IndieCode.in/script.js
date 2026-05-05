@@ -709,8 +709,13 @@ window.openBookingModal = function() {
         // Reset to form view
         const formView = document.getElementById('booking-form-business');
         const schedulerView = document.getElementById('booking-scheduler-view');
+        const calContainer = document.getElementById('cal-embed-container');
+
         if (formView) formView.style.display = 'block';
         if (schedulerView) schedulerView.style.display = 'none';
+        
+        // Clear previous Cal embed content to avoid duplicates on re-open
+        if (calContainer) calContainer.innerHTML = '<div class="scheduler-placeholder"><p>Loading scheduler...</p></div>';
 
         modal.classList.add('is-active');
         document.body.style.overflow = 'hidden';
@@ -817,14 +822,16 @@ document.addEventListener('DOMContentLoaded', () => {
                     formView.style.display = 'none';
                     schedulerView.style.display = 'block';
                     
-                    // Initialize Calendly
-                    if (window.Calendly) {
-                        window.Calendly.initInlineWidget({
-                            url: 'https://calendly.com/YOUR_LINK_HERE', // Placeholder
-                            parentElement: document.getElementById('calendly-embed-container'),
-                            prefill: {
+                    // Initialize Cal.com
+                    if (window.Cal) {
+                        window.Cal("inline", {
+                            elementOrSelector: "#cal-embed-container",
+                            calLink: "YOUR_CAL_LINK_HERE", // Replace with your cal.com link
+                            layout: "month_view",
+                            config: {
                                 name: data.name,
-                                email: data.email
+                                email: data.email,
+                                theme: "dark"
                             }
                         });
                     }
