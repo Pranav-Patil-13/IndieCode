@@ -1164,10 +1164,38 @@
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" defer></script>
   <script src="https://unpkg.com/lenis@1.3.11/dist/lenis.min.js" defer></script>
-  <!-- Cal.com Script -->
-  <script src="https://app.cal.com/embed/embed.js"></script>
+  <!-- Cal.com Embed -->
   <script type="text/javascript">
-    Cal("init", {origin:"https://app.cal.com"});
+    (function (C, A, L) {
+      let p = function (a, ar) { a.q.push(ar); };
+      let d = C.document;
+      C.Cal = C.Cal || function () {
+        let a = arguments;
+        if (!a.length) return;
+        let g = a[0];
+        if (g === "init") {
+          let s = d.createElement("script");
+          s.src = A;
+          s.async = 1;
+          d.head.appendChild(s);
+          C.Cal = function () {
+            let b = arguments;
+            if (!b.length) return;
+            let f = b[0];
+            let m = "set", e = "publish", h = "on", i = "off", k = "init", l = "absent";
+            if (f === m || f === e || f === h || f === i || f === k || f === l) {
+              p(C.Cal, b);
+            } else {
+              p(C.Cal, ["ui", b]);
+            }
+          };
+          C.Cal.q = C.Cal.q || [];
+        }
+        p(C.Cal, a);
+      };
+      C.Cal.q = C.Cal.q || [];
+      Cal("init", {origin:"https://app.cal.com"});
+    })(window, "https://app.cal.com/embed/embed.js", "Cal");
   </script>
   <script src="supabase-config.js" defer></script>
 
