@@ -1176,6 +1176,7 @@
         if (g === "init") {
           let s = d.createElement("script");
           s.src = A;
+          s.async = 1;
           d.head.appendChild(s);
           C.Cal = function () {
             let b = arguments;
@@ -1185,7 +1186,7 @@
             if (f === m || f === e || f === h || f === i || f === k || f === l) {
               p(C.Cal, b);
             } else {
-              p(C.Cal, ["root", b]);
+              p(C.Cal, ["ui", b]);
             }
           };
           C.Cal.q = C.Cal.q || [];
