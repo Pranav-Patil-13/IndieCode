@@ -714,6 +714,15 @@ window.openBookingModal = function() {
         if (formView) formView.style.display = 'block';
         if (schedulerView) schedulerView.style.display = 'none';
         
+        // Restore left panel and right panel layout
+        const leftPanel = document.querySelector('.booking-left');
+        const rightPanel = document.querySelector('.booking-right');
+        if (leftPanel) leftPanel.style.display = '';
+        if (rightPanel) {
+            rightPanel.style.flex = '';
+            rightPanel.style.maxWidth = '';
+        }
+        
         // Clear previous Cal embed content to avoid duplicates on re-open
         if (calContainer) calContainer.innerHTML = '<div class="scheduler-placeholder"><p>Loading scheduler...</p></div>';
 
@@ -821,6 +830,15 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (formView && schedulerView) {
                     formView.style.display = 'none';
                     schedulerView.style.display = 'block';
+                    
+                    // Hide left panel and make scheduler full-width
+                    const leftPanel = document.querySelector('.booking-left');
+                    const rightPanel = document.querySelector('.booking-right');
+                    if (leftPanel) leftPanel.style.display = 'none';
+                    if (rightPanel) {
+                        rightPanel.style.flex = '1';
+                        rightPanel.style.maxWidth = '100%';
+                    }
                     
                     // Load Cal.com inline widget
                     const container = document.getElementById('cal-embed-container');
