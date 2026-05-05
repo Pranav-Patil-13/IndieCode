@@ -717,9 +717,10 @@ window.openBookingModal = function() {
         // Restore left panel and right panel layout
         const leftPanel = document.querySelector('.booking-left');
         const rightPanel = document.querySelector('.booking-right');
+        const modalContainer = document.querySelector('.booking-modal-container');
         if (leftPanel) leftPanel.style.display = '';
+        if (modalContainer) modalContainer.style.gridTemplateColumns = '';
         if (rightPanel) {
-            rightPanel.style.flex = '';
             rightPanel.style.maxWidth = '';
         }
         
@@ -834,9 +835,10 @@ document.addEventListener('DOMContentLoaded', () => {
                     // Hide left panel and make scheduler full-width
                     const leftPanel = document.querySelector('.booking-left');
                     const rightPanel = document.querySelector('.booking-right');
+                    const modalContainer = document.querySelector('.booking-modal-container');
                     if (leftPanel) leftPanel.style.display = 'none';
+                    if (modalContainer) modalContainer.style.gridTemplateColumns = '1fr';
                     if (rightPanel) {
-                        rightPanel.style.flex = '1';
                         rightPanel.style.maxWidth = '100%';
                     }
                     
