@@ -821,7 +821,7 @@ document.addEventListener('DOMContentLoaded', () => {
                                 email: data.email || '',
                                 phone: data.phone || '',
                                 interest: 'other', 
-                                message: `BOOKING: Strategy Call (${type})\nCompany: ${data.company_name || ''}\nRole: ${data.role || ''}\nBudget: ${data.project_budget || ''}\nStage: ${data.company_stage || ''}\nLinkedIn: ${data.linkedin || ''}\nContext: ${data.context || ''}`
+                                message: `BOOKING: Strategy Call (${type})\n${data.company_name ? `Company: ${data.company_name}\n` : ''}${data.role ? `Role: ${data.role}\n` : ''}Budget: ${data.project_budget || ''}\nStage: ${data.company_stage || ''}\n${data.linkedin ? `LinkedIn: ${data.linkedin}\n` : ''}Context: ${data.context || ''}`
                             };
 
                             const { error: dbError } = await window.supabaseClient
