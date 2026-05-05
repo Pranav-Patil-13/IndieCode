@@ -1176,7 +1176,7 @@
         if (g === "init") {
           let s = d.createElement("script");
           s.src = A;
-          if (!d.head.getElementsByTagName("script").length) d.head.appendChild(s);
+          d.head.appendChild(s);
           C.Cal = function () {
             let b = arguments;
             if (!b.length) return;
@@ -1188,7 +1188,7 @@
               p(C.Cal, ["root", b]);
             }
           };
-          C.Cal.q = C.Cal.q || []; // Ensure q is on the new function
+          C.Cal.q = C.Cal.q || [];
         }
         p(C.Cal, a);
       };
