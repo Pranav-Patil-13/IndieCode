@@ -826,7 +826,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     if (window.Cal) {
                         window.Cal("inline", {
                             elementOrSelector: "#cal-embed-container",
-                            calLink: "YOUR_CAL_LINK_HERE", // Replace with your cal.com link
+                            calLink: "pranavcalendar/strategy-call", // Live Cal.com link
                             layout: "month_view",
                             config: {
                                 name: data.name,
