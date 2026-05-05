@@ -6481,8 +6481,8 @@ body.is-loaded .site-header {
     display: flex;
     align-items: center;
     justify-content: center;
-    color: rgba(248,249,250,0.3);
-    border: 1px dashed rgba(248,249,250,0.1);
+    color: rgba(0,0,0,0.1);
+    border: 1px dashed rgba(0,0,0,0.05);
     border-radius: 12px;
 }
 

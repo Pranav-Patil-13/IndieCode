@@ -822,19 +822,21 @@ document.addEventListener('DOMContentLoaded', () => {
                     formView.style.display = 'none';
                     schedulerView.style.display = 'block';
                     
-                    // Initialize Cal.com
-                    if (window.Cal) {
-                        window.Cal("inline", {
-                            elementOrSelector: "#cal-embed-container",
-                            calLink: "pranavscalendar/strategy-call",
-                            layout: "month_view",
-                            config: {
-                                name: data.name || '',
-                                email: data.email || '',
-                                theme: "dark"
-                            }
-                        });
-                    }
+                    // Initialize Cal.com with a slight delay to ensure DOM visibility
+                    setTimeout(() => {
+                        if (window.Cal) {
+                            window.Cal("inline", {
+                                elementOrSelector: "#cal-embed-container",
+                                calLink: "pranavscalendar/strategy-call",
+                                layout: "month_view",
+                                config: {
+                                    name: data.name || '',
+                                    email: data.email || '',
+                                    theme: "dark"
+                                }
+                            });
+                        }
+                    }, 100);
                 }
                 
                 form.reset();
