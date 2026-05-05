@@ -826,7 +826,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     if (window.Cal) {
                         window.Cal("inline", {
                             elementOrSelector: "#cal-embed-container",
-                            calLink: "pranavcalendar/strategy-call",
+                            calLink: "pranavscalendar/strategy-call",
                             layout: "month_view",
                             config: {
                                 name: data.name || '',
