@@ -706,6 +706,12 @@ document.addEventListener('keydown', (e) => {
 window.openBookingModal = function() {
     const modal = document.getElementById('booking-modal');
     if (modal) {
+        // Reset to form view
+        const formView = document.getElementById('booking-form-business');
+        const schedulerView = document.getElementById('booking-scheduler-view');
+        if (formView) formView.style.display = 'block';
+        if (schedulerView) schedulerView.style.display = 'none';
+
         modal.classList.add('is-active');
         document.body.style.overflow = 'hidden';
     }
@@ -803,24 +809,31 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             if (result.success) {
-                closeBookingModal();
+                // Transition to Scheduler
+                const formView = document.getElementById('booking-form-business');
+                const schedulerView = document.getElementById('booking-scheduler-view');
+                
+                if (formView && schedulerView) {
+                    formView.style.display = 'none';
+                    schedulerView.style.display = 'block';
+                    
+                    // Initialize Calendly
+                    if (window.Calendly) {
+                        window.Calendly.initInlineWidget({
+                            url: 'https://calendly.com/YOUR_LINK_HERE', // Placeholder
+                            parentElement: document.getElementById('calendly-embed-container'),
+                            prefill: {
+                                name: data.name,
+                                email: data.email
+                            }
+                        });
+                    }
+                }
+                
                 form.reset();
                 
-                // Update & show success modal
-                const titleEl = document.getElementById('modal-title');
-                const descEl = document.getElementById('modal-description');
-                const badgeEl = document.getElementById('modal-badge-status');
-
-                if (titleEl) titleEl.innerText = 'Strategy Call Booked!';
-                if (descEl) descEl.innerHTML = "We've received your project details. An expert from our team will reach out within <strong>24 hours</strong> to schedule your Zoom strategy call.";
-                if (badgeEl) badgeEl.innerText = 'Success';
-
-                const successModal = document.getElementById('success-modal');
-                if (successModal) successModal.classList.add('is-active');
-                
-                // Reset character counter
-                const counter = document.getElementById('bk-biz-counter');
-                if (counter) counter.textContent = '0/200 characters';
+                // Success log in console for debugging
+                console.log('Inquiry sent successfully. Transitioning to scheduler.');
             } else {
                 alert('Error: ' + (result.message || 'Something went wrong'));
             }

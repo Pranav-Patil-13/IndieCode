@@ -6474,3 +6474,15 @@ body.is-loaded .site-header {
     padding: 0 !important;
   }
 }
+
+/* Scheduler Styles */
+.scheduler-placeholder {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: rgba(248,249,250,0.3);
+    border: 1px dashed rgba(248,249,250,0.1);
+    border-radius: 12px;
+}
+
