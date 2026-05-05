@@ -822,12 +822,19 @@ document.addEventListener('DOMContentLoaded', () => {
                     formView.style.display = 'none';
                     schedulerView.style.display = 'block';
                     
-                    // Load Cal.com via simple iframe (no JS API needed)
+                    // Load Cal.com inline widget
                     const container = document.getElementById('cal-embed-container');
                     if (container) {
-                        const calName = encodeURIComponent(data.name || '');
-                        const calEmail = encodeURIComponent(data.email || '');
-                        container.innerHTML = `<iframe src="https://cal.com/pranavscalendar/strategy-call?embed=true&theme=dark&name=${calName}&email=${calEmail}" style="width:100%;height:100%;border:none;border-radius:8px;" frameborder="0" allowfullscreen></iframe>`;
+                        container.innerHTML = ''; // Clear placeholder
+                        Cal("inline", {
+                            elementOrSelector: "#cal-embed-container",
+                            calLink: "pranavscalendar/strategy-call",
+                            config: {
+                                name: data.name || '',
+                                email: data.email || '',
+                                theme: "dark"
+                            }
+                        });
                     }
                 }
                 
