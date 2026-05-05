@@ -1042,33 +1042,21 @@
           </a>
         </div>
 
-        <!-- Business View Left Content -->
-        <div class="booking-left-content" id="booking-left-business">
-          <h2>Transform Your <em>Business Operations</em> &amp; Growth</h2>
-          <p>Fix workflow gaps, improve visibility, and build systems that drive measurable operational outcomes.</p>
+        <div class="booking-left-content">
+          <h2>Transform Your <em>Idea</em> into a High-Performance Product</h2>
+          <p>We build scalable systems that solve real problems, deliver value fast, and grow with your business.</p>
           <div class="booking-trust">
-            <span class="booking-trust-label">Trusted by Leading Businesses</span>
+            <span class="booking-trust-label">Trusted Engineering Partner</span>
             <div class="booking-trust-logos">
-              <span>Enterprise SaaS</span>
+              <span>Custom SaaS</span>
               <span>E-Commerce</span>
-              <span>FinTech</span>
+              <span>Enterprise Tools</span>
             </div>
           </div>
         </div>
 
         <!-- Startup View Left Content -->
-        <div class="booking-left-content" id="booking-left-startup" style="display: none;">
-          <h2>Your <em>AI Powered</em> Tech Team</h2>
-          <p>We partner with founders to rapidly build scalable, modern systems designed for growth and efficiency.</p>
-          <div class="booking-trust">
-            <span class="booking-trust-label">Trusted by leading startups</span>
-            <div class="booking-trust-logos">
-              <span>SaaS Startups</span>
-              <span>D2C Brands</span>
-              <span>EdTech</span>
-            </div>
-          </div>
-        </div>
+
 
         <div class="booking-left-footer">
           <div class="booking-address">
@@ -1089,9 +1077,9 @@
 
           <form id="booking-business-form" class="booking-form">
             <input type="hidden" name="access_key" value="3f5b29f2-794a-429c-8dd2-46f2d1c21ea4">
-            <input type="hidden" name="subject" value="Strategy Call Request (Business) - IndieCode">
+            <input type="hidden" name="subject" value="Strategy Call Request - IndieCode">
             <input type="hidden" name="from_name" value="IndieCode Booking Form">
-            <input type="hidden" name="lead_type" value="Business">
+            <input type="hidden" name="lead_type" value="Inquiry">
             <input type="checkbox" name="botcheck" class="hidden" style="display: none;">
 
             <div class="booking-form-grid">
@@ -1149,93 +1137,11 @@
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
             </button>
 
-            <p class="booking-toggle-link">
-              Are you a StartUp? <a href="#" onclick="toggleBookingTrack(event, 'startup')">Start here</a>
-            </p>
+
           </form>
         </div>
 
-        <!-- ===== STARTUP FORM VIEW ===== -->
-        <div id="booking-form-startup" class="booking-form-view" style="display: none;">
-          <div class="booking-form-header">
-            <h3>Tell us about your project</h3>
-            <p>This helps us prepare for a focused strategy call.</p>
-          </div>
 
-          <form id="booking-startup-form" class="booking-form">
-            <input type="hidden" name="access_key" value="3f5b29f2-794a-429c-8dd2-46f2d1c21ea4">
-            <input type="hidden" name="subject" value="Sprint Plan Request (Startup) - IndieCode">
-            <input type="hidden" name="from_name" value="IndieCode Booking Form">
-            <input type="hidden" name="lead_type" value="Startup">
-            <input type="checkbox" name="botcheck" class="hidden" style="display: none;">
-
-            <div class="booking-form-grid">
-              <div class="booking-field span-full">
-                <label for="bk-su-name">Full Name <span class="req">*</span></label>
-                <input type="text" id="bk-su-name" name="name" placeholder="Enter Full Name" required>
-              </div>
-
-              <div class="booking-field">
-                <label for="bk-su-email">Email <span class="req">*</span></label>
-                <input type="email" id="bk-su-email" name="email" placeholder="work@company.com" required>
-              </div>
-
-              <div class="booking-field">
-                <label for="bk-su-phone">Phone Number <span class="req">*</span></label>
-                <div class="phone-input-group">
-                  <select name="country_code" id="bk-su-cc" class="country-select">
-                    <option value="+91">+91</option>
-                    <option value="+1">+1</option>
-                    <option value="+44">+44</option>
-                    <option value="+971">+971</option>
-                    <option value="+61">+61</option>
-                    <option value="+65">+65</option>
-                  </select>
-                  <input type="tel" id="bk-su-phone" name="phone" placeholder="98765 43210" required pattern="[0-9]*" oninput="this.value = this.value.replace(/[^0-9]/g, '');">
-                </div>
-                <span class="booking-field-hint">We don't spam.</span>
-              </div>
-
-              <div class="booking-field">
-                <label for="bk-su-company">Company Name <span class="req">*</span></label>
-                <input type="text" id="bk-su-company" name="company_name" placeholder="Your company name" required>
-                <span class="booking-field-hint">Even "Project X" works.</span>
-              </div>
-
-              <div class="booking-field">
-                <label for="bk-su-stage">Company Stage <span class="req">*</span></label>
-                <select id="bk-su-stage" name="company_stage" required>
-                  <option value="" disabled selected>Select Stage</option>
-                  <option value="idea">Idea Stage</option>
-                  <option value="mvp">Building MVP</option>
-                  <option value="pre-revenue">Pre-Revenue</option>
-                  <option value="revenue">Revenue</option>
-                  <option value="scaling">Scaling</option>
-                </select>
-                <span class="booking-field-hint">Helps us understand urgency.</span>
-              </div>
-
-              <div class="booking-field span-full">
-                <label for="bk-su-role">Role / Title <span class="req">*</span></label>
-                <input type="text" id="bk-su-role" name="role" placeholder="Founder, CTO, Product Manager..." required>
-              </div>
-
-              <div class="booking-field span-full">
-                <label for="bk-su-linkedin">LinkedIn profile</label>
-                <input type="url" id="bk-su-linkedin" name="linkedin" placeholder="e.g. linkedin.com/in/yourprofile">
-              </div>
-            </div>
-
-            <button type="submit" class="booking-submit-btn" id="bk-su-submit">
-              <span>Request My Sprint Plan</span>
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-            </button>
-
-            <p class="booking-toggle-link">
-              Not a StartUp? <a href="#" onclick="toggleBookingTrack(event, 'business')">Click Here</a>
-            </p>
-          </form>
-        </div>
       </div>
     </div>
   </div>

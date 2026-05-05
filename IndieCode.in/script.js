@@ -727,32 +727,6 @@ document.addEventListener('click', (e) => {
     }
 });
 
-// Toggle between Business <-> Startup views
-window.toggleBookingTrack = function(event, track) {
-    event.preventDefault();
-    
-    const bizForm = document.getElementById('booking-form-business');
-    const suForm = document.getElementById('booking-form-startup');
-    const bizLeft = document.getElementById('booking-left-business');
-    const suLeft = document.getElementById('booking-left-startup');
-    
-    if (track === 'startup') {
-        if (bizForm) bizForm.style.display = 'none';
-        if (suForm) { suForm.style.display = 'block'; suForm.style.animation = 'none'; suForm.offsetHeight; suForm.style.animation = ''; }
-        if (bizLeft) bizLeft.style.display = 'none';
-        if (suLeft) suLeft.style.display = 'flex';
-    } else {
-        if (suForm) suForm.style.display = 'none';
-        if (bizForm) { bizForm.style.display = 'block'; bizForm.style.animation = 'none'; bizForm.offsetHeight; bizForm.style.animation = ''; }
-        if (suLeft) suLeft.style.display = 'none';
-        if (bizLeft) bizLeft.style.display = 'flex';
-    }
-    
-    // Scroll form panel back to top
-    const rightPanel = document.querySelector('.booking-right');
-    if (rightPanel) rightPanel.scrollTop = 0;
-};
-
 // Character Counter for Business context textarea
 document.addEventListener('DOMContentLoaded', () => {
     const bizContext = document.getElementById('bk-biz-context');
@@ -766,120 +740,98 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
-// Booking Form Submission Handler (both forms)
+// Booking Form Submission Handler
 document.addEventListener('DOMContentLoaded', () => {
-    const forms = [
-        { formId: 'booking-business-form', btnId: 'bk-biz-submit', type: 'Business' },
-        { formId: 'booking-startup-form', btnId: 'bk-su-submit', type: 'Startup' }
-    ];
+    const form = document.getElementById('booking-business-form');
+    const submitBtn = document.getElementById('bk-biz-submit');
+    if (!form || !submitBtn) return;
 
-    forms.forEach(({ formId, btnId, type }) => {
-        const form = document.getElementById(formId);
-        if (!form) return;
+    form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        
+        const btnSpan = submitBtn.querySelector('span');
+        const originalText = btnSpan ? btnSpan.textContent : '';
 
-        form.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            
-            const submitBtn = document.getElementById(btnId);
-            const btnSpan = submitBtn ? submitBtn.querySelector('span') : null;
-            const originalText = btnSpan ? btnSpan.textContent : '';
+        // Loading state
+        submitBtn.classList.add('is-loading'); 
+        submitBtn.disabled = true;
+        if (btnSpan) btnSpan.textContent = 'Sending...';
 
-            // Loading state
-            if (submitBtn) { submitBtn.classList.add('is-loading'); submitBtn.disabled = true; }
-            if (btnSpan) btnSpan.textContent = 'Sending...';
+        const formData = new FormData(form);
+        
+        try {
+            // 1. Submit via Web3Forms
+            const response = await fetch('https://api.web3forms.com/submit', {
+                method: 'POST',
+                body: formData
+            });
+            const result = await response.json();
 
-            const formData = new FormData(form);
-            
-            try {
-                // 1. Submit via Web3Forms
-                const response = await fetch('https://api.web3forms.com/submit', {
-                    method: 'POST',
-                    body: formData
-                });
-                const result = await response.json();
-
-                // 2. Also save to Supabase (if available)
-                if (window.supabaseClient) {
-                    try {
-                        const data = {};
-                        formData.forEach((val, key) => {
-                            if (key !== 'access_key' && key !== 'subject' && key !== 'from_name' && key !== 'botcheck') {
-                                data[key] = val;
-                            }
-                        });
-
-                        // Combine phone fields for both tracks
-                        if (data.country_code && data.phone) {
-                            data.phone = `${data.country_code} ${data.phone}`;
-                            delete data.country_code;
+            // 2. Also save to Supabase (if available)
+            if (window.supabaseClient) {
+                try {
+                    const data = {};
+                    formData.forEach((val, key) => {
+                        if (key !== 'access_key' && key !== 'subject' && key !== 'from_name' && key !== 'botcheck') {
+                            data[key] = val;
                         }
+                    });
 
-                        // 2. Also save to Supabase (if available)
-                        if (window.supabaseClient) {
-                            const leadData = {
-                                name: data.name || '',
-                                email: data.email || '',
-                                phone: data.phone || '',
-                                interest: 'other', 
-                                message: `BOOKING: Strategy Call (${type})\n${data.company_name ? `Company: ${data.company_name}\n` : ''}${data.role ? `Role: ${data.role}\n` : ''}Budget: ${data.project_budget || ''}\nStage: ${data.company_stage || ''}\n${data.linkedin ? `LinkedIn: ${data.linkedin}\n` : ''}Context: ${data.context || ''}`
-                            };
-
-                            const { error: dbError } = await window.supabaseClient
-                                .from('inquiries')
-                                .insert([leadData]);
-
-                            if (dbError) {
-                                console.error('Supabase 400 Error Details:', {
-                                    message: dbError.message,
-                                    details: dbError.details,
-                                    hint: dbError.hint,
-                                    code: dbError.code
-                                });
-                            } else {
-                                console.log('Lead successfully saved to Supabase.');
-                            }
-                        }
-                    } catch (dbErr) {
-                        console.warn('Supabase insert failed (non-blocking):', dbErr);
-                    }
-                }
-
-                if (result.success) {
-                    closeBookingModal();
-                    form.reset();
-                    
-                    // Update & show success modal
-                    const titleEl = document.getElementById('modal-title');
-                    const descEl = document.getElementById('modal-description');
-                    const badgeEl = document.getElementById('modal-badge-status');
-
-                    if (type === 'Startup') {
-                        if (titleEl) titleEl.innerText = 'Sprint Plan Requested!';
-                        if (descEl) descEl.innerHTML = "We've received your details. Our team will reach out within <strong>24 hours</strong> with a personalized sprint plan and Zoom meeting invite.";
-                        if (badgeEl) badgeEl.innerText = 'Success';
-                    } else {
-                        if (titleEl) titleEl.innerText = 'Strategy Call Booked!';
-                        if (descEl) descEl.innerHTML = "We've received your project details. An expert from our team will reach out within <strong>24 hours</strong> to schedule your Zoom strategy call.";
-                        if (badgeEl) badgeEl.innerText = 'Success';
+                    if (data.country_code && data.phone) {
+                        data.phone = `${data.country_code} ${data.phone}`;
+                        delete data.country_code;
                     }
 
-                    const successModal = document.getElementById('success-modal');
-                    if (successModal) successModal.classList.add('is-active');
-                    
-                    // Reset character counter
-                    const counter = document.getElementById('bk-biz-counter');
-                    if (counter) counter.textContent = '0/200 characters';
-                } else {
-                    alert('Error: ' + (result.message || 'Something went wrong'));
+                    const leadData = {
+                        name: data.name || '',
+                        email: data.email || '',
+                        phone: data.phone || '',
+                        interest: 'Inquiry', 
+                        message: `BOOKING: Strategy Call\nBudget: ${data.project_budget || ''}\nContext: ${data.context || ''}`
+                    };
+
+                    const { error: dbError } = await window.supabaseClient
+                        .from('inquiries')
+                        .insert([leadData]);
+
+                    if (dbError) {
+                        console.error('Supabase Error:', dbError);
+                    }
+                } catch (dbErr) {
+                    console.warn('Supabase insert failed (non-blocking):', dbErr);
                 }
-            } catch (err) {
-                console.error('Booking form error:', err);
-                alert('Connection error. Please try again.');
-            } finally {
-                if (submitBtn) { submitBtn.classList.remove('is-loading'); submitBtn.disabled = false; }
-                if (btnSpan) btnSpan.textContent = originalText;
             }
-        });
+
+            if (result.success) {
+                closeBookingModal();
+                form.reset();
+                
+                // Update & show success modal
+                const titleEl = document.getElementById('modal-title');
+                const descEl = document.getElementById('modal-description');
+                const badgeEl = document.getElementById('modal-badge-status');
+
+                if (titleEl) titleEl.innerText = 'Strategy Call Booked!';
+                if (descEl) descEl.innerHTML = "We've received your project details. An expert from our team will reach out within <strong>24 hours</strong> to schedule your Zoom strategy call.";
+                if (badgeEl) badgeEl.innerText = 'Success';
+
+                const successModal = document.getElementById('success-modal');
+                if (successModal) successModal.classList.add('is-active');
+                
+                // Reset character counter
+                const counter = document.getElementById('bk-biz-counter');
+                if (counter) counter.textContent = '0/200 characters';
+            } else {
+                alert('Error: ' + (result.message || 'Something went wrong'));
+            }
+        } catch (err) {
+            console.error('Booking form error:', err);
+            alert('Connection error. Please try again.');
+        } finally {
+            submitBtn.classList.remove('is-loading'); 
+            submitBtn.disabled = false;
+            if (btnSpan) btnSpan.textContent = originalText;
+        }
     });
 });
 
