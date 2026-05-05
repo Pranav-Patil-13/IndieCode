@@ -769,7 +769,19 @@ document.addEventListener('DOMContentLoaded', () => {
         if (btnSpan) btnSpan.textContent = 'Sending...';
 
         const formData = new FormData(form);
-        
+        const data = {};
+        formData.forEach((val, key) => {
+            if (key !== 'access_key' && key !== 'subject' && key !== 'from_name' && key !== 'botcheck') {
+                data[key] = val;
+            }
+        });
+
+        // Combine phone fields
+        let fullPhone = data.phone || '';
+        if (data.country_code && data.phone) {
+            fullPhone = `${data.country_code} ${data.phone}`;
+        }
+
         try {
             // 1. Submit via Web3Forms
             const response = await fetch('https://api.web3forms.com/submit', {
@@ -781,22 +793,10 @@ document.addEventListener('DOMContentLoaded', () => {
             // 2. Also save to Supabase (if available)
             if (window.supabaseClient) {
                 try {
-                    const data = {};
-                    formData.forEach((val, key) => {
-                        if (key !== 'access_key' && key !== 'subject' && key !== 'from_name' && key !== 'botcheck') {
-                            data[key] = val;
-                        }
-                    });
-
-                    if (data.country_code && data.phone) {
-                        data.phone = `${data.country_code} ${data.phone}`;
-                        delete data.country_code;
-                    }
-
                     const leadData = {
                         name: data.name || '',
                         email: data.email || '',
-                        phone: data.phone || '',
+                        phone: fullPhone,
                         interest: 'Inquiry', 
                         message: `BOOKING: Strategy Call\nBudget: ${data.project_budget || ''}\nContext: ${data.context || ''}`
                     };
@@ -826,11 +826,11 @@ document.addEventListener('DOMContentLoaded', () => {
                     if (window.Cal) {
                         window.Cal("inline", {
                             elementOrSelector: "#cal-embed-container",
-                            calLink: "pranavcalendar/strategy-call", // Live Cal.com link
+                            calLink: "pranavcalendar/strategy-call",
                             layout: "month_view",
                             config: {
-                                name: data.name,
-                                email: data.email,
+                                name: data.name || '',
+                                email: data.email || '',
                                 theme: "dark"
                             }
                         });
