@@ -335,25 +335,30 @@ const initCubeSection = () => {
     const easeIO = (t) => (t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t);
 
     let lastIdx = -1;
+    let wrapperTop = 0;
+    let wrapperHeight = 0;
+
+    const updateDimensions = () => {
+        const rect = wrapper.getBoundingClientRect();
+        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+        wrapperTop = rect.top + scrollTop;
+        wrapperHeight = rect.height;
+    };
 
     const animate = () => {
-        const rect = wrapper.getBoundingClientRect();
+        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
         const winH = window.innerHeight;
         
-        // Calculate progress through the whole section
-        let progress = -rect.top / (rect.height - winH);
+        // Calculate progress through the whole section without getBoundingClientRect
+        let progress = (scrollTop - wrapperTop) / (wrapperHeight - winH);
         
-        // GENTLE ENTRANCE: If the section is entering from bottom, 
-        // force progress 0 and shift it side-by-side immediately.
-        const isEnteringFromBottom = rect.top > 0 && rect.top < winH;
-        if (isEnteringFromBottom) {
-            progress = 0;
-        }
+        // Check if the section is currently active
+        const relativeTop = wrapperTop - scrollTop;
+        const relativeBottom = relativeTop + wrapperHeight;
+        const isActive = relativeTop <= 0 && relativeBottom >= winH;
+        wrapper.classList.toggle('is-active', isActive);
 
         progress = Math.max(0, Math.min(1, progress));
-
-        const isActive = rect.top <= 0 && rect.bottom >= winH;
-        wrapper.classList.toggle('is-active', isActive);
 
         // Update Cube Rotation
         const t = progress * (N - 1);
@@ -370,10 +375,8 @@ const initCubeSection = () => {
 
         // 1. Dynamic Cube Positioning (Side-by-side)
         const si = Math.min(N - 1, Math.floor(progress * N));
-        // Force shift to right (Phase 1) if progress is near 0
         const shiftX = (si % 2 === 0) ? '18vw' : '-18vw';
         
-        // Stabilize for desktop, center for mobile
         const scene = document.getElementById('cube-scene');
         if (scene && window.innerWidth > 900) {
             scene.style.transform = `translateX(${shiftX})`;
@@ -393,19 +396,9 @@ const initCubeSection = () => {
             if (sceneName) sceneName.textContent = FACE_NAMES[si];
         }
 
-        // 3. Handle text card visibility manually
+        // 3. Handle text card visibility based on active index (no layout queries)
         textCards.forEach((card, idx) => {
-            const cardRect = card.getBoundingClientRect();
-            
-            // SPECIAL: Phase 1 (Intro) card is explicitly ON as long as section is even partially visible
-            // AND we haven't scrolled deep into phase 2 yet.
-            let isVisible = false;
-            if (idx === 0 && rect.top < winH * 0.95 && rect.top > -winH * 0.4) {
-                isVisible = true;
-            } else {
-                isVisible = cardRect.top < winH * 0.75 && cardRect.bottom > winH * 0.15;
-            }
-            if (isVisible) {
+            if (idx === si) {
                 card.classList.add('visible');
             } else {
                 card.classList.remove('visible');
@@ -424,16 +417,23 @@ const initCubeSection = () => {
         }
     };
 
+    const onResize = () => {
+        updateDimensions();
+        onScroll();
+    };
+
     // Use IntersectionObserver to only bind events when methodology section is visible
     const observer = new IntersectionObserver((entries) => {
         entries.forEach((entry) => {
             if (entry.isIntersecting) {
+                updateDimensions();
                 window.addEventListener('scroll', onScroll, { passive: true });
-                window.addEventListener('resize', onScroll, { passive: true });
+                window.addEventListener('resize', onResize, { passive: true });
                 animate();
             } else {
                 window.removeEventListener('scroll', onScroll);
-                window.removeEventListener('resize', onScroll);
+                window.removeEventListener('resize', onResize);
+                wrapper.classList.remove('is-active');
             }
         });
     }, {
