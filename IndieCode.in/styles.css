@@ -222,6 +222,8 @@ a {
   background-size: 100% 100%, 100% 100%, 48px 48px, 100% 100%;
   border-top: 1px solid rgba(248, 249, 250, 0.05);
   z-index: 2; /* Layer above for reveal */
+  content-visibility: auto;
+  contain-intrinsic-size: auto 600px;
 }
 
 .pathways-inner {
@@ -1024,6 +1026,8 @@ h1 span {
   overflow: hidden;
   border-top: 1px solid rgba(248, 249, 250, 0.05);
   z-index: 2; /* Layer above for reveal */
+  content-visibility: auto;
+  contain-intrinsic-size: auto 800px;
 }
 
 .value-prop-inner {
@@ -1161,6 +1165,8 @@ h1 span {
   position: relative;
   z-index: 2;
   border-top: 1px solid rgba(248, 249, 250, 0.05);
+  content-visibility: auto;
+  contain-intrinsic-size: auto 800px;
 }
 
 .projects-inner {
@@ -1404,6 +1410,8 @@ h1 span {
   border-top: 1px solid rgba(248, 249, 250, 0.05);
   position: relative;
   z-index: 2; /* Layer above for reveal */
+  content-visibility: auto;
+  contain-intrinsic-size: auto 600px;
 }
 
 .audience-inner {
@@ -1581,6 +1589,8 @@ h1 span {
   position: relative;
   z-index: 2;
   overflow: hidden;
+  content-visibility: auto;
+  contain-intrinsic-size: auto 700px;
 }
 
 .about::before {
@@ -1736,6 +1746,8 @@ h1 span {
   position: relative;
   z-index: 2;
   border-top: 1px solid rgba(248, 249, 250, 0.05);
+  content-visibility: auto;
+  contain-intrinsic-size: auto 900px;
 }
 
 .contact-inner {
@@ -2051,6 +2063,8 @@ main {
   position: relative;
   overflow: hidden;
   z-index: 2; /* Layer above footer for reveal */
+  content-visibility: auto;
+  contain-intrinsic-size: auto 300px;
 }
 
 /* Premium Site Footer */
@@ -6486,32 +6500,5 @@ body.is-loaded .site-header {
 }
 
 /* Performance Optimization: Skip rendering of offscreen sections */
-.pathways {
-  content-visibility: auto;
-  contain-intrinsic-size: auto 600px;
-}
-.projects {
-  content-visibility: auto;
-  contain-intrinsic-size: auto 800px;
-}
-.audience {
-  content-visibility: auto;
-  contain-intrinsic-size: auto 600px;
-}
-.value-prop {
-  content-visibility: auto;
-  contain-intrinsic-size: auto 800px;
-}
-.about {
-  content-visibility: auto;
-  contain-intrinsic-size: auto 700px;
-}
-.cta-final {
-  content-visibility: auto;
-  contain-intrinsic-size: auto 300px;
-}
-.contact {
-  content-visibility: auto;
-  contain-intrinsic-size: auto 900px;
-}
+
 
