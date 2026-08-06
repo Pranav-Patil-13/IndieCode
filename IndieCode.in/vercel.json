@@ -1,10 +1,11 @@
 {
   "cleanUrls": true,
   "trailingSlash": false,
-  "rewrites": [
+  "redirects": [
     {
       "source": "/((?!maintenance|api/).*)",
-      "destination": "/maintenance.html"
+      "destination": "/maintenance.html",
+      "statusCode": 307
     }
   ]
 }
