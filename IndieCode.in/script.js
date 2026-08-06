@@ -309,7 +309,6 @@ const initCubeSection = () => {
     const hudPct = document.getElementById('cube-hud-pct');
     const progFill = document.getElementById('cube-prog-fill');
     const sceneName = document.getElementById('cube-scene-name');
-    const slides = document.querySelectorAll('.cube-slide');
     const textCards = document.querySelectorAll('.cube-text-card');
 
     if (!wrapper || !cube) return;
@@ -412,11 +411,37 @@ const initCubeSection = () => {
                 card.classList.remove('visible');
             }
         });
-
-        requestAnimationFrame(animate);
     };
 
-    requestAnimationFrame(animate);
+    let ticking = false;
+    const onScroll = () => {
+        if (!ticking) {
+            window.requestAnimationFrame(() => {
+                animate();
+                ticking = false;
+            });
+            ticking = true;
+        }
+    };
+
+    // Use IntersectionObserver to only bind events when methodology section is visible
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+                window.addEventListener('scroll', onScroll, { passive: true });
+                window.addEventListener('resize', onScroll, { passive: true });
+                animate();
+            } else {
+                window.removeEventListener('scroll', onScroll);
+                window.removeEventListener('resize', onScroll);
+            }
+        });
+    }, {
+        root: null,
+        threshold: 0
+    });
+
+    observer.observe(wrapper);
 };
 
 // Initial run
