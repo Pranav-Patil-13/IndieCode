@@ -6485,3 +6485,33 @@ body.is-loaded .site-header {
     border-radius: 12px;
 }
 
+/* Performance Optimization: Skip rendering of offscreen sections */
+.pathways {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 600px;
+}
+.projects {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 800px;
+}
+.audience {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 600px;
+}
+.value-prop {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 800px;
+}
+.about {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 700px;
+}
+.cta-final {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 300px;
+}
+.contact {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 900px;
+}
+
